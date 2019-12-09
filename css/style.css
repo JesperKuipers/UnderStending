@@ -1,3 +1,7 @@
+/* =-=-=-=-=-=-=-=-= */
+/* =-= Main CSS  =-= */
+/* =-=-=-=-=-=-=-=-= */
+
 body {
 	margin: 0;
 	font-family: "Arial", sans-serif;
@@ -7,6 +11,11 @@ body {
 	width: 1200px;
 	margin: 0 auto;
 }
+
+
+/* =-=-=-=-=-=-=-= */
+/* =-= Navbar  =-= */
+/* =-=-=-=-=-=-=-= */
 
 .navbar {
 	background-color: #009baa;
@@ -33,7 +42,7 @@ body {
 
 .search-bar form {
 	height: 38px;
-    width: 500px;
+    width: 530px;
 	position: relative;
 }
 
@@ -41,7 +50,7 @@ body {
 	height: 18px;
     border: none;
     position: absolute;
-    width: 460px;
+    width: 470px;
     font-size: 18px;
     padding: 10px 0px 10px 20px;
 }
@@ -56,4 +65,145 @@ body {
 	position: absolute;
     right: 0;
     margin: 4px;
+}
+
+.nav-menu {
+	float: right;
+	margin: 10px 0; 
+}
+
+.nav-menu ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+.nav-menu li {
+	display: inline;
+	font-size: 24px;
+	margin-left: 50px
+}
+
+.nav-menu a {
+	text-decoration: none;
+	color: #fff;
+}
+
+.nav-menu a:hover {
+	text-decoration: underline;
+}
+
+
+/* =-=-=-=-=-=-=-= */
+/* =-= Content =-= */
+/* =-=-=-=-=-=-=-= */
+
+.content {
+	
+}
+
+/* Video player */
+.video-container {
+	width: 1200px;
+	height: 675px;
+	position: relative;
+}
+
+.video-overlay {
+	margin: 0 auto;
+	height: 675px;
+    position: absolute;
+}
+
+.video-overlay a {
+	width: 1200px;
+	height: 675px;
+	display: block;
+}
+
+.video-overlay a:hover {
+	background-color: rgba(255, 255, 255, 0.4)
+}
+
+.video-overlay img {
+	height: 51px;
+    width: 306px;
+    padding: 312px 447px;
+}
+
+.video-player {
+	width: 1200px;
+	height: 675px;
+	position: absolute;
+}
+
+.home-video-placeholder img {
+	width: 1200px;
+	height: 675px;
+	position: absolute;
+}
+
+/* Tags */
+.verschillende-tags {
+	margin-top: 75px;
+}
+
+.tags-container {
+	width: 1120px;
+	margin: 0 auto;
+}
+
+.tags {
+	height: 198px;
+}
+
+.tags a {
+	text-decoration: none;
+	display: inline-block;
+	height: 198px;
+}
+
+.tags a:nth-child(2) {
+	margin: 0 28px;
+}
+
+.tags a:nth-child(3) .tag {
+	margin-right: -1px;
+}
+
+.tag {
+	width: 352px;
+	height: 198px;
+	display: inline-block;
+	position: relative;
+}
+
+.tag:hover {
+	opacity: 0.6;
+}
+
+.tag img {
+	width: 352px;
+	height: 198px;
+}
+
+.tag-naam {
+	height: 40px;
+	background-color: #009baa;
+	color: #fff;
+	position: absolute;
+	bottom: 0;
+	font-size: 18px;
+	height: 20px;
+	padding: 10px;
+}
+
+
+/* =-=-=-=-=-=-=-= */
+/* =-= Footer  =-= */
+/* =-=-=-=-=-=-=-= */
+
+.footer {
+	height: 200px;
+	background-color: #005aaa;
+	margin-top: 80px;
 }
