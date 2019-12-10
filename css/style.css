@@ -108,87 +108,116 @@ body {
 	position: relative;
 }
 
+.video-placeholder {
+	position: absolute;
+}
+
+.video-placeholder img {
+	width: 1200px;
+	height: 675px;
+}
+
 .video-overlay {
+	width: 1000px;
+	height: 675px;
+	display: block;
+	position: absolute;
+}
+
+.video-overlay-text {
+	color: #fff;
+	padding: 100px 40px;
+	width: 600px;
+}
+
+.video-overlay-text h1{
+	font-size: 48px;
+}
+
+.video-bekijken-button {
+	margin-top: 20px;
+	width: 250px;
+	color: #000;
+	background-color: #fff;
+	text-align: center;
+	display: inline-block;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 24px;
+	padding: 11px 0;
+}
+
+.video-bekijken-button:hover {
+	background-color: #000;
+	color: #fff;
+}
+
+/* Home video overlay */
+.home-video-overlay {
 	margin: 0 auto;
 	height: 675px;
     position: absolute;
 }
 
-.video-overlay a {
+.home-video-overlay a {
 	width: 1200px;
 	height: 675px;
 	display: block;
 }
 
-.video-overlay a:hover {
+.home-video-overlay a:hover {
 	background-color: rgba(255, 255, 255, 0.4)
 }
 
-.video-overlay img {
+.home-video-overlay img {
 	height: 51px;
     width: 306px;
     padding: 312px 447px;
 }
 
-.video-player {
-	width: 1200px;
-	height: 675px;
-	position: absolute;
-}
-
-.home-video-placeholder img {
-	width: 1200px;
-	height: 675px;
-	position: absolute;
-}
-
-/* Tags */
-.verschillende-tags {
-	margin-top: 75px;
-}
-
-.tags-container {
+/* Blocks */
+.blocks-container {
 	width: 1120px;
 	margin: 0 auto;
 }
 
-.tags {
-	height: 198px;
+.blocks {
+	
 }
 
-.tags a {
+.blocks a {
 	text-decoration: none;
 	display: inline-block;
 	height: 198px;
+	margin-bottom: 25px;
 }
 
-.tags a:nth-child(2) {
-	margin: 0 28px;
+.blocks a:nth-child(3n+2) {
+	margin: 0 28px 25px 28px;
 }
 
-.tags a:nth-child(3) .tag {
+.blocks a:nth-child(3n+3) .block {
 	margin-right: -1px;
 }
 
-.tag {
+.block {
 	width: 352px;
 	height: 198px;
 	display: inline-block;
 	position: relative;
 }
 
-.tag:hover {
+.block:hover {
 	opacity: 0.6;
 }
 
-.tag img {
+.block img {
 	width: 352px;
 	height: 198px;
 }
 
-.tag-naam {
+.block-naam {
 	height: 40px;
-	background-color: #009baa;
 	color: #fff;
 	position: absolute;
 	bottom: 0;
@@ -196,6 +225,39 @@ body {
 	height: 20px;
 	padding: 10px;
 }
+
+/* Tags */
+.verschillende-tags {
+	margin-top: 75px;
+}
+
+.tag-naam {
+	background-color: #009baa;
+}
+
+.video-overlay-tag {
+	background: linear-gradient(90deg, #009baa 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+
+/* Videos */
+.video-naam {
+	background-color: #e62328;
+}
+
+.video-overlay-video {
+	background: linear-gradient(90deg, #e62328 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* Playlists */
+.playlist-naam {
+	background-color: #005aaa;
+}
+
+.video-overlay-playlist {
+	background: linear-gradient(90deg, #005aaa 0%, rgba(0, 0, 0, 0) 100%);
+}
+
 
 
 /* =-=-=-=-=-=-=-= */
@@ -206,4 +268,22 @@ body {
 	height: 200px;
 	background-color: #005aaa;
 	margin-top: 80px;
+	padding: 0 40px;
+}
+
+.footer-block {
+	width: 352px;
+	display: inline-block;
+}
+
+.footer-block:nth-child(2) {
+	margin: 0 28px;
+}
+
+.footer-block:nth-child(3) {
+	margin-right: -1px;
+}
+
+.nhl-made-by-students {
+	margin-top: 45px;
 }
