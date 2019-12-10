@@ -14,7 +14,7 @@
 			</div>
 		</div>
 		<div class="blocks-container">
-			<h2 class="verschillende-tags">Relevante videos</h2>
+			<h2>Relevante videos</h2>
 			<div class="blocks">
 				<!-- Loop door de uitgelichte tags -->
 				<?php for($i=0; $i<8; $i++) { ?>

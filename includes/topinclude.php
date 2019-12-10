@@ -20,7 +20,11 @@
 					<ul>
 						<li><a href="tags.php">Tags</a></li>
 						<li><a href="playlists.php">Playlists</a></li>
+						<?php if(true) { ?>
 						<li><a href="account.php">Account</a></li>
+						<?php } else { ?>
+						<li><a href="login.php">Login</a></li>
+						<?php } ?>
 					</ul>
 				</div>
 			</div>

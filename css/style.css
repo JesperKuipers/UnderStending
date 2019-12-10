@@ -176,9 +176,14 @@ body {
 }
 
 /* Blocks */
-.blocks-container {
+.blocks-container,
+.content-block {
 	width: 1120px;
 	margin: 0 auto;
+}
+
+.blocks-container h2 {
+	margin-top: 75px;
 }
 
 .blocks {
@@ -226,11 +231,18 @@ body {
 	padding: 10px;
 }
 
-/* Tags */
-.verschillende-tags {
-	margin-top: 75px;
+/* Account / Login */
+.content-block .button {
+	background-color: #009baa;
+	color: #fff;
+	text-decoration: none;
+	padding: 8px 12px;
+	display: block;
+	width: fit-content;
+	margin-bottom: 15px;
 }
 
+/* Tags */
 .tag-naam {
 	background-color: #009baa;
 }
@@ -238,7 +250,6 @@ body {
 .video-overlay-tag {
 	background: linear-gradient(90deg, #009baa 0%, rgba(0, 0, 0, 0) 100%);
 }
-
 
 /* Videos */
 .video-naam {
@@ -257,7 +268,6 @@ body {
 .video-overlay-playlist {
 	background: linear-gradient(90deg, #005aaa 0%, rgba(0, 0, 0, 0) 100%);
 }
-
 
 
 /* =-=-=-=-=-=-=-= */
