@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 09 dec 2019 om 11:38
+-- Gegenereerd op: 11 dec 2019 om 12:51
 -- Serverversie: 10.4.8-MariaDB
 -- PHP-versie: 7.3.11
 
@@ -142,7 +142,8 @@ CREATE TABLE `videotag` (
 -- Indexen voor tabel `currentlywatching`
 --
 ALTER TABLE `currentlywatching`
-  ADD KEY `userID` (`userID`);
+  ADD KEY `userID` (`userID`),
+  ADD KEY `videoID` (`videoID`);
 
 --
 -- Indexen voor tabel `playlist`
@@ -240,7 +241,8 @@ ALTER TABLE `video`
 -- Beperkingen voor tabel `currentlywatching`
 --
 ALTER TABLE `currentlywatching`
-  ADD CONSTRAINT `currentlywatching_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`);
+  ADD CONSTRAINT `currentlywatching_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`),
+  ADD CONSTRAINT `currentlywatching_ibfk_2` FOREIGN KEY (`videoID`) REFERENCES `video` (`videoID`);
 
 --
 -- Beperkingen voor tabel `playlist`
