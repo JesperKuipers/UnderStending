@@ -2,6 +2,7 @@
 	echo "<h2>Functions</h2>";
 	function dirToArray($dir) {
 		//$result = array();
+		$total = "";
 
 		$cdir = scandir($dir);
 		foreach ($cdir as $key => $value) {
@@ -13,17 +14,18 @@
 					//$result[] = $value;
 					if($value !== "functions.php") {
 						$path = $dir . DIRECTORY_SEPARATOR . $value;
-						$content = file_get_contents(, FALSE, NULL, 5);
+						$content = file_get_contents($path, FALSE, NULL, 5);
 						$content = str_replace("?>", "", $content);
 						echo "file content ($value): <br>";
-						file_put_contents("core/functions.php", $content);
+						$total = $total . $content;
 					}
-					var_dump($content);
-					echo "<br>";
+					//var_dump($content);
+					//echo "<br>";
 				}
 			}
 		}
+		file_put_contents("core/functions.php", $total);
 		//return $result;
 	}
-	echo '<pre>' . print_r(dirToArray("functions"), TRUE) . '</pre>';
+	echo '<pre>' . print_r(dirToArray("core"), TRUE) . '</pre>';
 ?>
