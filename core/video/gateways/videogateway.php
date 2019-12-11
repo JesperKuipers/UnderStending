@@ -1,0 +1,8 @@
+<?php
+
+public class VideoGateway
+{
+	
+}
+
+?>
