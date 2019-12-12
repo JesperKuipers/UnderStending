@@ -1,4 +1,4 @@
-
+<?php
 public class DBConnection
 {
 	private $mysqli;
@@ -16,3 +16,32 @@ public class DBConnection
 	public 
 }
 
+
+
+public class CreateVideo
+{
+	public function Create($userId, $post)
+	{
+		$title = $post['title'];
+		$
+		
+		return true;
+	}
+}
+
+
+
+public class VideoGateway
+{
+	
+}
+
+
+
+public class Video
+{
+	public $title;
+	public $
+}
+
+?>
