@@ -1,6 +1,8 @@
 <?php
+	//Try to include the functions.php
 	try {
 		include_once("core/functions.php");
+	//Show errors when including fails
 	} catch (\Throwable $e) {
 		echo "<pre>" . print_r($e, TRUE) . "</pre>";
 	}

@@ -19,7 +19,7 @@
 		<div class="blocks-container">
 			<h2>Relevante videos</h2>
 			<div class="blocks">
-				<!-- PHP Get all vidoes and loop through -->
+				<!-- PHP Get all videos and loop through -->
 				<?php for($i=0; $i<8; $i++) { ?>
 				<!-- PHP Get video ID of current video -->
 				<a href="video.php?id=">

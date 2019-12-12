@@ -3,6 +3,7 @@
 	<div class="content">
 		<div class="video-container">			
 			<div class="video-placeholder">
+				<!-- PHP Get video thumbnail -->
 				<img src="imgs/video-placeholder.jpg" />
 			</div>
 			<div class="home-video-overlay">
@@ -15,7 +16,7 @@
 		<div class="blocks-container">
 			<h2>Onze verschillende tags</h2>
 			<div class="blocks">
-				<!-- PHP Get all vidoes en loop erdoorheen -->
+				<!-- PHP Get all videos en loop erdoorheen -->
 				<?php for($i=0; $i<8; $i++) { ?>
 				<!-- PHP Get video ID of current video -->
 				<a href="tag.php?id=">
@@ -24,6 +25,7 @@
 							<!-- PHP Get tag name of current video -->
 							Tag naam
 						</div>
+						<!-- PHP Get video thumbnail -->
 						<img src="imgs/video-placeholder.jpg" />
 					</div>
 				</a>

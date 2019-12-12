@@ -6,7 +6,7 @@
 			<div class="blocks">
 				<!-- PHP Get all playlists and loop through -->
 				<?php for($i=0; $i<8; $i++) { ?>
-				<!-- PHP Get video ID of current playlist -->
+				<!-- PHP Get playlist ID of current playlist -->
 				<a href="playlist.php?id=">
 					<div class="block">
 						<div class="block-naam playlist-naam">
