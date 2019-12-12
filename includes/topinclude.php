@@ -1,3 +1,10 @@
+<?php
+	try {
+		include_once("core/functions.php");
+	} catch (\Throwable $e) {
+		echo "<pre>" . print_r($e, TRUE) . "</pre>";
+	}
+?>
 <!DOCTYPE HTML>
 <html lang="nl">
 	<head>
@@ -20,8 +27,10 @@
 					<ul>
 						<li><a href="tags.php">Tags</a></li>
 						<li><a href="playlists.php">Playlists</a></li>
+						<!-- Show account link when logged in -->
 						<?php if(true) { ?>
 						<li><a href="account.php">Account</a></li>
+						<!-- Show login link when not logged in -->
 						<?php } else { ?>
 						<li><a href="login.php">Login</a></li>
 						<?php } ?>

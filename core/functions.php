@@ -1,9 +1,9 @@
 <?php
-public class DBConnection
+class DBConnection
 {
 	private $mysqli;
 	
-	public __construct()
+	public function __construct()
 	{
 		$mysqli = new mysqli('localhost', 'root', 'understendingdb');
 		
@@ -13,17 +13,15 @@ public class DBConnection
 		}
 	}
 	
-	public 
 }
 
 
 
-public class CreateVideo
+class CreateVideo
 {
 	public function Create($userId, $post)
 	{
 		$title = $post['title'];
-		$
 		
 		return true;
 	}
@@ -31,17 +29,16 @@ public class CreateVideo
 
 
 
-public class VideoGateway
+class VideoGateway
 {
 	
 }
 
 
 
-public class Video
+class Video
 {
 	public $title;
-	public $
 }
 
 ?>

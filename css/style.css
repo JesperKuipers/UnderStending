@@ -106,6 +106,7 @@ body {
 	width: 1200px;
 	height: 675px;
 	position: relative;
+	margin-bottom: 75px;
 }
 
 .video-placeholder {
@@ -180,10 +181,6 @@ body {
 .content-block {
 	width: 1120px;
 	margin: 0 auto;
-}
-
-.blocks-container h2 {
-	margin-top: 75px;
 }
 
 .blocks {

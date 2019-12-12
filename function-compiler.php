@@ -24,7 +24,7 @@
 						$content = str_replace("?>", "", $content);
 						//Get the contents of the current functions.php file
 						$current = file_get_contents("core/functions.php");
-						//Add the contents of the new currnent file to functions.php
+						//Add the contents of the new current file to functions.php
 						$current .= $content;
 						
 						//Put the new content back into functions.php

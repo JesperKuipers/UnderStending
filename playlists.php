@@ -4,13 +4,16 @@
 		<div class="blocks-container">
 			<h2>Mijn playlists</h2>
 			<div class="blocks">
-				<!-- Loop door de uitgelichte tags -->
+				<!-- PHP Get all playlists and loop through -->
 				<?php for($i=0; $i<8; $i++) { ?>
-				<a href="playlist.php?id="><!-- Link naar de tag -->
+				<!-- PHP Get video ID of current playlist -->
+				<a href="playlist.php?id=">
 					<div class="block">
 						<div class="block-naam playlist-naam">
+							<!-- PHP Get playlist name of current video -->
 							Playlist naam
 						</div>
+						<!-- PHP Get playlist thumbnail -->
 						<img src="imgs/video-placeholder.jpg" />
 					</div>
 				</a>
