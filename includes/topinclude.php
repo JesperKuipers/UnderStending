@@ -38,7 +38,7 @@
 						<li><a href="tags.php">Tags</a></li>
 						<li><a href="playlists.php">Playlists</a></li>
 						<!-- Show account link when logged in -->
-						<?php if(true) { ?>
+						<?php if(isset($_SESSION["userID"])) { ?>
 						<li><a href="account.php">Account</a></li>
 						<!-- Show login link when not logged in -->
 						<?php } else { ?>
