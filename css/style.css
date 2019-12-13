@@ -2,6 +2,10 @@
 /* =-= Main CSS  =-= */
 /* =-=-=-=-=-=-=-=-= */
 
+html {
+	overflow-x: hidden;
+}
+
 body {
 	margin: 0;
 	font-family: "Arial", sans-serif;
@@ -190,8 +194,8 @@ body {
 /* Blocks */
 .blocks-container,
 .content-block {
-	width: 1120px;
-	margin: 0 auto;
+	width: 1200px;
+	padding: 0 40px;
 }
 
 .blocks {
@@ -245,7 +249,7 @@ body {
 	background-color: #009baa;
 	color: #fff;
 	text-decoration: none;
-	padding: 8px 20px;
+	padding: 10px;
 	display: block;
 	width: fit-content;
 	margin-bottom: 15px;
@@ -260,7 +264,8 @@ body {
 	cursor: pointer;
 }
 
-.form-block-field input {
+.form-block-field input,
+.form-block-field .textarea {
 	border: 1px solid black;
 	font-size: 16px;
 	height: 24px;
@@ -269,8 +274,53 @@ body {
 	width: 500px;
 }
 
-.form-block-field input:focus {
+.form-block-field .textarea {
+	height: 300px;
+	resize: none;
+	font-family: "Arial", sans-serif;
+}
+
+.form-block-field input:focus,
+.form-block-field .textarea:focus {
 	outline: none;
+}
+
+.video-manage-container a {
+	text-decoration: none;
+	color: #fff;
+	padding: 10px;
+	display: inline-block;
+	margin-bottom: 5px;
+}
+
+.video-add a {
+	color: #000;
+	border: 1px solid #000;
+}
+
+.video-title-delete {
+	background-color: #e62328;
+	height: 20px;
+    width: 20px;
+    text-align: center;
+}
+
+.video-title-edit {
+	background-color: #005aaa;
+	height: 20px;
+    width: 20px;
+    text-align: center;
+}
+
+.video-title-video {
+	background-color: #009baa;
+	height: 20px;
+    line-height: 1.5;
+}
+
+.video-manage-container a:hover {
+	background-color: #000;
+	color: #fff;
 }
 
 /* Tags */
@@ -327,4 +377,73 @@ body {
 
 .nhl-made-by-students {
 	margin-top: 45px;
+}
+
+@media only screen and (max-width: 1220px) {
+	.container,
+	#video-placeholder img,
+	.video-container,
+	#video-player video,
+	.home-video-overlay a {
+		width: 960px;
+		height: 540px;
+	}
+	
+	.blocks-container,
+	.content-block {
+		width: 960px;
+	}
+	
+	.home-video-overlay {
+		height: 540px;
+	}
+	
+	#video-overlay {
+		width: 800px;
+		height: 540px;
+	}
+	
+	.blocks-container {
+		width: 880px;
+	}
+	
+	.blocks a,
+	.block,
+	.block img	{
+		width: 272px;
+		height: 144px;
+	}
+	
+	.blocks a:nth-child(3n+2) {
+		margin: 0px 27px 28px 28px;
+	}
+	
+	.blocks a:nth-child(3n+3) .block {
+		margin-right: 0;
+	}
+	
+	.search-bar {
+		margin: 20px 0 20px 50px;
+	}
+	
+	.search-bar form {
+		height: 38px;
+		width: 440px;
+	}
+	
+	.search-bar-bar {
+		width: 420px;
+	}
+	
+	.nav-menu li {
+		margin-left: 30px;
+	}
+}
+
+@media only screen and (max-width: 960px) {
+	
+}
+
+@media only screen and (max-width: 768px) {
+	
 }
