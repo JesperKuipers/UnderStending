@@ -46,6 +46,7 @@ function executeSQLPrepared ($Connection, $SQL)
 		}
 	}
 
+
 // Search Bar Code\\
 
 // Zoekveld moet ingevuld zijn \\
@@ -66,7 +67,7 @@ function executeSQLPrepared ($Connection, $SQL)
 
 	 		//Prepare SQL1 statement\\
 			if($stmt = mysqli_prepare($Connection, $SQL1))
-			{
+			{ 
 				// Execute prepared SQL1 Statement\\
 				if(mysqli_stmt_execute($stmt))
 				{
@@ -79,7 +80,11 @@ function executeSQLPrepared ($Connection, $SQL)
 					{
 						if (mysqli_stmt_fetch($stmt))
 						{
-							echo "Werkt";
+							while (mysqli_stmt_fetch($stmt))
+							{
+								echo $VideoID;
+								echo $Title; 
+							}
 						}
 						else
 						{
@@ -110,14 +115,12 @@ function executeSQLPrepared ($Connection, $SQL)
 					// Check of er gegevens gevonden zijn \\
 					if (mysqli_stmt_num_rows($stmt) !== 0)
 					{
-						if (mysqli_stmt_fetch($stmt))
+						while (mysqli_stmt_fetch($stmt))
 						{
-							echo "Werkt";
+							echo $TagID; 
+							echo $Name; 
+							echo $Description;
 						}
-						else
-						{
-							die(mysqli_error($Connection));
-						}	
 					}
 					else
 					{
@@ -143,14 +146,11 @@ function executeSQLPrepared ($Connection, $SQL)
 					// Check of er gegevens gevonden zijn \\
 					if (mysqli_stmt_num_rows($stmt) !== 0)
 					{
-						if (mysqli_stmt_fetch($stmt))
+						while(mysqli_stmt_fetch($stmt))
 						{
-							echo "Werkt";
+							echo $PlaylistID;
+							echo $Name;
 						}
-						else
-						{
-							die(mysqli_error($Connection));
-						}	
 					}
 					else
 					{
@@ -162,7 +162,7 @@ function executeSQLPrepared ($Connection, $SQL)
 					die(mysqli_error($Connection));
 				}
 			}
-			else
+			else 
 			{
 				die(mysqli_error($Connection));
 			}
@@ -175,8 +175,7 @@ function executeSQLPrepared ($Connection, $SQL)
 	else
 	{
 		die(mysqli_error($Connection));
-	}
-		
+	} 
 ?>
 
 <?php
