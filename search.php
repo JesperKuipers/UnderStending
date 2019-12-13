@@ -70,9 +70,11 @@ function executeSQLPrepared ($Connection, $SQL)
 				// Execute prepared SQL1 Statement\\
 				if(mysqli_stmt_execute($stmt))
 				{
+					//Het toewijzen van kolommen aan variabelen\\
 					mysqli_stmt_bind_result($stmt, $VideoID, $Title, $Approved);
+					// Bufferen van gegevens op het scherm\\
 					mysqli_stmt_store_result($stmt);
-
+					// Check of er gegevens gevonden zijn \\
 					if (mysqli_stmt_num_rows($stmt) !== 0)
 					{
 						if (mysqli_stmt_fetch($stmt))
@@ -101,10 +103,11 @@ function executeSQLPrepared ($Connection, $SQL)
 				// Execute prepared SQL2 Statement\\
 				if(mysqli_stmt_execute($stmt))
 				{
-					// Ken voor elke ? in de SQL statement een variable toe \\
+					//Het toewijzen van kolommen aan variabelen\\
 					mysqli_stmt_bind_result($stmt, $TagID, $Name, $Description);
+					// Bufferen van gegevens op het scherm\\
 					mysqli_stmt_store_result($stmt);
-
+					// Check of er gegevens gevonden zijn \\
 					if (mysqli_stmt_num_rows($stmt) !== 0)
 					{
 						if (mysqli_stmt_fetch($stmt))
@@ -133,10 +136,11 @@ function executeSQLPrepared ($Connection, $SQL)
 				// Execute prepared SQL3 Statement\\
 				if(mysqli_stmt_execute($stmt))
 				{
-					// Ken voor elke ? in de SQL statement een variable toe \\
+					//Het toewijzen van kolommen aan variabelen\\
 					mysqli_stmt_bind_result($stmt, $PlaylistID, $Name);
+					// Bufferen van gegevens op het scherm\\
 					mysqli_stmt_store_result($stmt);
-
+					// Check of er gegevens gevonden zijn \\
 					if (mysqli_stmt_num_rows($stmt) !== 0)
 					{
 						if (mysqli_stmt_fetch($stmt))
