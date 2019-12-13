@@ -12,7 +12,6 @@ class DBConnection
 			die("Connect Error ({$mysqli->connect_errno}) {$mysqli->connect_error}");
 		}
 	}
-	
 }
 
 
@@ -33,7 +32,6 @@ class VideoGateway
 {
 	
 }
-
 
 
 class Video

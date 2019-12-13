@@ -240,14 +240,37 @@ body {
 }
 
 /* Account / Login */
-.content-block .button {
+.content-block .button,
+.form-block .button {
 	background-color: #009baa;
 	color: #fff;
 	text-decoration: none;
-	padding: 8px 12px;
+	padding: 8px 20px;
 	display: block;
 	width: fit-content;
 	margin-bottom: 15px;
+	font-size: 16px;
+	border: none;
+}
+
+.content-block .button:hover,
+.form-block .button:hover {
+	background-color: #000;
+	color: #fff;
+	cursor: pointer;
+}
+
+.form-block-field input {
+	border: 1px solid black;
+	font-size: 16px;
+	height: 24px;
+	padding: 8px 12px;
+	margin-bottom: 20px;
+	width: 500px;
+}
+
+.form-block-field input:focus {
+	outline: none;
 }
 
 /* Tags */
