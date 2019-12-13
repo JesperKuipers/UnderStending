@@ -1,7 +1,6 @@
 <?php include "includes/topinclude.php"; ?>
 
 <?php
-    session_start();
     include("loginBackend.php");
 ?>
 	<div class="content">
