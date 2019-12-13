@@ -6,6 +6,12 @@
 	} catch (\Throwable $e) {
 		echo "<pre>" . print_r($e, TRUE) . "</pre>";
 	}
+        
+        $conn = mysqli_connect("localhost", "root", "", "understendingdb");
+        // And test the connection
+        if(!$conn) {
+            DIE("Could not connect: " . mysqli_error($conn));
+        }
 ?>
 <!DOCTYPE HTML>
 <html lang="nl">

@@ -93,7 +93,7 @@ CREATE TABLE `user` (
   `name` varchar(30) DEFAULT NULL,
   `email` varchar(40) DEFAULT NULL,
   `password` varchar(60) DEFAULT NULL,
-  `admin` tinyint(1) DEFAULT NULL
+  `admin` BOOLEAN DEFAULT FALSE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
