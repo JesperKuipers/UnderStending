@@ -23,6 +23,5 @@
 			</form>
 		</div>
 	</div>
-	
 
 <?php include "includes/bottominclude.php" ?>
