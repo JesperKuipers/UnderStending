@@ -1,4 +1,7 @@
-<?php    
+<?php
+    if(isset($_SESSION['userID'])) {
+        header ('Location: index.php');
+    }
     $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
     $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
     
@@ -9,10 +12,9 @@
             mysqli_stmt_bind_result($statement, $userPassword, $name, $userID);
             mysqli_stmt_fetch($statement);
             if(password_verify($password, $userPassword)){
-                session_start();
                 $_SESSION['name'] = $name;
                 $_SESSION['userID'] = $userID;
-                echo "You have been logged in as $name, ID: $userID";
+                header ('Location: index.php');
             } else {
                 echo "Email and/or password incorrect.";
             }
