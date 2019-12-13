@@ -12,6 +12,7 @@
 	<head>
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script src="js/script.js"></script>
 	</head>
 	<body>
 		<div class="container">

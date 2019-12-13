@@ -2,7 +2,7 @@
 
 	<div class="content">
 		<div class="video-container">			
-			<div class="video-placeholder">
+			<div id="video-placeholder">
 				<!-- PHP Get video thumbnail -->
 				<img src="imgs/video-placeholder.jpg" />
 			</div>

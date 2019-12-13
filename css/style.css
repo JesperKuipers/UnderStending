@@ -109,29 +109,28 @@ body {
 	margin-bottom: 75px;
 }
 
-.video-placeholder {
+#video-placeholder {
 	position: absolute;
 }
 
-.video-placeholder img {
+#video-placeholder img {
 	width: 1200px;
 	height: 675px;
 }
 
-.video-overlay {
+#video-overlay {
 	width: 1000px;
 	height: 675px;
 	display: block;
 	position: absolute;
 }
 
-.video-overlay-text {
+#video-overlay-text {
 	color: #fff;
 	padding: 100px 40px;
 	width: 600px;
 }
-
-.video-overlay-text h1{
+#video-overlay-text h1{
 	font-size: 48px;
 }
 
@@ -146,11 +145,23 @@ body {
 	font-weight: bold;
 	font-size: 24px;
 	padding: 11px 0;
+	border: none;
+	outline: none;
 }
 
 .video-bekijken-button:hover {
 	background-color: #000;
 	color: #fff;
+	cursor: pointer;
+}
+
+#video-player {
+	visibility: hidden;
+}
+
+#video-player video {
+	width: 1200px;
+	height: 675px;
 }
 
 /* Home video overlay */
