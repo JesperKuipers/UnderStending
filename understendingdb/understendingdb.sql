@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 11 dec 2019 om 12:51
--- Serverversie: 10.4.8-MariaDB
--- PHP-versie: 7.3.11
+-- Gegenereerd op: 13 dec 2019 om 12:18
+-- Serverversie: 10.4.6-MariaDB
+-- PHP-versie: 7.3.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -93,7 +93,7 @@ CREATE TABLE `user` (
   `name` varchar(30) DEFAULT NULL,
   `email` varchar(40) DEFAULT NULL,
   `password` varchar(60) DEFAULT NULL,
-  `admin` BOOLEAN DEFAULT FALSE
+  `admin` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -119,8 +119,9 @@ CREATE TABLE `video` (
   `title` varchar(50) DEFAULT NULL,
   `releaseDate` date DEFAULT NULL,
   `description` text DEFAULT NULL,
-  `URL` varchar(11) DEFAULT NULL,
-  `approved` tinyint(1) DEFAULT NULL
+  `URL` varchar(36) DEFAULT NULL,
+  `approved` tinyint(1) DEFAULT NULL,
+  `thumbnail` varchar(36) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -142,8 +143,7 @@ CREATE TABLE `videotag` (
 -- Indexen voor tabel `currentlywatching`
 --
 ALTER TABLE `currentlywatching`
-  ADD KEY `userID` (`userID`),
-  ADD KEY `videoID` (`videoID`);
+  ADD KEY `userID` (`userID`);
 
 --
 -- Indexen voor tabel `playlist`
@@ -241,8 +241,7 @@ ALTER TABLE `video`
 -- Beperkingen voor tabel `currentlywatching`
 --
 ALTER TABLE `currentlywatching`
-  ADD CONSTRAINT `currentlywatching_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`),
-  ADD CONSTRAINT `currentlywatching_ibfk_2` FOREIGN KEY (`videoID`) REFERENCES `video` (`videoID`);
+  ADD CONSTRAINT `currentlywatching_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`);
 
 --
 -- Beperkingen voor tabel `playlist`
