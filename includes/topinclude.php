@@ -12,6 +12,7 @@
         if(!$conn) {
             DIE("Could not connect: " . mysqli_error($conn));
         }
+        session_start();
 ?>
 <!DOCTYPE HTML>
 <html lang="nl">
