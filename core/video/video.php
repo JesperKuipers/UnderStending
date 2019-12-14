@@ -1,9 +1,15 @@
 <?php
 
-public class Video
+class Video
 {
+	public $videoId;
+	public $userId;
 	public $title;
-	public $
+	public $releaseDate;
+	public $description;
+	public $approved;
+	public $urlId;
+	public $thumbnailId;
 }
 
 ?>
