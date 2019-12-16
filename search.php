@@ -61,105 +61,113 @@ function executeSQLPrepared ($Connection, $SQL)
 		//Selecteer Database\\
 		if (mysqli_select_db($Connection, $DBName))
 		{
-			$SQL1 = "SELECT videoID, title, approved FROM video WHERE approved = 1 AND title LIKE '%".$GetKeyword."%'";
-			$SQL2 = "SELECT * FROM tag WHERE name LIKE '%".$GetKeyword."%'";
-			$SQL3 = "SELECT playlistID, name FROM playlist WHERE name LIKE '%".$GetKeyword."%'";
+			$SQL1 = "SELECT videoID, title, approved FROM video WHERE approved = 1 AND title LIKE '%?%'";
+			$SQL2 = "SELECT * FROM tag WHERE name LIKE '%?%'";
+			$SQL3 = "SELECT playlistID, name FROM playlist WHERE name LIKE '%?%'";
 
 	 		//Prepare SQL1 statement\\
 			if($stmt = mysqli_prepare($Connection, $SQL1))
 			{ 
-				// Execute prepared SQL1 Statement\\
-				if(mysqli_stmt_execute($stmt))
-				{
-					//Het toewijzen van kolommen aan variabelen\\
-					mysqli_stmt_bind_result($stmt, $VideoID, $Title, $Approved);
-					// Bufferen van gegevens op het scherm\\
-					mysqli_stmt_store_result($stmt);
-					// Check of er gegevens gevonden zijn \\
-					if (mysqli_stmt_num_rows($stmt) !== 0)
+				if (mysqli_stmt_bind_param($stmt, "s", $GetKeyword))
+				{			
+					// Execute prepared SQL1 Statement\\
+					if(mysqli_stmt_execute($stmt))
 					{
-						if (mysqli_stmt_fetch($stmt))
+						//Het toewijzen van kolommen aan variabelen\\
+						mysqli_stmt_bind_result($stmt, $VideoID, $Title, $Approved);
+						// Bufferen van gegevens op het scherm\\
+						mysqli_stmt_store_result($stmt);
+						// Check of er gegevens gevonden zijn \\
+						if (mysqli_stmt_num_rows($stmt) !== 0)
 						{
-							while (mysqli_stmt_fetch($stmt))
+							if (mysqli_stmt_fetch($stmt))
 							{
-								echo $VideoID;
-								echo $Title; 
+								while (mysqli_stmt_fetch($stmt))
+								{
+									echo $VideoID;
+									echo $Title; 
+								}
 							}
+							else
+							{
+								die(mysqli_error($Connection));
+							}	
 						}
 						else
 						{
-							die(mysqli_error($Connection));
-						}	
+							echo "<p>No results have been found.</p>";
+						}
 					}
 					else
 					{
-						echo "<p>No results have been found.</p>";
+						die(mysqli_error($Connection));
 					}
-				}
-				else
-				{
-					die(mysqli_error($Connection));
-				}
+				}					
 			}
 
 			//Prepare SQL2 statement\\
 			if($stmt = mysqli_prepare($Connection, $SQL2))
 			{
-				// Execute prepared SQL2 Statement\\
-				if(mysqli_stmt_execute($stmt))
+				if (mysqli_stmt_bind_param($stmt, "s", $GetKeyword))
 				{
-					//Het toewijzen van kolommen aan variabelen\\
-					mysqli_stmt_bind_result($stmt, $TagID, $Name, $Description);
-					// Bufferen van gegevens op het scherm\\
-					mysqli_stmt_store_result($stmt);
-					// Check of er gegevens gevonden zijn \\
-					if (mysqli_stmt_num_rows($stmt) !== 0)
+					// Execute prepared SQL2 Statement\\
+					if(mysqli_stmt_execute($stmt))
 					{
-						while (mysqli_stmt_fetch($stmt))
+						//Het toewijzen van kolommen aan variabelen\\
+						mysqli_stmt_bind_result($stmt, $TagID, $Name, $Description);
+						// Bufferen van gegevens op het scherm\\
+						mysqli_stmt_store_result($stmt);
+						// Check of er gegevens gevonden zijn \\
+						if (mysqli_stmt_num_rows($stmt) !== 0)
 						{
-							echo $TagID; 
-							echo $Name; 
-							echo $Description;
+							while (mysqli_stmt_fetch($stmt))
+							{
+								echo $TagID; 
+								echo $Name; 
+								echo $Description;
+							}
+						}
+						else
+						{
+							echo "<p>No results have been found.</p>";
 						}
 					}
 					else
 					{
-						echo "<p>No results have been found.</p>";
+						die(mysqli_error($Connection));
 					}
 				}
-				else
-				{
-					die(mysqli_error($Connection));
-				}
 			}
-
 			//Prepare SQL3 statement\\
 			if($stmt = mysqli_prepare($Connection, $SQL3))
 			{
-				// Execute prepared SQL3 Statement\\
-				if(mysqli_stmt_execute($stmt))
+				if (mysqli_stmt_bind_param($stmt, "s", $GetKeyword))
 				{
-					//Het toewijzen van kolommen aan variabelen\\
-					mysqli_stmt_bind_result($stmt, $PlaylistID, $Name);
-					// Bufferen van gegevens op het scherm\\
-					mysqli_stmt_store_result($stmt);
-					// Check of er gegevens gevonden zijn \\
-					if (mysqli_stmt_num_rows($stmt) !== 0)
+					// Execute prepared SQL3 Statement\\
+					if(mysqli_stmt_execute($stmt))
 					{
-						while(mysqli_stmt_fetch($stmt))
+						//Het toewijzen van kolommen aan variabelen\\
+						mysqli_stmt_bind_result($stmt, $PlaylistID, $Name);
+						// Bufferen van gegevens op het scherm\\
+						mysqli_stmt_store_result($stmt);
+						// Check of er gegevens gevonden zijn \\
+						if (mysqli_stmt_num_rows($stmt) !== 0)
 						{
-							echo $PlaylistID;
-							echo $Name;
+							while(mysqli_stmt_fetch($stmt))
+							{
+								echo $PlaylistID;
+								echo $Name;
+							}
+						}
+						else
+						{
+							echo "<p>No results have been found.</p>";
 						}
 					}
 					else
 					{
-						echo "<p>No results have been found.</p>";
+						die(mysqli_error($Connection));
 					}
-				}
-				else
-				{
-					die(mysqli_error($Connection));
 				}
 			}
 			else 
@@ -181,5 +189,3 @@ function executeSQLPrepared ($Connection, $SQL)
 <?php
 include('includes/bottominclude.php');
 ?>
-
-
