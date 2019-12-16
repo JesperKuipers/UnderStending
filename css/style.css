@@ -285,6 +285,14 @@ body {
 	outline: none;
 }
 
+.form-error-block {
+	width: 500px;
+	background-color: #ff0000;
+	color: #fff;
+	padding: 5px 13px;
+	margin-bottom: 15px;
+}
+
 .video-manage-container a {
 	text-decoration: none;
 	color: #fff;

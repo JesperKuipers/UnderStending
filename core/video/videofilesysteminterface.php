@@ -37,7 +37,7 @@ function AddThumbnailToFileSystem($thumbnail)
 		return false;
 	}
 	//Pad naar thumbnails
-	$thumbnailPath = getcwd() . "/../thumbnails/";
+	$thumbnailPath = getcwd() . "/imgs/thumbnails/";
 	//Genereer nieuwe guid voor thumbnail
 	$thumbnailFileSystemId = GenerateGuid();
 	//Verplaats thumbnail van tijdelijk naar permantente opslag
