@@ -182,7 +182,7 @@ function executeSQLPrepared ($Connection, $SQL)
 	}
 	else
 	{
-		die(mysqli_error($Connection));
+		die(mysqli_connect_errno());
 	} 
 ?>
 
