@@ -17,13 +17,13 @@
                     $_SESSION['userID'] = $userID;
                     header('Location: index.php');
                 } else {
-                    echo "Email and/or password incorrect.";
+                    $error = "Email en/of wachtwoord incorrect";
                 }
             } else {
-                echo "error executing statement";
+                $error = "Fout bij het uitvoeren van de statement";
             }
         } else {
-            echo "Error preparing statement.";
+            $error = "Fout bij het voorbereiden van de statement";
         }
     }
     

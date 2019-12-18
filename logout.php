@@ -1,6 +1,8 @@
 <?php include ("includes/topinclude.php"); ?>
+
 <?php
-session_destroy();
-echo "<h1>You have been logged out.</h1>";
+	session_destroy();
+	header ('Location: index.php?logout=true');
 ?>
+
 <?php include "includes/bottominclude.php" ?>

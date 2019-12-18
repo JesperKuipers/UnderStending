@@ -38,12 +38,26 @@
 						<li><a href="tags.php">Tags</a></li>
 						<li><a href="playlists.php">Playlists</a></li>
 						<!-- Show account link when logged in -->
-						<?php if(isset($_SESSION["userID"])) { ?>
-						<li><a href="account.php">Account</a></li>
+						<?php if(!isset($_SESSION["userID"]) || isset($_GET["logout"])) { ?>
+						<li><a href="login.php">Login</a></li>
 						<!-- Show login link when not logged in -->
 						<?php } else { ?>
-						<li><a href="login.php">Login</a></li>
+						<li><a href="account.php">Account</a></li>
 						<?php } ?>
 					</ul>
+				</div>
+				<div class="dropdown">
+					<img src="imgs/hamburger-icon.png" width="80" height="80">
+					<div class="dropdown-content">
+						<a href="tags.php">Tags</a>
+						<a href="playlists.php">Playlists</a>
+						<!-- Show login link when not logged in -->
+						<?php if(!isset($_SESSION["userID"]) || isset($_GET["logout"])) { ?>
+						<a href="login.php">Login</a>
+						<!-- Show account link when logged in -->
+						<?php } else { ?>
+						<a href="account.php">Account</a>
+						<?php } ?>
+					</div>
 				</div>
 			</div>

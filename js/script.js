@@ -1,8 +1,8 @@
 function showVideo () {
 	//Hide the overlay 
-	document.getElementById("video-overlay").style.visibility = "hidden";
-	document.getElementById("video-placeholder").style.visibility = "hidden";
+	document.getElementById("video-overlay").style.display = "none";
+	document.getElementById("video-placeholder").style.display = "none";
 	
 	//Show the video
-	document.getElementById("video-player").style.visibility = "visible";
+	document.getElementById("video-player").style.display = "block";
 }

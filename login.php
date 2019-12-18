@@ -2,10 +2,16 @@
 
 <?php
     include("loginBackend.php");
+	if(isset($_SESSION["userID"])) {
+		header ('Location: account.php');
+	}
 ?>
 	<div class="content">
 		<div class="content-block">
 			<h1>Login</h1>
+			<?php if(isset($error)) { ?>
+			<div class="form-error-block"><?php echo $error; ?></div>
+			<?php } ?>
 			<div class="formcontainer">
 				<form action="login.php" method="post">
 					<div class="form-block">

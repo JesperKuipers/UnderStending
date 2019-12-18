@@ -7,6 +7,7 @@
 			<a href="#" class="button">Tags beheren</a>
 			<a href="#" class="button">Playlists beheren</a>
 			<a href="#" class="button">Videos goedkeuren</a>
+			<a href="logout.php" class="button">Uitloggen</a>
 		</div>
 	</div>
 
