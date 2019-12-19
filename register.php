@@ -12,7 +12,7 @@
 						VALUES (1, ?, ?, ?, 1);";
 			
 			$stmt = mysqli_prepare($conn, $query);
-			mysqli_stmt_bind_param($stmt, "sss", $name, $email, $pass);
+			mysqli_stmt_bind_param($stmt, "sss", $name, $email, $hash);
 			mysqli_stmt_execute($stmt);
 		}
 		
