@@ -3,8 +3,8 @@
         header ('Location: index.php');
     }
     if (isset($_POST['submit'])){
-        $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
-        $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
+        $email = filter_input(htmlentities(INPUT_POST, "email", FILTER_SANITIZE_EMAIL));
+        $password = filter_input(htmlentities(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS));
 
         $query = "SELECT password, name, userID FROM user WHERE email = ?;";
         if ($statement = mysqli_prepare($conn, $query)) {
@@ -17,13 +17,13 @@
                     $_SESSION['userID'] = $userID;
                     header('Location: index.php');
                 } else {
-                    $error = "Email en/of wachtwoord incorrect";
+                    echo "Email and/or password incorrect.";
                 }
             } else {
-                $error = "Fout bij het uitvoeren van de statement";
+                echo "Error executing statement";
             }
         } else {
-            $error = "Fout bij het voorbereiden van de statement";
+            echo "Error preparing statement.";
         }
     }
     
