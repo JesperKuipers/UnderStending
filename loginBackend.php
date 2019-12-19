@@ -3,8 +3,8 @@
         header ('Location: index.php');
     }
     if (isset($_POST['submit'])){
-        $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
-        $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
+        $email = htmlentities(filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL));
+        $password = htmlentities(filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS));
 
         $query = "SELECT password, name, userID FROM user WHERE email = ?;";
         if ($statement = mysqli_prepare($conn, $query)) {
