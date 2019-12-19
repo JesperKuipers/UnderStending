@@ -11,39 +11,39 @@ function executeSQLPrepared ($Connection, $SQL, $keyword)
 	{
 		//Prepare SQL statement\\
 		if($stmt = mysqli_prepare($Connection, $SQL))
-			{
-				$keyword = "%" . $keyword . "%";
-				if (mysqli_stmt_bind_param($stmt, "s", $keyword))
-				{	
-					// Execute prepared SQL1 Statement\\
-					if(mysqli_stmt_execute($stmt))
+		{
+			$keyword = "%" . $keyword . "%";
+			if (mysqli_stmt_bind_param($stmt, "s", $keyword))
+			{	
+				// Execute prepared SQL1 Statement\\
+				if(mysqli_stmt_execute($stmt))
+				{
+					//Het toewijzen van kolommen aan variabelen\\
+					mysqli_stmt_bind_result($stmt, $value1, $value2);
+					// Bufferen van gegevens op het scherm\\
+					mysqli_stmt_store_result($stmt);
+					// Check of er gegevens gevonden zijn \\
+					$rows = mysqli_stmt_num_rows($stmt);
+					if ($rows !== 0)
 					{
-						//Het toewijzen van kolommen aan variabelen\\
-						mysqli_stmt_bind_result($stmt, $value1, $value2);
-						// Bufferen van gegevens op het scherm\\
-						mysqli_stmt_store_result($stmt);
-						// Check of er gegevens gevonden zijn \\
-						$rows = mysqli_stmt_num_rows($stmt);
-						if ($rows !== 0)
+						mysqli_stmt_num_rows($stmt);
+						while (mysqli_stmt_fetch($stmt))
 						{
-							mysqli_stmt_num_rows($stmt);
-							while (mysqli_stmt_fetch($stmt))
-							{
-								echo $value1;
-								echo $value2;
-							}	
-						}
-						else
-						{
-							echo "<p>No results have been found.</p>";
-						}
+							echo $value1;
+							echo $value2;
+						}	
 					}
 					else
 					{
-						die(mysqli_error($Connection));
+						echo "<p>No results have been found.</p>";
 					}
-				}					
-			}
+				}
+				else
+				{
+					die(mysqli_error($Connection));
+				}
+			}					
+		}
 	}
 
 
