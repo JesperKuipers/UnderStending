@@ -3,7 +3,7 @@
 function AddVideoToFileSystem($video)
 {
 	//Pad naar videos
-	$videoPath = getcwd() . "/../videos/";
+	$videoPath = getcwd() . "/videos/";
 	//Genereer nieuwe guid voor video
 	$videoFileSystemId = GenerateGuid();
 	//Verplaats video van tijdelijk naar permantente opslag
@@ -19,16 +19,16 @@ function AddThumbnailToFileSystem($thumbnail)
 	switch ($thumbnail["type"])
 	{
 		case "image/gif":
-			$extension = ".gif";
+			$extension = "gif";
 			break;
 		case "image/jpeg":
-			$extension = ".jpg";
+			$extension = "jpg";
 			break;
 		case "image/jpg":
-			$extension = ".jpg";
+			$extension = "jpg";
 			break;
 		case "image/png":
-			$extension = ".png";
+			$extension = "png";
 			break;
 	}
 	//Geef false terug wanneer extensie niet is gevonden
@@ -39,11 +39,30 @@ function AddThumbnailToFileSystem($thumbnail)
 	//Pad naar thumbnails
 	$thumbnailPath = getcwd() . "/imgs/thumbnails/";
 	//Genereer nieuwe guid voor thumbnail
-	$thumbnailFileSystemId = GenerateGuid();
+	$thumbnailUrlId = GenerateGuid();
 	//Verplaats thumbnail van tijdelijk naar permantente opslag
-	move_uploaded_file($thumbnail["tmp_name"], $thumbnailPath . $thumbnailFileSystemId . $extension);
-	//Geef sleutel van thumbnail terug
-	return $thumbnailFileSystemId;
+	move_uploaded_file($thumbnail["tmp_name"], $thumbnailPath . $thumbnailUrlId . "." . $extension);
+	//Geef sleutel en extension van de thumbnail terug
+	$response = new AddThumbnailToFileSystemResponse();
+	$response->thumbnailUrlId = $thumbnailUrlId;
+	$response->extension = $extension;
+	return $response;
+}
+
+class AddThumbnailToFileSystemResponse
+{
+	public $thumbnailUrlId;
+	public $extension;
+}
+
+function GetVideoUrl($videoUrlId)
+{
+	return "localhost/UnderStending/videos/{$videoUrlId}.mp4";
+}
+
+function GetThumbnailUrl($thumbnailUrlId, $extension)
+{
+	return "localhost/UnderStending/imgs/thumbnails/{$thumbnailUrlId}.{$extension}";
 }
 
 ?>

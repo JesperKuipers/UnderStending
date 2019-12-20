@@ -7,7 +7,13 @@ function CreateVideo($userId, $title, $description, $video, $thumbnail)
 	//Sla de video op en haal unieke sleutel op
 	$urlId = AddVideoToFileSystem($video);	
 	//Sla de thumbnail op en haal unieke sleutel op
-	$thumbnailId = AddThumbnailToFileSystem($thumbnail);	
+	$response = AddThumbnailToFileSystem($thumbnail);
+	//Kijk of de thumbnail goed is opgeslagen op het filsystem
+	if (!$response)
+	{
+		echo "Something went wrong uploading your video.";
+		return;
+	}
 	//Maak een nieuw video object
 	$video = new Video();
 	//Wijs waardes toe aan video object
@@ -16,7 +22,8 @@ function CreateVideo($userId, $title, $description, $video, $thumbnail)
 	$video->description = $description;
 	$video->approved = false;
 	$video->urlId = $urlId;
-	$video->thumbnailId = $thumbnailId;	
+	$video->thumbnailId = $response->thumbnailUrlId;	
+	$video->thumbnailExtension = $response->extension;
 	//Voeg het object toe aan de database
 	AddVideoToDatabase($video);
 }

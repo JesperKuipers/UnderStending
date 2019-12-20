@@ -10,6 +10,7 @@ class Video
 	public $approved;
 	public $urlId;
 	public $thumbnailId;
+	public $thumbnailExtension;
 }
 
 ?>
