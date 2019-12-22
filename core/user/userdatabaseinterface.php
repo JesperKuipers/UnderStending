@@ -3,7 +3,7 @@
 function GetUserById($userId)
 {
 	//Haal users op uit database
-	$result = Select("select * from user where userid = ?", array($userId), "i");
+	$result = Fetch("select * from user where userid = ?", array($userId), "i");
 	//Pak user uit users array
 	$userRow = $result[0];
 	//Creëer nieuw user object

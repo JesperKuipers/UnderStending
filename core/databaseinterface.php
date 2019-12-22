@@ -1,8 +1,8 @@
 <?php
 
 //Geeft terug: boolean (0 = failed, 1 = success)
-function Insert($query, $params, $types)
-{	
+function Execute($query, $params, $types)
+{
 	//Creeër connectie
 	$conn = mysqli_connect('localhost', 'root', '', 'understendingdb');
 	//Stop wanneer connectie faalt
@@ -37,7 +37,7 @@ function Insert($query, $params, $types)
 }
 
 //Geeft terug: query gelukt? rows[] niet gelukt? false
-function Select($query, $params, $types)
+function Fetch($query, $params, $types)
 {
 	//Creeër connectie
 	$conn = mysqli_connect('localhost', 'root', '', 'understendingdb');

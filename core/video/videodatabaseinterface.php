@@ -14,13 +14,13 @@ function AddVideoToDatabase($video)
 		$video->thumbnailExtension
 	);
 	//Voeg video toe aan database
-	return Insert($statement, $parameters, "isssss");
+	return Execute($statement, $parameters, "isssss");
 }
 
 function GetVideoById($videoId)
 {
 	//Haal videos op uit database
-	$result = Select("select * from video where videoid = ?", array($videoId), "i");
+	$result = Fetch("select * from video where videoid = ?", array($videoId), "i");
 	//Pak user uit users array
 	$row = $result[0];
 	//Creëer nieuw user object
@@ -42,7 +42,7 @@ function GetVideoById($videoId)
 function GetRatingsByVideoId($videoId)
 {
 	//Haal ratings op uit database
-	$result = Select("select * from rating where videoid = ?", array($videoId), "i");
+	$result = Fetch("select * from rating where videoid = ?", array($videoId), "i");
 	//Lus door de rows
 	$ratings = array();
 	foreach ($result as $row)
@@ -57,6 +57,11 @@ function GetRatingsByVideoId($videoId)
 	}
 	//Geef alle ratings terug
 	return $ratings;
+}
+
+function RemoveVideoFromDatabase($videoId)
+{
+	Execute("delete from video where videoid=?", array($videoId), "i");
 }
 
 ?>
