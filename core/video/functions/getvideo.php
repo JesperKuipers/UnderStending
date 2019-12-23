@@ -28,6 +28,10 @@
 	
 	function GetAverageRating($ratings)
 	{
+		if (empty($ratings))
+		{
+			return 0;
+		}
 		//Bereken de gemiddelde score van de beoordelingen
 		$ratingNumbers = array();
 		foreach ($ratings as $rating)
