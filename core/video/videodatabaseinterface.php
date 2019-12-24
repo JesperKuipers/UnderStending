@@ -66,17 +66,18 @@ function RemoveVideoFromDatabase($videoId)
 
 function UpdateVideoInDatabase($video)
 {
-	$query = "update video set title=?, description=?, thumbnail=?, thumbnailextension=? where videoid=?";
+	$query = "update video set title=?, description=?, approved=?, thumbnail=?, thumbnailextension=? where videoid=?";
 	
 	$params = array(
 		$video->title,
 		$video->description,
+		$video->approved,
 		$video->thumbnailId,
 		$video->thumbnailExtension,
 		$video->videoId
 	);
 	
-	Execute($query, $params, "ssssi");
+	Execute($query, $params, "ssissi");
 }
 
 ?>
