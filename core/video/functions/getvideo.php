@@ -4,7 +4,7 @@
 		//Haal video op
 		$video = GetVideoById($videoId);
 		//Haal gebruiker op
-		$user = GetUserById($video->userId);
+		$user = GetUserById($video->uploader);
 		//Haal alle beoordelingen van de video
 		$ratings = GetRatingsByVideoId($video->videoId);
 		//Bereken de gemiddelde score van de beoordelingen
@@ -20,7 +20,7 @@
 		$videoResult->videoUrl = $videoUrl;
 		$videoResult->thumbnailUrl = $thumbnailUrl;
 		$videoResult->rating = $averageRating;
-		$videoResult->userId = $user->userId;
+		$videoResult->uploader = $user->userId;
 		$videoResult->userName = $user->name;
 		//Geef het gecreëerde object terug
 		return $videoResult;
@@ -49,7 +49,7 @@
 		public $videoUrl;
 		public $thumbnailUrl;
 		public $rating;
-		public $userId;
+		public $uploader;
 		public $userName;
 	}
 ?>

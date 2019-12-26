@@ -6,7 +6,7 @@ function AddVideoToDatabase($video)
 	$statement = "insert into video values (0, ?, ?, '', ?, ?, 0, ?, ?)";	
 	//Creëer query parameters
 	$parameters = array(
-		$video->userId,
+		$video->uploader,
 		$video->title,
 		$video->description,
 		$video->urlId,
@@ -27,7 +27,7 @@ function GetVideoById($videoId)
 	$video = new Video();
 	//Wijs waardes toe aan user object
 	$video->videoId = $row[0];
-	$video->userId = $row[1];
+	$video->uploader = $row[1];
 	$video->title = $row[2];
 	$video->releaseDate = $row[3];
 	$video->description = $row[4];

@@ -1,9 +1,16 @@
 <?php
 
-function UpdateVideo($videoId, $title = null, $description = null, $thumbnail = null)
+function UpdateVideo($videoId, $userId, $title = null, $description = null, $thumbnail = null)
 {
-	//Get that needs to be updated
-	$video = GetVideoById($videoId);	
+	//Haal user op
+	$user = GetUserById($userId);
+	//Haal video op
+	$video = GetVideoById($videoId);
+	//Kijk of de user rechten heeft om de video te updaten
+	if(!$user->admin || $video->uploader != $userId)
+	{
+		return false;
+	}
 	if ($title != null)
 	{
 		//Wijs nieuwe title toe aan video

@@ -3,7 +3,7 @@
 class Video
 {
 	public $videoId;
-	public $userId;
+	public $uploader;
 	public $title;
 	public $releaseDate;
 	public $description;

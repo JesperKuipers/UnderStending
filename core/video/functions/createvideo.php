@@ -17,7 +17,7 @@ function CreateVideo($userId, $title, $description, $video, $thumbnail)
 	//Maak een nieuw video object
 	$video = new Video();
 	//Wijs waardes toe aan video object
-	$video->userId = $user->userId;
+	$video->uploader = $user->userId;
 	$video->title = $title;
 	$video->description = $description;
 	$video->approved = false;
