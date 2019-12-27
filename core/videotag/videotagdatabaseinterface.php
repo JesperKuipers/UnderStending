@@ -28,4 +28,9 @@ function GetVideoTagsByTag($tagId)
 	return $videotags;
 }
 
+function RemoveVideoTagsByTag($tagId)
+{
+	Execute("delete from videotag where tagid=?", array($tagId), "i");
+}
+
 ?>

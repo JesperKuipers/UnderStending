@@ -47,4 +47,9 @@ function GetTagById($tagId)
 	}
 }
 
+function RemoveTagFromDatabase($tagId)
+{
+	Execute("delete from tag where tagid=?", array($tagId), "i");
+}
+
 ?>
