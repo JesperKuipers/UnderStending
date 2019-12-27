@@ -645,6 +645,21 @@ function AddVideoTag($userId, $videoId, $tagId)
 
 
 
+function RemoveVideoTag($userId, $videoId, $tagId)
+{
+	//Haal gebruiker op
+	$user = GetUserById($userId);
+	//Kijk of gebruiker een admin is
+	if (!$user->admin)
+	{
+		return false;
+	}
+	//Verwijder videotag
+	RemoveVideoTagFromDatabase($videoId, $tagId);
+}
+
+
+
 class VideoTag
 {
 	public $videoId;
@@ -684,6 +699,11 @@ function GetVideoTagsByTag($tagId)
 function RemoveVideoTagsByTag($tagId)
 {
 	Execute("delete from videotag where tagid=?", array($tagId), "i");
+}
+
+function RemoveVideoTagFromDatabase($videoId, $tagId)
+{
+	Execute("delete from videotag where videoid=? and tagid=?", array($videoId, $tagId), "ii");
 }
 
 ?>

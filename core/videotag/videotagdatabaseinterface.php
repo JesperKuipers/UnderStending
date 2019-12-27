@@ -33,4 +33,9 @@ function RemoveVideoTagsByTag($tagId)
 	Execute("delete from videotag where tagid=?", array($tagId), "i");
 }
 
+function RemoveVideoTagFromDatabase($videoId, $tagId)
+{
+	Execute("delete from videotag where videoid=? and tagid=?", array($videoId, $tagId), "ii");
+}
+
 ?>
