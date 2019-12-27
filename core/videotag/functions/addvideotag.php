@@ -1,6 +1,6 @@
 <?php
 
-function AddVideoTag($videoId, $tagId, $userId)
+function AddVideoTag($userId, $videoId, $tagId)
 {
 	//Haal user op
 	$user = GetUserById($userId);
