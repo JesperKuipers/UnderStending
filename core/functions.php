@@ -48,6 +48,22 @@ function UpdateCurrentlyWatchingInDatabase($currentlyWatching)
 	return Execute($query, $parameters, "iii");
 }
 
+function GetCurrentlyWatchingsByUser($userId)
+{
+	$query = "select * from currentlywatching where userid=?";
+	$result = Fetch($query, array($userId), "i");
+	$currentlyWatchings = array();
+	foreach ($result as $row)
+	{
+		$currentlyWatching = new CurrentlyWatching();
+		$currentlyWatching->videoId = $row[0];
+		$currentlyWatching->userId = $row[1];
+		$currentlyWatching->timestamp = $row[2];
+		$currentlyWatchings[] = $currentlyWatching;
+	}
+	return $currentlyWatchings;
+}
+
 
 
 function CreateOrUpdateCurrentlyWatching($videoId, $userId, $timestamp)
@@ -386,6 +402,29 @@ function CreateVideo($userId, $title, $description, $video, $thumbnail)
 	$video->thumbnailExtension = $response->extension;
 	//Voeg het object toe aan de database
 	AddVideoToDatabase($video);
+}
+
+
+
+function GetCurrentVideo($userId)
+{
+	$user = GetUserById($userId);
+	if (!$user)
+	{
+		return false;
+	}
+	
+	$currentlyWatchings = GetCurrentlyWatchingsByUser($userId);
+	if (count($currentlyWatchings) > 0)
+	{
+		$currentlyWatching = $currentlyWatchings[0];
+		$videoId = $currentlyWatching->videoId;
+		return GetVideo($videoId);
+	}
+	else
+	{
+		return false;
+	}
 }
 
 

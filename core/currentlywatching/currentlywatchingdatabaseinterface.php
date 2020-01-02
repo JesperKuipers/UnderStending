@@ -39,4 +39,20 @@ function UpdateCurrentlyWatchingInDatabase($currentlyWatching)
 	return Execute($query, $parameters, "iii");
 }
 
+function GetCurrentlyWatchingsByUser($userId)
+{
+	$query = "select * from currentlywatching where userid=?";
+	$result = Fetch($query, array($userId), "i");
+	$currentlyWatchings = array();
+	foreach ($result as $row)
+	{
+		$currentlyWatching = new CurrentlyWatching();
+		$currentlyWatching->videoId = $row[0];
+		$currentlyWatching->userId = $row[1];
+		$currentlyWatching->timestamp = $row[2];
+		$currentlyWatchings[] = $currentlyWatching;
+	}
+	return $currentlyWatchings;
+}
+
 ?>
