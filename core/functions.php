@@ -1,33 +1,34 @@
 <?php
 
-//Geeft terug: boolean (0 = failed, 1 = success)
-function Execute($query, $params, $types)
+class CurrentlyWatching
 {
-	//Creeër connectie
-	$conn = mysqli_connect('localhost', 'root', '', 'understendingdb');
-	//Stop wanneer connectie faalt
-	if (!$conn)
+	public $videoId;
+	public $userId;
+	public $timestamp;
+}
+
+
+
+function AddCurrentlyWatchingToDatabase($currentlyWatching)
+{
+	$query = "insert into currentlywatching values (?, ?, ?)";
+	
+	$parameters = array(
+		$currentlyWatching->videoId,
+		$currentlyWatching->userId,
+		$currentlyWatching->timestamp
+	);
+	
+	return Execute($query, $parameters, "iii");
+}
+
+function CurrentlyWatchingExists($videoId, $userId)
+{
+	$query = "select count(*) from currentlywatching where videoid=? and userid=?";
+	$result = Fetch($query, array($videoId, $userId), "ii");
+	$count = $result[0][0];
+	if ($count > 0)
 	{
-		return false;
-	}
-	//Voorbereiding query
-	if ($stmt = mysqli_prepare($conn, $query))
-	{
-		//Voeg parameters toe aan query
-		if (!mysqli_stmt_bind_param($stmt, $types, ...$params))
-		{
-			return false;
-		}
-		//Voer query uit
-		if (!mysqli_stmt_execute($stmt))
-		{
-			return false;
-		}
-		//Sluit query
-		mysqli_stmt_close($stmt);
-		//Sluit connectie met db
-		mysqli_close($conn);
-		//Insert is gelukt geef true terug
 		return true;
 	}
 	else
@@ -36,39 +37,118 @@ function Execute($query, $params, $types)
 	}
 }
 
-//Geeft terug: query gelukt? rows[] niet gelukt? false
+function UpdateCurrentlyWatchingInDatabase($currentlyWatching)
+{
+	$query = "update currentlywatching set timestamp=? where videoid=? and userid=?";
+	$parameters = array(
+		$currentlyWatching->timestamp,
+		$currentlyWatching->videoId,
+		$currentlyWatching->userId
+	);
+	return Execute($query, $parameters, "iii");
+}
+
+
+
+function CreateOrUpdateCurrentlyWatching($videoId, $userId, $timestamp)
+{
+	$user = GetUserById($userId);
+	if (!$user)
+	{
+		return "De gebruiker is niet gevonden.";
+	}
+	
+	$video = GetVideoById($videoId);
+	if (!$video)
+	{
+		return "De video is niet gevonden.";
+	}
+	
+	$currentlyWatching = new CurrentlyWatching();
+	$currentlyWatching->videoId = $videoId;
+	$currentlyWatching->userId = $userId;
+	$currentlyWatching->timestamp = $timestamp;
+	
+	if (CurrentlyWatchingExists($videoId, $userId))
+	{
+		UpdateCurrentlyWatchingInDatabase($currentlyWatching);
+	}
+	else
+	{
+		AddCurrentlyWatchingToDatabase($currentlyWatching);
+	}
+}
+
+
+
+function Execute($query, $params, $types)
+{
+	if (!$conn = mysqli_connect('localhost', 'root', '', 'understendingdb'))
+	{
+		return false;//mysqli_connect_error($conn);
+	}
+	else
+	{
+		if (!$stmt = mysqli_prepare($conn, $query))
+		{
+			return false;//mysqli_error($conn);
+		}
+		else
+		{			
+			if (!mysqli_stmt_bind_param($stmt, $types, ...$params))
+			{
+				return false;//mysqli_stmt_error($stmt);
+			}
+			else
+			{
+				if (!mysqli_stmt_execute($stmt))
+				{
+					return false;//mysqli_stmt_error($stmt);
+				}
+				else
+				{
+					return true;
+				}
+			}
+			mysqli_stmt_close($stmt);
+		}
+		mysqli_close($conn);
+	}
+}
+
 function Fetch($query, $params, $types)
 {
-	//Creeër connectie
-	$conn = mysqli_connect('localhost', 'root', '', 'understendingdb');
-	//Stop wanneer connectie faalt
-	if (!$conn)
+	if (!$conn = mysqli_connect('localhost', 'root', '', 'understendingdb'))
 	{
-		return false;
+		return false;//mysqli_connect_error($conn);
 	}
-	//Voorbereiding query
-	if ($stmt = mysqli_prepare($conn, $query))
+	else
 	{
-		//Voeg parameters toe aan query
-		if (!mysqli_stmt_bind_param($stmt, $types, ...$params))
+		if (!$stmt = mysqli_prepare($conn, $query))
 		{
-			return false;
+			return false;//mysqli_error($conn);
 		}
-		//Voer query uit
-		if (!mysqli_stmt_execute($stmt))
+		else
 		{
-			return false;
+			if (!mysqli_stmt_bind_param($stmt, $types, ...$params))
+			{
+				return false;//mysqli_stmt_error($stmt);
+			}
+			else
+			{
+				if (!mysqli_stmt_execute($stmt))
+				{
+					return false;//mysqli_stmt_error($stmt);
+				}
+				else
+				{
+					$result = mysqli_stmt_get_result($stmt);
+					return mysqli_fetch_all($result);
+				}
+			}
+			mysqli_stmt_close($stmt);
 		}
-		//Haal het resultaat van de query op
-		$result = mysqli_stmt_get_result($stmt);
-		//Zet het resultaat om in een associatieve array
-		$rows = mysqli_fetch_all($result, MYSQLI_NUM);
-		//Sluit query
-		mysqli_stmt_close($stmt);
-		//Sluit connectie met db
 		mysqli_close($conn);
-		//Geef het resultaat terug aan de caller van deze functie
-		return $rows;
 	}
 }
 
@@ -241,6 +321,11 @@ function GetUserById($userId)
 {
 	//Haal users op uit database
 	$result = Fetch("select * from user where userid = ?", array($userId), "i");
+	//Kijk of er geen gebruiker is gevonden
+	if ($result == 0)
+	{
+		return false;
+	}
 	//Pak user uit users array
 	$userRow = $result[0];
 	//Creëer nieuw user object

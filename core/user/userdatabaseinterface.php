@@ -4,6 +4,11 @@ function GetUserById($userId)
 {
 	//Haal users op uit database
 	$result = Fetch("select * from user where userid = ?", array($userId), "i");
+	//Kijk of er geen gebruiker is gevonden
+	if ($result == 0)
+	{
+		return false;
+	}
 	//Pak user uit users array
 	$userRow = $result[0];
 	//Creëer nieuw user object
