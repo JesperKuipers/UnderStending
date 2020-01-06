@@ -80,4 +80,32 @@ function UpdateVideoInDatabase($video)
 	Execute($query, $params, "ssissi");
 }
 
+function GetVideosFromDatabase($index, $limit)
+{
+	$result = Fetch("select * from videos limit ?, ?", array($index, $limit), "ii");
+	if (!$result)
+	{
+		return false;
+	}
+	else
+	{
+		$videos = array();
+		foreach ($result as $row)
+		{
+			$video = new Video();
+			$video->videoId = $row[0];
+			$video->uploader = $row[1];
+			$video->title = $row[2];
+			$video->releaseDate = $row[3];
+			$video->description = $row[4];
+			$video->approved = $row[5];
+			$video->urlId = $row[6];
+			$video->thumbnailId = $row[7];
+			$video->thumbnailExtension = $row[8];
+			$videos[] = $video;
+		}
+		return $videos;
+	}
+}
+
 ?>
