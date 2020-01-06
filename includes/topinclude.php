@@ -13,6 +13,7 @@
 		DIE("Could not connect: " . mysqli_error($conn));
 	}
 	session_start();
+	//print_r($_SESSION);
 ?>
 <!DOCTYPE HTML>
 <html lang="nl">
