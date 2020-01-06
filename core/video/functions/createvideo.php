@@ -5,14 +5,18 @@ function CreateVideo($userId, $title, $description, $video, $thumbnail)
 	//Haal de gebruiker op uit de database
 	$user = GetUserById($userId);
 	//Sla de video op en haal unieke sleutel op
-	$urlId = AddVideoToFileSystem($video);	
+	$urlId = AddVideoToFileSystem($video);
+	//Kijk of de video goed is opgeslagen op het filesysteem
+	if (!$urlId)
+	{
+		return false;
+	}
 	//Sla de thumbnail op en haal unieke sleutel op
 	$response = AddThumbnailToFileSystem($thumbnail);
-	//Kijk of de thumbnail goed is opgeslagen op het filsystem
+	//Kijk of de thumbnail goed is opgeslagen op het filsysteem
 	if (!$response)
 	{
-		echo "Something went wrong uploading your video.";
-		return;
+		return false;
 	}
 	//Maak een nieuw video object
 	$video = new Video();

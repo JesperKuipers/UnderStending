@@ -7,9 +7,15 @@ function AddVideoToFileSystem($video)
 	//Genereer nieuwe guid voor video
 	$videoFileSystemId = GenerateGuid();
 	//Verplaats video van tijdelijk naar permanente opslag
-	move_uploaded_file($video["tmp_name"], $videoPath . $videoFileSystemId . ".mp4");
-	//Geef sleutel van video terug
-	return $videoFileSystemId;
+	if (move_uploaded_file($video["tmp_name"], $videoPath . $videoFileSystemId . ".mp4"))
+	{
+		//Geef sleutel van video terug
+		return $videoFileSystemId;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 function AddThumbnailToFileSystem($thumbnail)
@@ -41,12 +47,18 @@ function AddThumbnailToFileSystem($thumbnail)
 	//Genereer nieuwe guid voor thumbnail
 	$thumbnailUrlId = GenerateGuid();
 	//Verplaats thumbnail van tijdelijk naar permanente opslag
-	move_uploaded_file($thumbnail["tmp_name"], $thumbnailPath . $thumbnailUrlId . "." . $extension);
-	//Geef sleutel en extension van de thumbnail terug
-	$response = new AddThumbnailToFileSystemResponse();
-	$response->thumbnailUrlId = $thumbnailUrlId;
-	$response->extension = $extension;
-	return $response;
+	if (move_uploaded_file($thumbnail["tmp_name"], $thumbnailPath . $thumbnailUrlId . "." . $extension))
+	{
+		//Geef sleutel en extension van de thumbnail terug
+		$response = new AddThumbnailToFileSystemResponse();
+		$response->thumbnailUrlId = $thumbnailUrlId;
+		$response->extension = $extension;
+		return $response;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 class AddThumbnailToFileSystemResponse
@@ -82,7 +94,14 @@ function RemoveVideoFromFileSystem($videoUrlId)
 	//Pad naar videos
 	$videoPath = getcwd() . "/videos/";
 	//Verwijder video uit het file systeem
-	unlink("{$videoPath}{$videoUrlId}.mp4");
+	if (unlink("{$videoPath}{$videoUrlId}.mp4"))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}	
 }
 
 ?>
