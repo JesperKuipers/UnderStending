@@ -1,5 +1,5 @@
 <?php
-function videoID() {
+function getVideoID() {
     $videoID = filter_input(INPUT_GET, 'v', FILTER_VALIDATE_INT);
     if (!$videoID) {
         return false;

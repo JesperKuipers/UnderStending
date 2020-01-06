@@ -72,13 +72,13 @@ class AddThumbnailToFileSystemResponse
 function GetVideoUrl($videoUrlId)
 {
 	//Url naar specifieke video
-	return "localhost/UnderStending/videos/{$videoUrlId}.mp4";
+	return "videos/{$videoUrlId}.mp4";
 }
 
 function GetThumbnailUrl($thumbnailUrlId, $extension)
 {
 	//Url naar specifieke thumbnail
-	return "localhost/UnderStending/imgs/thumbnails/{$thumbnailUrlId}.{$extension}";
+	return "imgs/thumbnails/{$thumbnailUrlId}.{$extension}";
 }
 
 function RemoveThumbnailFromFileSystem($thumbnailUrlId, $extension)
