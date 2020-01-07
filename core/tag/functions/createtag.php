@@ -1,6 +1,6 @@
 <?php
 
-function CreateTag($userId, $name, $description)
+function CreateTag($userId, $name)
 {
 	//Haal gebruiker op
 	$user = GetUserById($userId);
@@ -10,7 +10,7 @@ function CreateTag($userId, $name, $description)
 		return false;
 	}
 	//Add tag
-	AddTagToDatabase($name, $description);
+	AddTagToDatabase($name);
 }
 
 ?>

@@ -41,7 +41,6 @@ function GetTagById($tagId)
 		//Wijs object variabelen toe
 		$tag->tagId = $row[0];
 		$tag->name = $row[1];
-		$tag->description = $row[2];
 		//Geef tag terug
 		return $tag;
 	}
@@ -67,7 +66,6 @@ function GetTagsFromDatabase($index, $limit)
 			$tag = new Tag();
 			$tag->tagId = $row[0];
 			$tag->name = $row[1];
-			$tag->description = $row[2];
 			$tags[] = $tag;
 		}
 		return $tags;
