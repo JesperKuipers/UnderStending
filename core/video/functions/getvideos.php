@@ -5,7 +5,7 @@ function GetVideos($index, $limit)
 	$videos = GetVideosFromDatabase($index, $limit);
 	if (!$videos)
 	{
-		return false;
+		return array();
 	}
 	else
 	{
