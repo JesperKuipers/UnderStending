@@ -367,12 +367,12 @@ body {
 	border: none;
 }
 
-.delete {
+.confirm {
 	display: inline-block!important;
 	margin-right: 10px;
 }
 
-.delete-video .block {
+.confirm-video .block {
 	display: block;
 	margin-bottom: 30px;
 }
