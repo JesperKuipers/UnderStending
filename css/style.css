@@ -16,6 +16,10 @@ body {
 	margin: 0 auto;
 }
 
+.clear {
+	clear: both;
+}
+
 
 /* =-=-=-=-=-=-=-= */
 /* =-= Navbar  =-= */
@@ -163,7 +167,7 @@ body {
 	width: 1200px;
 	height: 675px;
 	position: relative;
-	margin-bottom: 75px;
+	margin-bottom: 10px;
 }
 
 #video-placeholder {
@@ -226,6 +230,54 @@ body {
 	height: 675px;
 }
 
+
+/* Video-bottom */
+.video-bottom {
+	margin-bottom: 75px;
+}
+
+.rating {
+	overflow: hidden;
+	vertical-align: bottom;
+	display: inline-block;
+	width: auto;
+	height: 30px;
+	float: right;
+}
+
+.rating > input {
+	opacity: 0;
+	margin-right: -100%;
+	width: 0;
+	margin-left: -4px;
+}
+
+.rating > label {
+	position: relative;
+	display: block;
+	float: right;
+	background: url('../imgs/star-off-big.png');
+	background-size: 30px 30px;
+}
+
+.rating > label:before {
+	display: block;
+	opacity: 0;
+	content: '';
+	width: 30px;
+	height: 30px;
+	background: url('../imgs/star-on-big.png');
+	background-size: 30px 30px;
+	transition: opacity 0.2s linear;
+}
+
+.rating > label:hover:before,
+.rating > label:hover ~ label:before,
+.rating:not(:hover) > :checked ~ label:before { 
+	opacity: 1;
+}
+
+
 /* Home video overlay */
 .home-video-overlay {
 	margin: 0 auto;
@@ -252,7 +304,7 @@ body {
 /* Blocks */
 .blocks-container,
 .content-block {
-	width: 1200px;
+	width: 1120px;
 	padding: 0 40px;
 }
 
@@ -315,6 +367,16 @@ body {
 	border: none;
 }
 
+.delete {
+	display: inline-block!important;
+	margin-right: 10px;
+}
+
+.delete-video .block {
+	display: block;
+	margin-bottom: 30px;
+}
+
 .content-block .button:hover,
 .form-block .button:hover {
 	background-color: #000;
@@ -343,15 +405,21 @@ body {
 	outline: none;
 }
 
-.form-error-block {
+.form-error-block,
+.form-confirm-block {
 	width: 500px;
+	max-width: 100%;
 	background-color: #ff0000;
 	color: #fff;
 	padding: 5px 13px;
 	margin-bottom: 15px;
 }
 
-.video-manage-container a {
+.form-confirm-block {
+	background-color: #008000;
+}
+
+.block-manage-container a {
 	text-decoration: none;
 	color: #fff;
 	padding: 10px;
@@ -359,32 +427,32 @@ body {
 	margin-bottom: 5px;
 }
 
-.video-add a {
+.block-add a {
 	color: #000;
 	border: 1px solid #000;
 }
 
-.video-title-delete {
+.block-title-delete {
 	background-color: #e62328;
 	height: 20px;
     width: 20px;
     text-align: center;
 }
 
-.video-title-edit {
+.block-title-edit {
 	background-color: #005aaa;
 	height: 20px;
     width: 20px;
     text-align: center;
 }
 
-.video-title-video {
+.block-title-video {
 	background-color: #009baa;
 	height: 20px;
     line-height: 1.5;
 }
 
-.video-manage-container a:hover {
+.block-manage-container a:hover {
 	background-color: #000;
 	color: #fff;
 }
@@ -515,10 +583,10 @@ body {
 		padding: 70px 40px;
 	}
 	
-	.video-container {
+	.video-bottom {
 		margin-bottom: 60px;
 	}
-	
+		
 	.footer-block {
 		width: 272px;
 	}
@@ -607,7 +675,7 @@ body {
 		padding: 40px;
 	}
 	
-	.video-container {
+	.video-bottom {
 		margin-bottom: 45px;
 	}
 	
@@ -695,6 +763,16 @@ body {
 	
 	.blocks a:nth-child(3n+2) {
 		margin: 0 0 10px 0;
+	}
+	
+	.content-block {
+		width: 100%;
+		padding: 0 20px;
+	}
+	
+	.form-block-field input,
+	.form-block-field .textarea {
+		
 	}
 	
 	.footer {

@@ -189,6 +189,15 @@ function GenerateGuid()
 //Als er een dubbele sleutel is gecreerd wordt er een nieuwe gegenereerd.
 
 
+function getVideoID() {
+    $videoID = filter_input(INPUT_GET, 'v', FILTER_VALIDATE_INT);
+    if (!$videoID) {
+        return false;
+    } else {
+        return $videoID;
+    }
+}
+
 
 class PlaylistVideo
 {
@@ -225,11 +234,6 @@ function CreateTag($userId, $name, $description)
 {
 	//Haal gebruiker op
 	$user = GetUserById($userId);
-	//Kijk of de gebruiker een admin is
-	if (!$user->admin)
-	{
-		return false;
-	}
 	//Kijk of de tag al bestaat
 	if (TagNameExists($name))
 	{
@@ -381,14 +385,18 @@ function CreateVideo($userId, $title, $description, $video, $thumbnail)
 	//Haal de gebruiker op uit de database
 	$user = GetUserById($userId);
 	//Sla de video op en haal unieke sleutel op
-	$urlId = AddVideoToFileSystem($video);	
+	$urlId = AddVideoToFileSystem($video);
+	//Kijk of de video goed is opgeslagen op het filesysteem
+	if (!$urlId)
+	{
+		return false;
+	}
 	//Sla de thumbnail op en haal unieke sleutel op
 	$response = AddThumbnailToFileSystem($thumbnail);
-	//Kijk of de thumbnail goed is opgeslagen op het filsystem
+	//Kijk of de thumbnail goed is opgeslagen op het filsysteem
 	if (!$response)
 	{
-		echo "Something went wrong uploading your video.";
-		return;
+		return false;
 	}
 	//Maak een nieuw video object
 	$video = new Video();
@@ -473,6 +481,21 @@ function GetAverageRating($ratings)
 	
 
 
+function GetVideos($index, $limit)
+{
+	$videos = GetVideosFromDatabase($index, $limit);
+	if (!$videos)
+	{
+		return false;
+	}
+	else
+	{
+		return $videos;
+	}
+}
+
+
+
 function GetVideosByTag($tagId)
 {
 	//Haal videotags op
@@ -522,32 +545,35 @@ function UpdateVideo($videoId, $userId, $title = null, $description = null, $thu
 	//Haal video op
 	$video = GetVideoById($videoId);
 	//Kijk of de user rechten heeft om de video te updaten
-	if(!$user->admin || $video->uploader != $userId)
+	if($user->admin || $video->uploader == $userId)
+	{
+		if ($title != null)
+		{
+			//Wijs nieuwe title toe aan video
+			$video->title = $title;
+		}
+		if ($description != null)
+		{
+			//Wijs nieuwe beschrijving toe aan video
+			$video->description = $description;
+		}
+		if ($thumbnail != null)
+		{
+			//Voeg aller eerst de nieuwe thumbnail toe
+			$response = AddThumbnailToFileSystem($thumbnail);
+			//Verwijder dan de oude van het file systeem
+			RemoveThumbnailFromFileSystem($video->thumbnailId, $video->thumbnailExtension);
+			//Wijs nieuwe thumbnail waardes toe aan video
+			$video->thumbnailId = $response->thumbnailUrlId;
+			$video->thumbnailExtension = $response->extension;
+		}
+		//Update de video in de database
+		UpdateVideoInDatabase($video);
+	}
+	else
 	{
 		return false;
 	}
-	if ($title != null)
-	{
-		//Wijs nieuwe title toe aan video
-		$video->title = $title;
-	}
-	if ($description != null)
-	{
-		//Wijs nieuwe beschrijving toe aan video
-		$video->description = $description;
-	}
-	if ($thumbnail != null)
-	{
-		//Voeg aller eerst de nieuwe thumbnail toe
-		$response = AddThumbnailToFileSystem($thumbnail);
-		//Verwijder dan de oude van het file systeem
-		RemoveThumbnailFromFileSystem($video->thumbnailId, $video->thumbnailExtension);
-		//Wijs nieuwe thumbnail waardes toe aan video
-		$video->thumbnailId = $response->thumbnailUrlId;
-		$video->thumbnailExtension = $response->extension;
-	}
-	//Update de video in de database
-	UpdateVideoInDatabase($video);
 }
 
 
@@ -661,6 +687,34 @@ function UpdateVideoInDatabase($video)
 	Execute($query, $params, "ssissi");
 }
 
+function GetVideosFromDatabase($index, $limit)
+{
+	$result = Fetch("select * from videos limit ?, ?", array($index, $limit), "ii");
+	if (!$result)
+	{
+		return false;
+	}
+	else
+	{
+		$videos = array();
+		foreach ($result as $row)
+		{
+			$video = new Video();
+			$video->videoId = $row[0];
+			$video->uploader = $row[1];
+			$video->title = $row[2];
+			$video->releaseDate = $row[3];
+			$video->description = $row[4];
+			$video->approved = $row[5];
+			$video->urlId = $row[6];
+			$video->thumbnailId = $row[7];
+			$video->thumbnailExtension = $row[8];
+			$videos[] = $video;
+		}
+		return $videos;
+	}
+}
+
 
 
 function AddVideoToFileSystem($video)
@@ -670,9 +724,15 @@ function AddVideoToFileSystem($video)
 	//Genereer nieuwe guid voor video
 	$videoFileSystemId = GenerateGuid();
 	//Verplaats video van tijdelijk naar permanente opslag
-	move_uploaded_file($video["tmp_name"], $videoPath . $videoFileSystemId . ".mp4");
-	//Geef sleutel van video terug
-	return $videoFileSystemId;
+	if (move_uploaded_file($video["tmp_name"], $videoPath . $videoFileSystemId . ".mp4"))
+	{
+		//Geef sleutel van video terug
+		return $videoFileSystemId;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 function AddThumbnailToFileSystem($thumbnail)
@@ -704,12 +764,18 @@ function AddThumbnailToFileSystem($thumbnail)
 	//Genereer nieuwe guid voor thumbnail
 	$thumbnailUrlId = GenerateGuid();
 	//Verplaats thumbnail van tijdelijk naar permanente opslag
-	move_uploaded_file($thumbnail["tmp_name"], $thumbnailPath . $thumbnailUrlId . "." . $extension);
-	//Geef sleutel en extension van de thumbnail terug
-	$response = new AddThumbnailToFileSystemResponse();
-	$response->thumbnailUrlId = $thumbnailUrlId;
-	$response->extension = $extension;
-	return $response;
+	if (move_uploaded_file($thumbnail["tmp_name"], $thumbnailPath . $thumbnailUrlId . "." . $extension))
+	{
+		//Geef sleutel en extension van de thumbnail terug
+		$response = new AddThumbnailToFileSystemResponse();
+		$response->thumbnailUrlId = $thumbnailUrlId;
+		$response->extension = $extension;
+		return $response;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 class AddThumbnailToFileSystemResponse
@@ -723,13 +789,13 @@ class AddThumbnailToFileSystemResponse
 function GetVideoUrl($videoUrlId)
 {
 	//Url naar specifieke video
-	return "localhost/UnderStending/videos/{$videoUrlId}.mp4";
+	return "videos/{$videoUrlId}.mp4";
 }
 
 function GetThumbnailUrl($thumbnailUrlId, $extension)
 {
 	//Url naar specifieke thumbnail
-	return "localhost/UnderStending/imgs/thumbnails/{$thumbnailUrlId}.{$extension}";
+	return "imgs/thumbnails/{$thumbnailUrlId}.{$extension}";
 }
 
 function RemoveThumbnailFromFileSystem($thumbnailUrlId, $extension)
@@ -745,7 +811,14 @@ function RemoveVideoFromFileSystem($videoUrlId)
 	//Pad naar videos
 	$videoPath = getcwd() . "/videos/";
 	//Verwijder video uit het file systeem
-	unlink("{$videoPath}{$videoUrlId}.mp4");
+	if (unlink("{$videoPath}{$videoUrlId}.mp4"))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}	
 }
 
 

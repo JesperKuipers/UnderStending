@@ -37,6 +37,11 @@
 				</div>
 				<div class="form-block">
 					<div class="form-block-field">
+					
+					</div>
+				</div>
+				<div class="form-block">
+					<div class="form-block-field">
 						<label>Video</label><br>
 						<input type="file" name="video" >
 					</div>
