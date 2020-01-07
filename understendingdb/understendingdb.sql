@@ -1,26 +1,11 @@
+-- phpMyAdmin SQL Dump
+-- version 4.9.0.1
+-- https://www.phpmyadmin.net/
 --
--- Drop current database
---
-
-DROP DATABASE IF EXISTS `understendingdb`;
-
--- --------------------------------------------------------
-
---
--- Create database
---
-
-CREATE DATABASE `understendingdb`;
-
--- --------------------------------------------------------
-
---
--- Use database
---
-
-USE `understendingdb`;
-
--- --------------------------------------------------------
+-- Host: 127.0.0.1
+-- Gegenereerd op: 07 jan 2020 om 13:52
+-- Serverversie: 10.4.6-MariaDB
+-- PHP-versie: 7.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -92,8 +77,7 @@ CREATE TABLE `rating` (
 
 CREATE TABLE `tag` (
   `tagID` int(8) NOT NULL,
-  `name` varchar(30) DEFAULT NULL,
-  `description` text DEFAULT NULL
+  `name` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -298,8 +282,6 @@ ALTER TABLE `videotag`
   ADD CONSTRAINT `videotag_ibfk_1` FOREIGN KEY (`videoID`) REFERENCES `video` (`videoID`),
   ADD CONSTRAINT `videotag_ibfk_2` FOREIGN KEY (`tagID`) REFERENCES `tag` (`tagID`);
 COMMIT;
-
-
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
