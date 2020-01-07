@@ -52,4 +52,26 @@ function RemoveTagFromDatabase($tagId)
 	Execute("delete from tag where tagid=?", array($tagId), "i");
 }
 
+function GetTagsFromDatabase($index, $limit)
+{
+	$result = Fetch("select * from tag limit ?, ?", array($index, $limit), "ii");
+	if (!$result)
+	{
+		return false;
+	}
+	else
+	{
+		$tags = array();
+		foreach ($result as $row)
+		{
+			$tag = new Tag();
+			$tag->tagId = $row[0];
+			$tag->name = $row[1];
+			$tag->description = $row[2];
+			$tags[] = $tag;
+		}
+		return $tags;
+	}
+}
+
 ?>
