@@ -80,9 +80,9 @@ function UpdateVideoInDatabase($video)
 	Execute($query, $params, "ssissi");
 }
 
-function GetVideosFromDatabase($index, $limit)
+function GetVideosFromDatabase($limit)
 {
-	$result = Fetch("select * from videos limit ?, ?", array($index, $limit), "ii");
+	$result = Fetch("SELECT * FROM video LIMIT ?", array($limit), "i");
 	if (!$result)
 	{
 		return false;

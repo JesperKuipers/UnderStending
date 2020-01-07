@@ -12,6 +12,7 @@
 			$thumbnail = $_FILES["thumbnail"];
 			
 			createVideo($userid, $title, $desc, $video, $thumbnail);
+			header("location: manage-video.php");
 		} else {
 			$error = "Vul aub alle velden in.";
 		}

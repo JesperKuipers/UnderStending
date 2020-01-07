@@ -39,25 +39,25 @@ function Fetch($query, $params, $types)
 {
 	if (!$conn = mysqli_connect('localhost', 'root', '', 'understendingdb'))
 	{
-		return false;//mysqli_connect_error($conn);
+		return 1;//mysqli_connect_error($conn);
 	}
 	else
 	{
 		if (!$stmt = mysqli_prepare($conn, $query))
 		{
-			return false;//mysqli_error($conn);
+			return 2;//mysqli_error($conn);
 		}
 		else
 		{
 			if (!mysqli_stmt_bind_param($stmt, $types, ...$params))
 			{
-				return false;//mysqli_stmt_error($stmt);
+				return 3;//mysqli_stmt_error($stmt);
 			}
 			else
 			{
 				if (!mysqli_stmt_execute($stmt))
 				{
-					return false;//mysqli_stmt_error($stmt);
+					return 4;//mysqli_stmt_error($stmt);
 				}
 				else
 				{

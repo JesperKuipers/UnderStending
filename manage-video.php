@@ -1,28 +1,45 @@
 <?php include "includes/topinclude.php" ?>
 
-<?php if(isset($_POST["videoid"])) {
-	$videoID = $_POST["videoid"];
+<?php 
 	$userID = $_SESSION["userID"];
-	RemoveVideo($videoID, $userID);
-	$error = "Video verwijdert";
-}
-
+	
+	if(!empty($_POST["submit"])) {
+		if(isset($_POST["delete"])) {
+			$videoID = $_POST["videoid"];
+			RemoveVideo($videoID, $userID);
+			$confirm = "Video verwijdert";
+		} 
+		elseif(isset($_POST["edit"])) {
+			$videoID = $_POST["videoid"];
+			$title = $_POST["title"];
+			$description = $_POST["description"];
+			if(empty($_FILES["thumbnail"])) {
+				$thumbnail = $_FILES["thumbnail"];
+			} else {
+				$thumbnail = NULL;
+			}
+			UpdateVideo($videoID, $userID, $title, $description, $thumbnail);
+			$confirm = "Video bijgewerkt";
+		}
+	}
 ?>
 	<div class="content">
 		<div class="content-block">
-			<?php if(isset($error)) { echo '<div class="form-confirm-block">' . $error . '</div>'; } ?>
+			<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirm . '</div>'; } ?>
 			<h2>Manage videos</h2>
 			<div class="block-manage-container">
 				<div class="block-add"><a href="add-video.php">&#10010; Video toevoegen </a></div>
-				<!-- PHP get all videos -->
 				<?php
-					for($i=1; $i<8; $i++) {
-						echo "<div class='block-title'>
-								<a href='delete-video.php?id=" . $i . "' class='block-title-delete'>&#10006;</a> 
-								<a href='edit-video.php?id=" . $i . "' class='block-title-edit'>&#9998;</a> 
-								<a href='video.php?v=" . $i . "' class='block-title-video'>Naam van de video</a>
-							</div>";
-					} 
+					$videos = GetVideos(500);
+					if(!empty($videos)) {
+						foreach($videos as $video) {
+							echo "<div class='block-title'>
+									<a href='delete-video.php?id=" . $video->videoId . "' class='block-title-delete'>&#10006;</a> 
+									<a href='edit-video.php?id=" . $video->videoId . "' class='block-title-edit'>&#9998;</a> 
+									<a href='video.php?v=" . $video->videoId . "' class='block-title-video'>" . $video->title . "</a>
+								</div>";
+						}
+					}
 				?>
 			</div>
 		</div>

@@ -1,8 +1,8 @@
 <?php
 
-function GetVideos($index, $limit)
+function GetVideos($limit)
 {
-	$videos = GetVideosFromDatabase($index, $limit);
+	$videos = GetVideosFromDatabase($limit);
 	if (!$videos)
 	{
 		return array();
