@@ -10,7 +10,7 @@ function CreateTag($userId, $name)
 		return false;
 	}
 	//Add tag
-	AddTagToDatabase($name);
+	return AddTagToDatabase($name);
 }
 
 ?>
