@@ -17,10 +17,10 @@ function TagNameExists($name)
 	}
 }
 
-function AddTagToDatabase($name, $description)
+function AddTagToDatabase($name)
 {
 	//Insert tag in database
-	Execute("insert into tag values (null, ?, ?)", array($name, $description), "ss");
+	Execute("insert into tag values (null, ?)", array($name), "s");
 }
 
 function GetTagById($tagId)
