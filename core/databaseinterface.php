@@ -35,7 +35,7 @@ function Execute($query, $params = array(), $types = "")
 	}
 }
 
-function Fetch($query, $params, $types)
+function Fetch($query, $params = array(), $types = "")
 {
 	if (!$conn = mysqli_connect('localhost', 'root', '', 'understendingdb'))
 	{

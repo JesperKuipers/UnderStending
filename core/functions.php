@@ -97,7 +97,7 @@ function CreateOrUpdateCurrentlyWatching($videoId, $userId, $timestamp)
 
 
 
-function Execute($query, $params, $types)
+function Execute($query, $params = array(), $types = "")
 {
 	if (!$conn = mysqli_connect('localhost', 'root', '', 'understendingdb'))
 	{
@@ -110,21 +110,21 @@ function Execute($query, $params, $types)
 			return false;//mysqli_error($conn);
 		}
 		else
-		{			
-			if (!mysqli_stmt_bind_param($stmt, $types, ...$params))
+		{ 
+			if (!empty($types))
+			{
+				if (!mysqli_stmt_bind_param($stmt, $types, ...$params))
+				{
+					return false;//return mysqli_stmt_error($stmt);
+				}
+			}
+			if (!mysqli_stmt_execute($stmt))
 			{
 				return false;//mysqli_stmt_error($stmt);
 			}
 			else
 			{
-				if (!mysqli_stmt_execute($stmt))
-				{
-					return false;//mysqli_stmt_error($stmt);
-				}
-				else
-				{
-					return true;
-				}
+				return true;
 			}
 			mysqli_stmt_close($stmt);
 		}
@@ -132,7 +132,7 @@ function Execute($query, $params, $types)
 	}
 }
 
-function Fetch($query, $params, $types)
+function Fetch($query, $params = array(), $types = "")
 {
 	if (!$conn = mysqli_connect('localhost', 'root', '', 'understendingdb'))
 	{
@@ -146,21 +146,21 @@ function Fetch($query, $params, $types)
 		}
 		else
 		{
-			if (!mysqli_stmt_bind_param($stmt, $types, ...$params))
+			if (!empty($types))
+			{
+				if (!mysqli_stmt_bind_param($stmt, $types, ...$params))
+				{
+					return false;//mysqli_stmt_error($stmt);
+				}
+			}
+			if (!mysqli_stmt_execute($stmt))
 			{
 				return false;//mysqli_stmt_error($stmt);
 			}
 			else
 			{
-				if (!mysqli_stmt_execute($stmt))
-				{
-					return false;//mysqli_stmt_error($stmt);
-				}
-				else
-				{
-					$result = mysqli_stmt_get_result($stmt);
-					return mysqli_fetch_all($result);
-				}
+				$result = mysqli_stmt_get_result($stmt);
+				return mysqli_fetch_all($result);
 			}
 			mysqli_stmt_close($stmt);
 		}
@@ -190,13 +190,72 @@ function GenerateGuid()
 
 
 function getVideoID() {
-    $videoID = filter_input(INPUT_GET, 'v', FILTER_VALIDATE_INT);
-    if (!$videoID) {
-        return false;
-    } else {
-        return $videoID;
-    }
+	if(isset($_GET["v"])) {
+		$videoID = filter_input(INPUT_GET, 'v', FILTER_VALIDATE_INT);
+		if (!$videoID) {
+			return false;
+		} else {
+			return $videoID;
+		}
+	}
+	else if(isset($_GET["id"])) {
+		$videoID = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+		if (!$videoID) {
+			return false;
+		} else {
+			return $videoID;
+		}
+	}
 }
+
+
+function CreatePlaylist($userId, $name)
+{
+	//Haal gebruiker op
+	$user = GetUserById($userId);
+	//Kijk of gebruiker wel bestaat
+	if (!$user)
+	{
+		return false;
+	}
+	//Creër playlist object
+	$playlist = new Playlist();
+	$playlist->userId = $user->userId;
+	$playlist->name = $name;
+	//Voeg playlist toe aan database
+	$playlistId = AddPlaylistToDatabase($playlist);
+	//Geef gecreërde playlistid terug
+	return $playlistId;
+}
+
+
+
+class Playlist
+{
+	public $playlistId;
+	public $userId;
+	public $name;
+}
+
+
+
+function AddPlaylistToDatabase($playlist)
+{
+	//Uit te voeren query
+	$query = "insert into playlist values (null, ?, ?)";
+	//Query parameters
+	$params = array($playlist->userId, $playlist->name);
+	//Voer query uit
+	if (!Execute($query, $params, "is"))
+	{
+		return false;
+	}
+	//Haal gecreërde playlistid op
+	$playlistId = Fetch("select max(playlistid) from playlist")[0][0];
+	//Geef playlistId terug
+	return $playlistId;
+}
+
 
 
 class PlaylistVideo
@@ -230,7 +289,7 @@ function RemoveRatingsByVideo($videoId)
 
 
 
-function CreateTag($userId, $name, $description)
+function CreateTag($userId, $name)
 {
 	//Haal gebruiker op
 	$user = GetUserById($userId);
@@ -240,7 +299,50 @@ function CreateTag($userId, $name, $description)
 		return false;
 	}
 	//Add tag
-	AddTagToDatabase($name, $description);
+	return AddTagToDatabase($name);
+}
+
+
+
+function GetTag($tagId)
+{
+	$tag = GetTagById($tagId);
+	if (!$tag)
+	{
+		return false;
+	}
+	else
+	{
+		return $tag;
+	}
+}
+
+
+
+function GetTags($index, $limit)
+{
+	$tags = GetTagsFromDatabase($index, $limit);
+	if (!$tags)
+	{
+		return array();
+	}
+	else
+	{
+		return $tags;
+	}
+}
+
+
+
+function GetTagsByVideo($videoId)
+{
+	$videoTags = GetVideoTagsByVideo($videoId);
+	$tags = array();
+	foreach ($videoTags as $videoTag)
+	{
+		$tags[] = GetTag($videoTag->tagId);
+	}
+	return $tags;
 }
 
 
@@ -266,7 +368,6 @@ class Tag
 {
 	public $tagId;
 	public $name;
-	public $description;
 }
 
 
@@ -288,10 +389,32 @@ function TagNameExists($name)
 	}
 }
 
-function AddTagToDatabase($name, $description)
+function GetTagIdByName($name)
+{
+	//Haal de tag op o.b.v de naam
+	$result = Fetch("select tagid from tag where name=?", array($name), "s");
+	//Kijk of resultaatset leeg is
+	if ($result == 0)
+	{
+		return false;
+	}
+	else
+	{
+		//Haal tagid uit de resultaatset
+		$tagId = $result[0][0];
+		//Geef tagId terug
+		return $tagId;
+	}
+}
+
+function AddTagToDatabase($name)
 {
 	//Insert tag in database
-	Execute("insert into tag values (null, ?, ?)", array($name, $description), "ss");
+	Execute("insert into tag values (null, ?)", array($name), "s");
+	//Haal gecreërde tagId op uit de database
+	$tagId = Fetch("select max(tagid) from tag")[0][0];
+	//Geef de gecreërde tag terug
+	return $tagId;
 }
 
 function GetTagById($tagId)
@@ -312,7 +435,6 @@ function GetTagById($tagId)
 		//Wijs object variabelen toe
 		$tag->tagId = $row[0];
 		$tag->name = $row[1];
-		$tag->description = $row[2];
 		//Geef tag terug
 		return $tag;
 	}
@@ -338,7 +460,6 @@ function GetTagsFromDatabase($index, $limit)
 			$tag = new Tag();
 			$tag->tagId = $row[0];
 			$tag->name = $row[1];
-			$tag->description = $row[2];
 			$tags[] = $tag;
 		}
 		return $tags;
@@ -398,6 +519,36 @@ function ApproveVideo($userId, $videoId)
 	$video->releaseDate = time();
 	
 	UpdateVideoInDatabase($video);
+}
+
+
+
+function CreateAndAddTagsToVideo($userId, $videoId, $names)
+{
+	$tagIds = array();
+	//Loop door alle te creëren tags heen
+	foreach ($names as $name)
+	{
+		//Creër tags
+		$tagId = CreateTag($userId, $name);
+		//Tag bestaat al?
+		if (!$tagId)
+		{
+			//Haal tag op o.b.v naam
+			$tagId = GetTagIdByName($name);
+			//Geef false terug wanneer tag niet is gevonden
+			if (!tagId)
+			{
+				return false;
+			}
+		}
+	}
+	//Loop door alle tagIds heen
+	foreach ($tagIds as $tagId)
+	{
+		//Voeg videotags o.b.v van de gecreërde tag
+		AddVideoTag($userId, $videoId, $tagId);
+	}
 }
 
 
@@ -503,9 +654,9 @@ function GetAverageRating($ratings)
 	
 
 
-function GetVideos($index, $limit)
+function GetVideos($limit)
 {
-	$videos = GetVideosFromDatabase($index, $limit);
+	$videos = GetVideosFromDatabase($limit);
 	if (!$videos)
 	{
 		return array();
@@ -709,9 +860,9 @@ function UpdateVideoInDatabase($video)
 	Execute($query, $params, "ssissi");
 }
 
-function GetVideosFromDatabase($index, $limit)
+function GetVideosFromDatabase($limit)
 {
-	$result = Fetch("select * from videos limit ?, ?", array($index, $limit), "ii");
+	$result = Fetch("SELECT * FROM video LIMIT ?", array($limit), "i");
 	if (!$result)
 	{
 		return false;
@@ -864,6 +1015,21 @@ function AddVideoTag($userId, $videoId, $tagId)
 
 
 
+function GetVideoTagsByVideo($videoId)
+{
+	$videoTags = GetVideoTagsByVideoId($videoId);
+	if (!$videoTags)
+	{
+		return array();
+	}
+	else
+	{
+		return $videoTags;
+	}
+}
+
+
+
 function RemoveVideoTag($userId, $videoId, $tagId)
 {
 	//Haal gebruiker op
@@ -901,6 +1067,24 @@ function GetVideoTagsByTag($tagId)
 {
 	//Haal videotags op o.b.v tagid
 	$result = Fetch("select * from videotag where tagid=?", array($tagId), "i");
+	//Creëer nieuw videotag array
+	$videotags = array();
+	//Lus door alle rows heen die zijn gevonden uit de database
+	foreach ($result as $row)
+	{
+		$videotag = new VideoTag();
+		$videotag->videoId = $row[0];
+		$videotag->tagId = $row[1];
+		$videotags[] = $videotag;
+	}
+	//Geef gecreëerde videotag array terug
+	return $videotags;
+}
+
+function GetVideoTagsByVideoId($videoId)
+{
+	//Haal videotags op o.b.v videoId
+	$result = Fetch("select * from videotag where videoid=?", array($videoId), "i");
 	//Creëer nieuw videotag array
 	$videotags = array();
 	//Lus door alle rows heen die zijn gevonden uit de database
