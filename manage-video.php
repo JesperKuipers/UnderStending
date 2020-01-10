@@ -27,6 +27,7 @@
 		<div class="content-block">
 			<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirm . '</div>'; } ?>
 			<h2>Manage videos</h2>
+			<p><a href="account.php">&lt;&lt; Terug naar account</a></p>
 			<div class="block-manage-container">
 				<div class="block-add"><a href="add-video.php">&#10010; Video toevoegen </a></div>
 				<?php
