@@ -365,8 +365,8 @@ body {
 	color: #fff;
 	text-decoration: none;
 	padding: 10px;
-	display: block;
-	width: fit-content;
+	display: inline-block;
+	width: auto;
 	margin-bottom: 15px;
 	font-size: 16px;
 	border: none;

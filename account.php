@@ -3,11 +3,25 @@
 	<div class="content">
 		<div class="content-block">
 			<h1>Account</h1>
-			<a href="manage-video.php" class="button">Videos beheren</a>
-			<a href="manage-tag.php" class="button">Tags beheren</a>
-			<a href="manage-playlist.php" class="button">Playlists beheren</a>
-			<a href="#" class="button">Videos goedkeuren</a>
-			<a href="logout.php" class="button">Uitloggen</a>
+			<div class="account-block">
+				<a href="manage-video.php" class="button">Videos beheren</a>
+			</div>
+			
+			<div class="account-block">
+				<a href="manage-tag.php" class="button">Tags beheren</a>
+			</div>
+			
+			<div class="account-block">
+				<a href="manage-playlist.php" class="button">Playlists beheren</a>
+			</div>
+			
+			<div class="account-block">
+				<a href="#" class="button">Videos goedkeuren</a>
+			</div>
+			
+			<div class="account-block">
+				<a href="logout.php" class="button">Uitloggen</a>
+			</div>
 		</div>
 	</div>
 
