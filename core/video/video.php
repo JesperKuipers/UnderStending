@@ -11,6 +11,16 @@ class Video
 	public $urlId;
 	public $thumbnailId;
 	public $thumbnailExtension;
+	
+	public ThumbnailUrl()
+	{
+		return GetThumbnailUrl($thumbnailId, $thumbnailExtension);
+	}
+	
+	public VideoUrl()
+	{
+		return GetVideoUrl($urlId);
+	}
 }
 
 ?>
