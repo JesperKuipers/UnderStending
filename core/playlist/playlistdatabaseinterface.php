@@ -39,4 +39,29 @@ function GetPlaylistsFromDatabase($index, $limit)
 	}
 }
 
+function GetPlaylistById($playlistId)
+{
+	$result = Fetch("select * from playlist where playlistid=?", array($playlistId), "i");
+	if (!$result)
+	{
+		return false;
+	}
+	else
+	{
+		if (count($result) == 0)
+		{
+			return false;
+		}
+		else
+		{
+			$row = result[0];		
+			$playlist = new Playlist();
+			$playlist->playlistId = $row[0];
+			$playlist->userId = $row[1];
+			$playlist->name = $row[2];		
+			return $playlist;
+		}
+	}
+}
+
 ?>

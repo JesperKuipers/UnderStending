@@ -230,6 +230,21 @@ function CreatePlaylist($userId, $name)
 
 
 
+function GetPlaylist($playlistId)
+{
+	$playlist = GetPlaylistById($playlistId);
+	if (!$playlist)
+	{
+		return false;
+	}
+	else
+	{
+		return $playlist;
+	}
+}
+
+
+
 function GetPlaylists($index, $limit)
 {
 	$playlists = GetPlaylistsFromDatabase($index, $limit);
@@ -293,6 +308,31 @@ function GetPlaylistsFromDatabase($index, $limit)
 	}
 }
 
+function GetPlaylistById($playlistId)
+{
+	$result = Fetch("select * from playlist where playlistid=?", array($playlistId), "i");
+	if (!$result)
+	{
+		return false;
+	}
+	else
+	{
+		if (count($result) == 0)
+		{
+			return false;
+		}
+		else
+		{
+			$row = $result[0];		
+			$playlist = new Playlist();
+			$playlist->playlistId = $row[0];
+			$playlist->userId = $row[1];
+			$playlist->name = $row[2];		
+			return $playlist;
+		}
+	}
+}
+
 
 
 class PlaylistVideo
@@ -324,6 +364,65 @@ function RemoveRatingsByVideo($videoId)
 	Execute("delete from rating where videoid=?", array($videoId), "i");
 }
 
+
+
+function Search($query) {
+	$videos = "	SELECT videoID, title, thumbnail, thumbnailExtension
+				FROM video 
+				WHERE approved = 1 
+				AND title LIKE ?;";
+
+	$tags = "	SELECT t.tagID, t.name, v.thumbnail, v.thumbnailExtension
+				FROM tag t
+				INNER JOIN videotag vt ON t.tagID = vt.tagID
+				INNER JOIN video v ON vt.videoID = v.videoID
+				WHERE t.name LIKE ?
+				GROUP BY t.tagID";
+				
+	$playlists = "SELECT p.playlistID, p.name, v.thumbnail, v.thumbnailExtension
+				FROM playlist p
+				INNER JOIN playlistvideo pv ON p.playlistID = pv.playlistID
+				INNER JOIN video v ON pv.videoID = v.videoID
+				WHERE p.name LIKE ?
+				GROUP BY p.playlistID";
+	
+	$query = "%" . $query . "%";
+	
+	$videosResult = Fetch($videos, array($query), "s");
+	$tagsResult = Fetch($tags, array($query), "s");
+	$playlistsResult = Fetch($playlists, array($query), "s");
+	
+	if($videosResult === FALSE || $tagsResult === FALSE || $playlistsResult === FALSE) {
+		return false;
+	} else {
+		$results = array();
+		foreach($videosResult as $row) {
+			$video = new Video();
+			$video->videoId = $row[0];
+			$video->title = $row[1];
+			$video->thumbnailId = $row[2];
+			$video->thumbnailExtension = $row[3];
+			$results["videos"][] = $video;
+		}
+		foreach($tagsResult as $row) {
+			$tag = new Tag();
+			$tag->tagId = $row[0];
+			$tag->name = $row[1];
+			$tag->thumbnailId = $row[2];
+			$tag->thumbnailExtension = $row[3];
+			$results["tags"][] = $tag;
+		}
+		foreach($playlistsResult as $row) {
+			$playlist = new Playlist();
+			$playlist->playlistID = $row[0];
+			$playlist->name = $row[1];
+			$playlist->thumbnailId = $row[2];
+			$playlist->thumbnailExtension = $row[3];
+			$results["playlists"][] = $tag;
+		}
+		return $results;
+	}
+}
 
 
 function CreateTag($userId, $name)
@@ -706,10 +805,10 @@ function GetVideos($limit)
 
 
 
-function GetVideosByTag($tagId)
+function GetVideosByTag($tagId, $limit)
 {
 	//Haal videotags op
-	$videotags = GetVideoTagsByTag($tagId);
+	$videotags = GetVideoTagsByTag($tagId, $limit);
 	//Creëer video array
 	$videos = array();
 	//Lus door gevonden videotags heen
@@ -813,6 +912,16 @@ class Video
 	public $urlId;
 	public $thumbnailId;
 	public $thumbnailExtension;
+	
+	public function ThumbnailUrl()
+	{
+		return GetThumbnailUrl($this->thumbnailId, $this->thumbnailExtension);
+	}
+	
+	public function VideoUrl()
+	{
+		return GetVideoUrl($this->urlId);
+	}
 }
 
 
@@ -1100,10 +1209,10 @@ function RemoveVideoTags($videoId)
 	Execute("delete from videotag where videoid=?", array($videoId), "i");
 }
 
-function GetVideoTagsByTag($tagId)
+function GetVideoTagsByTag($tagId, $limit)
 {
 	//Haal videotags op o.b.v tagid
-	$result = Fetch("select * from videotag where tagid=?", array($tagId), "i");
+	$result = Fetch("select * from videotag where tagid=? limit ?", array($tagId, $limit), "ii");
 	//Creëer nieuw videotag array
 	$videotags = array();
 	//Lus door alle rows heen die zijn gevonden uit de database
