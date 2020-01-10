@@ -17,16 +17,12 @@
 		}
 		
 	?>
-	<html>
-		<head></head>
-		<body>
-			<form action="register.php" method="post">
-				<input type="text" name="name" placeholder="Name"><br>
-				<input type="text" name="email" placeholder="Email"><br>
-				<input type="password" name="pass" placeholder="Password"><br>
-				<input type="submit" value="register" name="submit">		
-			</form>
-		</body>
-	</html>
+	
+	<form action="register.php" method="post">
+		<input type="text" name="name" placeholder="Name"><br>
+		<input type="text" name="email" placeholder="Email"><br>
+		<input type="password" name="pass" placeholder="Password"><br>
+		<input type="submit" value="register" name="submit">		
+	</form>
 	
 <?php include "includes/bottominclude.php" ?>
