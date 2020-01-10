@@ -17,10 +17,32 @@ function TagNameExists($name)
 	}
 }
 
+function GetTagIdByName($name)
+{
+	//Haal de tag op o.b.v de naam
+	$result = Fetch("select tagid from tag where name=?", array($name), "s");
+	//Kijk of resultaatset leeg is
+	if ($result == 0)
+	{
+		return false;
+	}
+	else
+	{
+		//Haal tagid uit de resultaatset
+		$tagId = $result[0][0];
+		//Geef tagId terug
+		return $tagId;
+	}
+}
+
 function AddTagToDatabase($name)
 {
 	//Insert tag in database
 	Execute("insert into tag values (null, ?)", array($name), "s");
+	//Haal gecreërde tagId op uit de database
+	$tagId = Fetch("select max(tagid) from tag")[0][0];
+	//Geef de gecreërde tag terug
+	return $tagId;
 }
 
 function GetTagById($tagId)
