@@ -14,9 +14,9 @@
 			$title = $_POST["title"];
 			$description = $_POST["description"];
 			if(empty($_FILES["thumbnail"])) {
-				$thumbnail = $_FILES["thumbnail"];
-			} else {
 				$thumbnail = NULL;
+			} else {
+				$thumbnail = $_FILES["thumbnail"];				
 			}
 			UpdateVideo($videoID, $userID, $title, $description, $thumbnail);
 			$confirm = "Video bijgewerkt";
