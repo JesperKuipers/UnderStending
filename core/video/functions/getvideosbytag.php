@@ -1,9 +1,9 @@
 <?php
 
-function GetVideosByTag($tagId)
+function GetVideosByTag($tagId, $limit)
 {
 	//Haal videotags op
-	$videotags = GetVideoTagsByTag($tagId);
+	$videotags = GetVideoTagsByTag($tagId, $limit);
 	//Creëer video array
 	$videos = array();
 	//Lus door gevonden videotags heen

@@ -10,10 +10,10 @@ function RemoveVideoTags($videoId)
 	Execute("delete from videotag where videoid=?", array($videoId), "i");
 }
 
-function GetVideoTagsByTag($tagId)
+function GetVideoTagsByTag($tagId, $limit)
 {
 	//Haal videotags op o.b.v tagid
-	$result = Fetch("select * from videotag where tagid=?", array($tagId), "i");
+	$result = Fetch("select * from videotag where tagid=? limit ?", array($tagId, $limit), "ii");
 	//Creëer nieuw videotag array
 	$videotags = array();
 	//Lus door alle rows heen die zijn gevonden uit de database
