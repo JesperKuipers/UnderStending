@@ -12,14 +12,14 @@ class Video
 	public $thumbnailId;
 	public $thumbnailExtension;
 	
-	public ThumbnailUrl()
+	public function ThumbnailUrl()
 	{
-		return GetThumbnailUrl($thumbnailId, $thumbnailExtension);
+		return GetThumbnailUrl($this->thumbnailId, $this->thumbnailExtension);
 	}
 	
-	public VideoUrl()
+	public function VideoUrl()
 	{
-		return GetVideoUrl($urlId);
+		return GetVideoUrl($this->urlId);
 	}
 }
 
