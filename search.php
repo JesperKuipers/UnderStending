@@ -5,82 +5,67 @@ include('includes/topinclude.php');
 ?>
 
 <?php
-// Auteur: Henk Bembom \\
-// Code optimization to prevent reptitiveness\\
-function executeSQLPrepared ($Connection, $SQL, $keyword)
-	{
-		//Prepare SQL statement\\
-		if($stmt = mysqli_prepare($Connection, $SQL))
-		{
-			$keyword = "%" . $keyword . "%";
-			if (mysqli_stmt_bind_param($stmt, "s", $keyword))
-			{	
-				// Execute prepared SQL1 Statement\\
-				if(mysqli_stmt_execute($stmt))
-				{
-					//Het toewijzen van kolommen aan variabelen\\
-					mysqli_stmt_bind_result($stmt, $value1, $value2);
-					// Bufferen van gegevens op het scherm\\
-					mysqli_stmt_store_result($stmt);
-					// Check of er gegevens gevonden zijn \\
-					$rows = mysqli_stmt_num_rows($stmt);
-					if ($rows !== 0)
-					{
-						mysqli_stmt_num_rows($stmt);
-						while (mysqli_stmt_fetch($stmt))
-						{
-							echo $value1;
-							echo $value2;
-						}	
-					}
-					else
-					{
-						echo "<p>No results have been found.</p>";
-					}
-				}
-				else
-				{
-					die(mysqli_error($Connection));
-				}
-			}					
-		}
-	}
-
-
-// Search Bar Code\\
-
-// Zoekveld moet ingevuld zijn \\
-
-	$Connection = mysqli_connect("localhost", "root", "");
-	
-	if($Connection)
-	{
-		//Verbinding maken met server\\
-		$GetKeyword = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_SPECIAL_CHARS);
-		$DBName = 'understendingdb';
-		//Selecteer Database\\
-		if (mysqli_select_db($Connection, $DBName))
-		{
-			$SQL1 = "SELECT videoID, title FROM video WHERE approved = 1 AND title LIKE ?;";
-			$SQL2 = "SELECT tagID, name FROM tag WHERE name LIKE ?";
-			$SQL3 = "SELECT playlistID, name FROM playlist WHERE name LIKE ?";
-
-	 		//Prepare SQL1 statement\\
-			executeSQLPrepared($Connection, $SQL1, $GetKeyword);
-			executeSQLPrepared($Connection, $SQL2, $GetKeyword);
-			executeSQLPrepared($Connection, $SQL3, $GetKeyword);
-		}
-		else
-		{
-			die(mysqli_error($Connection));
-		}
-	}
-	else
-	{
-		die(mysqli_connect_errno());
-	}
-	mysqli_close($Connection);
+	$query = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_SPECIAL_CHARS);
+	$results = Search($query);
 ?>
+	<div class="blocks-container">
+		<h2>Resultaten voor "<?php echo $query; ?>"</h2>
+		<div class="blocks">
+			<?php 
+			foreach($results as $result) {
+				//var_dump($result);
+				if(isset($result[0]->videoId)) {
+					foreach($result as $video) {
+						$videoID = $video->videoId;
+						$title = $video->title;
+						$thumbnail = $video->ThumbnailUrl();
+						
+						echo "<a href='video.php?v=" . $videoID . "'>";
+							echo "<div class='block'>";
+								echo "<div class='block-naam video-naam'>";
+									echo $title;
+								echo "</div>";
+								echo "<img src='" . $thumbnail . "' />";
+							echo "</div>";
+						echo "</a>";
+					}
+				}
+				else if(isset($result[0]->tagId)) {
+					foreach($result as $tag) {
+						$tagID = $tag->tagId;
+						$name = $tag->name;
+						$thumbnail = $tag->thumbnailId . "." . $tag->thumbnailExtension;
+						
+						echo "<a href='tag.php?v=" . $tagID . "'>";
+							echo "<div class='block'>";
+								echo "<div class='block-naam tag-naam'>";
+									echo $name;
+								echo "</div>";
+								echo "<img src='imgs/thumbnails/" . $thumbnail . "' />";
+							echo "</div>";
+						echo "</a>";
+					}
+				}
+				else if(isset($result[0]->playlistId)) {
+					foreach($result as $playlist) {
+						$playlistID = $playlist->videoId;
+						$name = $playlist->title;
+						$thumbnail = $playlist->thumbnailId . "." . $playlist->thumbnailExtension;
+						
+						echo "<a href='playlist.php?v=" . $playlistID . "'>";
+							echo "<div class='block'>";
+								echo "<div class='block-naam playlist-naam'>";
+									echo $name;
+								echo "</div>";
+								echo "<img src='imgs/thumbnails/" . $thumbnail . "' />";
+							echo "</div>";
+						echo "</a>";
+					}
+				}
+			} 
+			?>
+		</div>
+	</div>
 
 <?php
 include('includes/bottominclude.php');

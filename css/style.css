@@ -236,6 +236,11 @@ body {
 	margin-bottom: 75px;
 }
 
+.description {
+	width: 920px;
+	display: inline-block;
+}
+
 .rating {
 	overflow: hidden;
 	vertical-align: bottom;
@@ -525,7 +530,11 @@ body {
 	
 	.blocks-container,
 	.content-block {
-		width: 960px;
+		width: 880px;
+	}
+	
+	.description {
+		width: 680px;
 	}
 	
 	.home-video-overlay {
@@ -535,10 +544,6 @@ body {
 	#video-overlay {
 		width: 800px;
 		height: 540px;
-	}
-	
-	.blocks-container {
-		width: 880px;
 	}
 	
 	.home-video-overlay img {
@@ -608,7 +613,11 @@ body {
 	
 	.blocks-container,
 	.content-block {
-		width: 768px;
+		width: 688px;
+	}
+	
+	.description {
+		width: 488px;
 	}
 	
 	.home-video-overlay {
@@ -624,10 +633,6 @@ body {
 		height: 50px;
 		width: 306px;
 		padding: 191px 231px;
-	}
-	
-	.blocks-container {
-		width: 688px;
 	}
 	
 	.blocks a,
@@ -753,6 +758,10 @@ body {
 	.blocks-container {
 		width: auto;
 		padding: 0 20px;
+	}
+	
+	.description {
+		width: auto;
 	}
 	
 	.block-naam {

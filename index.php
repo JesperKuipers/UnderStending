@@ -14,7 +14,7 @@
 			</div>
 		</div>
 		<div class="blocks-container">
-                        <h2>Onze verschillende tags<?php if (isset($_SESSION['name'])) { echo " voor u, " . $_SESSION['name']; } ?></h2>
+		<h2>Onze verschillende tags<?php if (isset($_SESSION['name'])) { echo " voor u, " . $_SESSION['name']; } ?></h2>
 			<div class="blocks">
 				<!-- PHP Get all videos en loop erdoorheen -->
 				<?php for($i=0; $i<8; $i++) { ?>
