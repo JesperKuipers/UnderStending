@@ -54,7 +54,7 @@ function GetPlaylistById($playlistId)
 		}
 		else
 		{
-			$row = result[0];		
+			$row = $result[0];		
 			$playlist = new Playlist();
 			$playlist->playlistId = $row[0];
 			$playlist->userId = $row[1];

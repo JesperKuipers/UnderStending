@@ -232,14 +232,35 @@ function CreatePlaylist($userId, $name)
 
 function GetPlaylist($playlistId)
 {
+	//Haal playlist op
 	$playlist = GetPlaylistById($playlistId);
-	if (!$playlist)
+	//Haal playlistvideos op o.b.v playlist
+	$playlistVideos = GetPlaylistVideosByPlaylist($playlistId);
+	//Kijk of playlist daadwerkelijk is opgehaald
+	if ($playlist)
 	{
-		return false;
+		//Creëer nieuwe getplaylistresult
+		$getPlaylistResult = new GetPlaylistResult();
+		//Wijs properties toe
+		$getPlaylistResult->playlistId = $playlist->playlistId;
+		$getPlaylistResult->userId = $playlist->userId;
+		$getPlaylistResult->name = $playlist->name;
+		//Wijs thumbnailurl toe wanneer videotags aanwezig zijn
+		if (empty($playlistVideos))
+		{
+			$getPlaylistResult->thumbnailUrl = false;
+		}
+		else
+		{
+			$video = GetVideoById($playlistVideos[0]->videoId);
+			$getPlaylistResult->thumbnailUrl = $video->ThumbnailUrl();
+		}
+		//Geef getplaylistresult object terug
+		return $getPlaylistResult;
 	}
 	else
 	{
-		return $playlist;
+		return false;
 	}
 }
 
@@ -256,6 +277,16 @@ function GetPlaylists($index, $limit)
 	{
 		return $playlists;
 	}
+}
+
+
+
+class GetPlaylistResult
+{
+	public $playlistId;
+	public $userId;
+	public $name;
+	public $thumbnailUrl;
 }
 
 
@@ -323,13 +354,28 @@ function GetPlaylistById($playlistId)
 		}
 		else
 		{
-			$row = result[0];		
+			$row = $result[0];		
 			$playlist = new Playlist();
 			$playlist->playlistId = $row[0];
 			$playlist->userId = $row[1];
 			$playlist->name = $row[2];		
 			return $playlist;
 		}
+	}
+}
+
+
+
+function GetPlaylistVideosByPlaylist($playlistId)
+{
+	$playlistVideos = GetPlaylistVideosByPlaylistId($playlistId);
+	if ($playlistVideos)
+	{
+		return $playlistVideos;
+	}
+	else
+	{
+		return array();
 	}
 }
 
@@ -346,6 +392,20 @@ class PlaylistVideo
 function RemovePlaylistVideos($videoId)
 {
 	Execute("delete from playlistvideo where videoid=?", array($videoId), "i");
+}
+
+function GetPlaylistVideosByPlaylistId($playlistId)
+{
+	$result = Fetch("select * from playlistvideo where playlistid=?", array($playlistId), "i");
+	$playlistVideos = array();
+	foreach ($result as $row)
+	{
+		$playlistVideo = new PlaylistVideo();
+		$playlistVideo->videoId = $row[0];
+		$playlistVideo->playlistId = $row[1];
+		$playlistVideos[] = $playlistVideo;
+	}
+	return $playlistVideos;
 }
 
 
@@ -450,15 +510,20 @@ function CreateTag($userId, $name)
 
 function GetTag($tagId)
 {
+	//Haal tag op
 	$tag = GetTagById($tagId);
+	//Haal videoTags op o.b.v tag
 	$videoTags = GetVideoTagsByTag($tagId, 1);
+	//Geef false terug wanneer tag niet bestaad
 	if (!$tag)
 	{
 		return false;
 	}
 	else
 	{
+		//Creëer nieuwe getTagResult
 		$getTagResult = new GetTagResult();
+		//Zet properties
 		$getTagResult->tagId = $tag->tagId;
 		$getTagResult->name = $tag->name;
 		//Wijs een thumbnailUrl toe aan de tag wanneer de videotags niet leeg zijn
@@ -468,9 +533,10 @@ function GetTag($tagId)
 		}
 		else
 		{
-			$video = GetVideo($videoTags[0]->videoId);
-			$getTagResult->thumbnailUrl = $video->thumbnailUrl;
+			$video = GetVideoById($videoTags[0]->videoId);
+			$getTagResult->thumbnailUrl = $video->thumbnailUrl();
 		}
+		//Geef getTagResult terug
 		return $getTagResult;
 	}
 }
