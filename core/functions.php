@@ -323,7 +323,7 @@ function GetPlaylistById($playlistId)
 		}
 		else
 		{
-			$row = $result[0];		
+			$row = result[0];		
 			$playlist = new Playlist();
 			$playlist->playlistId = $row[0];
 			$playlist->userId = $row[1];
@@ -366,7 +366,8 @@ function RemoveRatingsByVideo($videoId)
 
 
 
-function Search($query) {
+function Search($query)
+{
 	$videos = "	SELECT videoID, title, thumbnail, thumbnailExtension
 				FROM video 
 				WHERE approved = 1 
@@ -392,11 +393,15 @@ function Search($query) {
 	$tagsResult = Fetch($tags, array($query), "s");
 	$playlistsResult = Fetch($playlists, array($query), "s");
 	
-	if($videosResult === FALSE || $tagsResult === FALSE || $playlistsResult === FALSE) {
+	if($videosResult === FALSE || $tagsResult === FALSE || $playlistsResult === FALSE)
+	{
 		return false;
-	} else {
+	}
+	else
+	{
 		$results = array();
-		foreach($videosResult as $row) {
+		foreach($videosResult as $row)
+		{
 			$video = new Video();
 			$video->videoId = $row[0];
 			$video->title = $row[1];
@@ -404,7 +409,8 @@ function Search($query) {
 			$video->thumbnailExtension = $row[3];
 			$results["videos"][] = $video;
 		}
-		foreach($tagsResult as $row) {
+		foreach($tagsResult as $row)
+		{
 			$tag = new Tag();
 			$tag->tagId = $row[0];
 			$tag->name = $row[1];
@@ -412,7 +418,8 @@ function Search($query) {
 			$tag->thumbnailExtension = $row[3];
 			$results["tags"][] = $tag;
 		}
-		foreach($playlistsResult as $row) {
+		foreach($playlistsResult as $row)
+		{
 			$playlist = new Playlist();
 			$playlist->playlistID = $row[0];
 			$playlist->name = $row[1];
@@ -423,6 +430,7 @@ function Search($query) {
 		return $results;
 	}
 }
+
 
 
 function CreateTag($userId, $name)
@@ -443,13 +451,27 @@ function CreateTag($userId, $name)
 function GetTag($tagId)
 {
 	$tag = GetTagById($tagId);
+	$videoTags = GetVideoTagsByTag($tagId, 1);
 	if (!$tag)
 	{
 		return false;
 	}
 	else
 	{
-		return $tag;
+		$getTagResult = new GetTagResult();
+		$getTagResult->tagId = $tag->tagId;
+		$getTagResult->name = $tag->name;
+		//Wijs een thumbnailUrl toe aan de tag wanneer de videotags niet leeg zijn
+		if (empty($videoTags))
+		{
+			$getTagResult->thumbnailUrl = false;
+		}
+		else
+		{
+			$video = GetVideo($videoTags[0]->videoId);
+			$getTagResult->thumbnailUrl = $video->thumbnailUrl;
+		}
+		return $getTagResult;
 	}
 }
 
@@ -496,6 +518,15 @@ function RemoveTag($userId, $tagId)
 	RemoveVideoTagsByTag($tagId);
 	//Verwijder tag
 	RemoveTagFromDatabase($tagId);
+}
+
+
+
+class GetTagResult
+{
+	public $tagId;
+	public $name;
+	public $thumbnailUrl;
 }
 
 

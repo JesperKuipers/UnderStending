@@ -1,6 +1,7 @@
 <?php
 
-function Search($query) {
+function Search($query)
+{
 	$videos = "	SELECT videoID, title, thumbnail, thumbnailExtension
 				FROM video 
 				WHERE approved = 1 
@@ -26,11 +27,15 @@ function Search($query) {
 	$tagsResult = Fetch($tags, array($query), "s");
 	$playlistsResult = Fetch($playlists, array($query), "s");
 	
-	if($videosResult === FALSE || $tagsResult === FALSE || $playlistsResult === FALSE) {
+	if($videosResult === FALSE || $tagsResult === FALSE || $playlistsResult === FALSE)
+	{
 		return false;
-	} else {
+	}
+	else
+	{
 		$results = array();
-		foreach($videosResult as $row) {
+		foreach($videosResult as $row)
+		{
 			$video = new Video();
 			$video->videoId = $row[0];
 			$video->title = $row[1];
@@ -38,7 +43,8 @@ function Search($query) {
 			$video->thumbnailExtension = $row[3];
 			$results["videos"][] = $video;
 		}
-		foreach($tagsResult as $row) {
+		foreach($tagsResult as $row)
+		{
 			$tag = new Tag();
 			$tag->tagId = $row[0];
 			$tag->name = $row[1];
@@ -46,7 +52,8 @@ function Search($query) {
 			$tag->thumbnailExtension = $row[3];
 			$results["tags"][] = $tag;
 		}
-		foreach($playlistsResult as $row) {
+		foreach($playlistsResult as $row)
+		{
 			$playlist = new Playlist();
 			$playlist->playlistID = $row[0];
 			$playlist->name = $row[1];
@@ -57,4 +64,5 @@ function Search($query) {
 		return $results;
 	}
 }
+
 ?>
