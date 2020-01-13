@@ -14,7 +14,14 @@ function AddVideoToDatabase($video)
 		$video->thumbnailExtension
 	);
 	//Voeg video toe aan database
-	return Execute($statement, $parameters, "isssss");
+	if (Execute($statement, $parameters, "isssss"))
+	{
+		$videoId = Fetch("select max(videoid) from video")[0][0];
+	}
+	else
+	{
+		return false;
+	}
 }
 
 function GetVideoById($videoId)
