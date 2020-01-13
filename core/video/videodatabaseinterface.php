@@ -16,7 +16,7 @@ function AddVideoToDatabase($video)
 	//Voeg video toe aan database
 	if (Execute($statement, $parameters, "isssss"))
 	{
-		$videoId = Fetch("select max(videoid) from video")[0][0];
+		return Fetch("select max(videoid) from video")[0][0];
 	}
 	else
 	{

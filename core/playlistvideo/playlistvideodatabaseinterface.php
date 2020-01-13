@@ -19,4 +19,16 @@ function GetPlaylistVideosByPlaylistId($playlistId)
 	return $playlistVideos;
 }
 
+function AddPlaylistVideoToDatabase($playlistVideo)
+{
+	$query = "insert into playlistvideo values (?, ?)";
+	
+	$parameters = array(
+		$playlistVideo->videoId,
+		$playlistVideo->playlistId
+	);
+	
+	return Execute($query, $parameters, "ii");
+}
+
 ?>

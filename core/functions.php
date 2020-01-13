@@ -366,6 +366,33 @@ function GetPlaylistById($playlistId)
 
 
 
+function CreatePlaylistVideo($playlistId, $videoId)
+{
+	//haal playlist op
+	$playlist = GetPlaylistById($playlistId);
+	//geef false terug wanneer playlist niet is gevonden
+	if (!$playlist)
+	{
+		return false;
+	}
+	//haal video op
+	$video = GetVideoById($videoId);
+	//geef false terug wanneer video niet gevonden
+	if (!$video)
+	{
+		return false;
+	}
+	//creëer nieuw playlistvideo object
+	$playlistVideo = new PlaylistVideo();
+	//wijs properties toe
+	$playlistVideo->videoId = $videoId;
+	$playlistVideo->playlistId = $playlistId;
+	//voeg playlistvideo toe aan de database
+	return AddPlaylistVideoToDatabase($playlistVideo);
+}
+
+
+
 function GetPlaylistVideosByPlaylist($playlistId)
 {
 	$playlistVideos = GetPlaylistVideosByPlaylistId($playlistId);
@@ -406,6 +433,18 @@ function GetPlaylistVideosByPlaylistId($playlistId)
 		$playlistVideos[] = $playlistVideo;
 	}
 	return $playlistVideos;
+}
+
+function AddPlaylistVideoToDatabase($playlistVideo)
+{
+	$query = "insert into playlistvideo values (?, ?)";
+	
+	$parameters = array(
+		$playlistVideo->videoId,
+		$playlistVideo->playlistId
+	);
+	
+	return Execute($query, $parameters, "ii");
 }
 
 
@@ -545,14 +584,25 @@ function GetTag($tagId)
 
 function GetTags($index, $limit)
 {
+	//haal tags op uit database
 	$tags = GetTagsFromDatabase($index, $limit);
+	//creëer tagswiththumbnail array
+	$tagsWithThumbnails = array();
+	//Geef lege array terug wanneer tags niet bestaan
 	if (!$tags)
 	{
 		return array();
 	}
 	else
 	{
-		return $tags;
+		//Lus door de tags heen
+		foreach ($tags as $tag)
+		{
+			//Haal tag op met de eerste video thumbnail
+			$tagsWithThumbnails[] = GetTag($tag->tagId);			
+		}
+		//Geef tags terug met thumbnail
+		return $tagsWithThumbnails;
 	}
 }
 
@@ -769,18 +819,14 @@ function CreateAndAddTagsToVideo($userId, $videoId, $names)
 		{
 			//Haal tag op o.b.v naam
 			$tagId = GetTagIdByName($name);
-			//Geef false terug wanneer tag niet is gevonden
-			if (!tagId)
-			{
-				return false;
-			}
 		}
+		$tagIds[] = $tagId;
 	}
 	//Loop door alle tagIds heen
 	foreach ($tagIds as $tagId)
 	{
 		//Voeg videotags o.b.v van de gecreërde tag
-		AddVideoTag($userId, $videoId, $tagId);
+		return AddVideoTag($userId, $videoId, $tagId);
 	}
 }
 
@@ -815,7 +861,7 @@ function CreateVideo($userId, $title, $description, $video, $thumbnail)
 	$video->thumbnailId = $response->thumbnailUrlId;	
 	$video->thumbnailExtension = $response->extension;
 	//Voeg het object toe aan de database
-	AddVideoToDatabase($video);
+	return AddVideoToDatabase($video);
 }
 
 
@@ -898,6 +944,26 @@ function GetVideos($limit)
 	{
 		return $videos;
 	}
+}
+
+
+
+function GetVideosByPlaylist($playlistId)
+{
+	//haal playlistvideo op
+	$playlistVideos = GetPlaylistVideosByPlaylistId($playlistId);
+	//creëer video's array
+	$videos = array();
+	//lus door de playlistvideo's heen
+	foreach ($playlistVideos as $playlistVideo)
+	{
+		//haal video op op basis van playlistvideo
+		$video = GetVideo($playlistVideo->videoId);
+		//voeg video toe aan video's array
+		$videos[] = $video;
+	}
+	//geef video's array terug
+	return $videos;
 }
 
 
@@ -1037,7 +1103,14 @@ function AddVideoToDatabase($video)
 		$video->thumbnailExtension
 	);
 	//Voeg video toe aan database
-	return Execute($statement, $parameters, "isssss");
+	if (Execute($statement, $parameters, "isssss"))
+	{
+		return Fetch("select max(videoid) from video")[0][0];
+	}
+	else
+	{
+		return false;
+	}
 }
 
 function GetVideoById($videoId)
@@ -1253,7 +1326,7 @@ function AddVideoTag($userId, $videoId, $tagId)
 	//Haal tag op
 	$tag = GetTagById($tagId);
 	//Voeg videotag toe
-	AddVideoTagToDatabase($videoId, $tagId);
+	return AddVideoTagToDatabase($videoId, $tagId);
 }
 
 
@@ -1298,12 +1371,12 @@ class VideoTag
 
 function AddVideoTagToDatabase($videoId, $tagId)
 {
-	Execute("insert into videotag values (?, ?)", array($videoId, $tagId), "ii");
+	return Execute("insert into videotag values (?, ?)", array($videoId, $tagId), "ii");
 }
 
 function RemoveVideoTags($videoId)
 {
-	Execute("delete from videotag where videoid=?", array($videoId), "i");
+	return Execute("delete from videotag where videoid=?", array($videoId), "i");
 }
 
 function GetVideoTagsByTag($tagId, $limit)
