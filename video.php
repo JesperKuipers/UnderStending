@@ -3,10 +3,11 @@
 	if(getVideoID()) {
 		$videoID = getVideoID();
 		$video = GetVideo($videoID);
+		$userID = $_SESSION["userID"];
 	}
 	else {
 		header ('Location: index.php');
-	}
+	}	
 ?>
 	
 	<div class="content">
@@ -22,26 +23,25 @@
 				</div>
 			</div>
 			<div id="video-player">
-				<video src="<?php echo $video->videoUrl; ?>"controls></video>
+				<video src="<?php echo $video->videoUrl; ?>" controls></video>
 			</div>
 		</div>
 		<div class="content-block video-bottom">
 			<div class="description">
 				<?php echo $video->description; ?>
 			</div>
+			
 			<span class="rating">
-				<input id="rating5" type="radio" name="rating" value="5">
-				<label for="rating5">5</label>
-				<input id="rating4" type="radio" name="rating" value="4">
-				<label for="rating4">4</label>
-				<input id="rating3" type="radio" name="rating" value="3">
-				<label for="rating3">3</label>
-				<input id="rating2" type="radio" name="rating" value="2" checked>
-				<label for="rating2">2</label>
-				<input id="rating1" type="radio" name="rating" value="1">
-				<label for="rating1">1</label>
+				<?php for($i=1;$i<=5;$i++) {
+					$checked = "";
+					if($i==5) { $checked = "checked"; }
+					echo "<input id='rating" . $i . "' type='radio' name='rating' value='" . $i . "' onclick='uploadRating(this.value, " . $videoID . ", " . $userID . ")' " . $checked  . "')>";
+					
+					echo "<label for='rating" . $i . "'>" . $i . "</label>";
+				}?>
 			</span>
 			<div class="clear"></div>
+			<div id="output"></div>
 		</div>
 		
 		<div class="blocks-container">
