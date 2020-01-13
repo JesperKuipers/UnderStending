@@ -16,11 +16,12 @@ function CreateAndAddTagsToVideo($userId, $videoId, $names)
 		}
 		$tagIds[] = $tagId;
 	}
+	
 	//Loop door alle tagIds heen
 	foreach ($tagIds as $tagId)
 	{
 		//Voeg videotags o.b.v van de gecreërde tag
-		return AddVideoTag($userId, $videoId, $tagId);
+		AddVideoTag($userId, $videoId, $tagId);
 	}
 }
 

@@ -449,6 +449,20 @@ function AddPlaylistVideoToDatabase($playlistVideo)
 
 
 
+function addRating($videoId, $userId, $rating)
+{
+	//Haal de gebruiker op uit de database
+	$user = GetUserById($userId);
+	//Maak een nieuw video object
+	$tag = new Rating();
+	//Wijs waardes toe aan video object
+	$tag->userId = $user->userId;
+	$tag->videoId = $videoId;
+	$tag->rating = $rating;
+	//Voeg het object toe aan de database
+	return AddRatingToDatabase($tag);
+}
+
 class Rating
 {
 	public $videoId;
@@ -457,6 +471,27 @@ class Rating
 }
 
 
+
+function AddRatingToDatabase($tag)
+{
+	//Creëer query
+	$statement = "insert into rating values (?, ?, ?)";	
+	//Creëer query parameters
+	$parameters = array(
+		$tag->videoId,
+		$tag->userId,
+		$tag->rating,
+	);
+	//Voeg tag toe aan database
+	if (Execute($statement, $parameters, "iii"))
+	{
+		$tagId = Fetch("select max(tagid) from rating")[0][0];
+	}
+	else
+	{
+		return false;
+	}
+}
 
 function RemoveRatingsByVideo($videoId)
 {
@@ -822,11 +857,12 @@ function CreateAndAddTagsToVideo($userId, $videoId, $names)
 		}
 		$tagIds[] = $tagId;
 	}
+	
 	//Loop door alle tagIds heen
 	foreach ($tagIds as $tagId)
 	{
 		//Voeg videotags o.b.v van de gecreërde tag
-		return AddVideoTag($userId, $videoId, $tagId);
+		AddVideoTag($userId, $videoId, $tagId);
 	}
 }
 
