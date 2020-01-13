@@ -17,7 +17,7 @@ function GetTags($index, $limit)
 		foreach ($tags as $tag)
 		{
 			//Haal tag op met de eerste video thumbnail
-			$tagWithThumbnails[] = GetTag($tag->tagId);			
+			$tagsWithThumbnails[] = GetTag($tag->tagId);			
 		}
 		//Geef tags terug met thumbnail
 		return $tagsWithThumbnails;

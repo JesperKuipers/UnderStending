@@ -13,18 +13,14 @@ function CreateAndAddTagsToVideo($userId, $videoId, $names)
 		{
 			//Haal tag op o.b.v naam
 			$tagId = GetTagIdByName($name);
-			//Geef false terug wanneer tag niet is gevonden
-			if (!tagId)
-			{
-				return false;
-			}
 		}
+		$tagIds[] = $tagId;
 	}
 	//Loop door alle tagIds heen
 	foreach ($tagIds as $tagId)
 	{
 		//Voeg videotags o.b.v van de gecreërde tag
-		AddVideoTag($userId, $videoId, $tagId);
+		return AddVideoTag($userId, $videoId, $tagId);
 	}
 }
 
