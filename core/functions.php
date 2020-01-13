@@ -366,6 +366,33 @@ function GetPlaylistById($playlistId)
 
 
 
+function CreatePlaylistVideo($playlistId, $videoId)
+{
+	//haal playlist op
+	$playlist = GetPlaylistById($playlistId);
+	//geef false terug wanneer playlist niet is gevonden
+	if (!$playlist)
+	{
+		return false;
+	}
+	//haal video op
+	$video = GetVideoById($videoId);
+	//geef false terug wanneer video niet gevonden
+	if (!$video)
+	{
+		return false;
+	}
+	//creëer nieuw playlistvideo object
+	$playlistVideo = new PlaylistVideo();
+	//wijs properties toe
+	$playlistVideo->videoId = $videoId;
+	$playlistVideo->playlistId = $playlistId;
+	//voeg playlistvideo toe aan de database
+	return AddPlaylistVideoToDatabase($playlistVideo);
+}
+
+
+
 function GetPlaylistVideosByPlaylist($playlistId)
 {
 	$playlistVideos = GetPlaylistVideosByPlaylistId($playlistId);
@@ -406,6 +433,18 @@ function GetPlaylistVideosByPlaylistId($playlistId)
 		$playlistVideos[] = $playlistVideo;
 	}
 	return $playlistVideos;
+}
+
+function AddPlaylistVideoToDatabase($playlistVideo)
+{
+	$query = "insert into playlistvideo values (?, ?)";
+	
+	$parameters = array(
+		$playlistVideo->videoId,
+		$playlistVideo->playlistId
+	);
+	
+	return Execute($query, $parameters, "ii");
 }
 
 
@@ -911,13 +950,20 @@ function GetVideos($limit)
 
 function GetVideosByPlaylist($playlistId)
 {
+	//haal playlistvideo op
 	$playlistVideos = GetPlaylistVideosByPlaylistId($playlistId);
+	//creëer video's array
 	$videos = array();
+	//lus door de playlistvideo's heen
 	foreach ($playlistVideos as $playlistVideo)
 	{
-		$video = GetVideo();
+		//haal video op op basis van playlistvideo
+		$video = GetVideo($playlistVideo->videoId);
+		//voeg video toe aan video's array
+		$videos[] = $video;
 	}
-	
+	//geef video's array terug
+	return $videos;
 }
 
 
