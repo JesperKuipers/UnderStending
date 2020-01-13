@@ -3,6 +3,7 @@
 	<div class="content">
 		<div class="content-block">
 			<h2>Manage videos</h2>
+			<p><a href="account.php">&lt;&lt; Terug naar account</a></p>
 			<div class="block-manage-container">
 				<div class="block-add"><a href="add-video.php">&#10010; Playlist toevoegen </a></div>
 				<!-- PHP get all videos -->

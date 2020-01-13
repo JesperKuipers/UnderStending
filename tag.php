@@ -1,39 +1,46 @@
 <?php include "includes/topinclude.php" ?>
+<?php 
+	if(getVideoID()) {
+		$tagID = getVideoID();
+		$tag = GetTag($tagID);
+		$tagFeatured = GetVideosByTag($tagID, 1);
+		$tagVideos = GetVideosByTag($tagID, 50);
+		
+		$featuredThumbnail = $tagFeatured[0]->thumbnailId . "." . $tagFeatured[0]->thumbnailExtension;
+		$featuredUrl = $tagFeatured[0]->videoId;
+	}
+	else {
+		header ('Location: index.php');
+	}
+?>
 
 	<div class="content">
 		<div class="video-container">
 			<div id="video-placeholder">
-				<!-- PHP Get tag thumbnail -->
-				<img src="imgs/video-placeholder.jpg" />
+				<img src="imgs/thumbnails/<?php echo $featuredThumbnail; ?> "/>
 			</div>
 			<div id="video-overlay" class="video-overlay-tag">
 				<div id="video-overlay-text">
-					<!--PHP Tag name -->
-					<h1>Tag naam</h1>
-					<!--PHP Tag description -->
-					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.</p>
-					<!-- PHP link to first video -->
-					<a href="video.php?v=" class="video-bekijken-button">Beginnen met kijken</a>
+					<h1><?php echo $tag->name; ?></h1>
+					<a href="video.php?v=<?php echo $featuredUrl; ?>" class="video-bekijken-button">Beginnen met kijken</a>
 				</div>
 			</div>
 		</div>
 		<div class="blocks-container">
-			<h2>Onze verschillende videos</h2>
+			<h2>De "<?php echo $tag->name; ?>" video's</h2>
 			<div class="blocks">
-				<!-- PHP Get all videos and loop through -->
-				<?php for($i=0; $i<8; $i++) { ?>
-				<!-- PHP Get video ID of current video -->
-				<a href="video.php?id=">
-					<div class="block">
-						<div class="block-naam video-naam">
-							<!-- PHP Get video name of current video -->
-							Video naam
-						</div>
-						<!-- PHP Get video thumbnail -->
-						<img src="imgs/video-placeholder.jpg" />
-					</div>
-				</a>
-				<?php } ?>
+				<?php foreach($tagVideos as $tagVideo) {
+					$videoUrl = $tagVideo->thumbnailId . "." . $tagVideo->thumbnailExtension;
+					
+					echo "<a href='video.php?id='" . $tagVideo->videoId . ">";
+						echo "<div class='block'>";
+							echo "<div class='block-naam video-naam'>";
+								echo $tagVideo->title;
+							echo "</div>";
+							echo "<img src='imgs/thumbnails/" . $videoUrl . "' />";
+						echo "</div>";
+					echo "</a>";
+				} ?>
 			</div>
 		</div>
 	</div>

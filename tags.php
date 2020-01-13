@@ -1,23 +1,20 @@
 <?php include "includes/topinclude.php" ?>
+<?php $tags = getTags(0, 50); ?>
 
 	<div class="content">
 		<div class="blocks-container">
 			<h2>Onze verschillende tags</h2>
 			<div class="blocks">
-				<!-- PHP Get all tags and loop through -->
-				<?php for($i=0; $i<8; $i++) { ?>
-				<!-- PHP Get tag ID of current tag -->
-				<a href="tag.php?id=">
-					<div class="block">
-						<div class="block-naam tag-naam">
-							<!-- PHP Get tag name of current video -->
-							Tag naam
-						</div>
-						<!-- PHP Get tag thumbnail -->
-						<img src="imgs/video-placeholder.jpg" />
-					</div>
-				</a>
-				<?php } ?>
+				<?php var_dump($tags); foreach($tags as $tag) {
+					echo "<a href='tag.php?id=" . $tag->tagId . "'>";
+						echo "<div class='block'>";
+							echo "<div class='block-naam tag-naam'>";
+								echo $tag->name;
+							echo "</div>";
+							echo "<img src='" . $tag->thumbnailUrl . "' />";
+						echo "</div>";
+					echo "</a>";
+				} ?>
 			</div>
 		</div>
 	</div>

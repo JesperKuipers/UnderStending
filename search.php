@@ -1,8 +1,4 @@
-
-<!-- Display Top of the website -->
-<?php
-include('includes/topinclude.php');
-?>
+<?php include('includes/topinclude.php'); ?>
 
 <?php
 	$query = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -67,6 +63,4 @@ include('includes/topinclude.php');
 		</div>
 	</div>
 
-<?php
-include('includes/bottominclude.php');
-?>
+<?php include('includes/bottominclude.php'); ?>
