@@ -11,7 +11,12 @@
 			$video = $_FILES["video"];
 			$thumbnail = $_FILES["thumbnail"];
 			
-			createVideo($userid, $title, $desc, $video, $thumbnail);
+			$tags = $_POST["tags"];
+			$tags = trim($tags, " ");
+			$tagarray = explode(",", $tags);
+			
+			$videoID = createVideo($userid, $title, $desc, $video, $thumbnail);
+			CreateAndAddTagsToVideo($userid, $videoID, $tagarray);
 			header("location: manage-video.php");
 		} else {
 			$error = "Vul aub alle velden in.";
@@ -38,7 +43,7 @@
 				</div>
 				<div class="form-block">
 					<div class="form-block-field">
-					
+						<input type="text" name="tags" placeholder="Tags"></textarea>
 					</div>
 				</div>
 				<div class="form-block">
