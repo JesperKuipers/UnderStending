@@ -945,6 +945,7 @@ function GetVideo($videoId)
 	$videoResult->description = $video->description;
 	$videoResult->videoUrl = $videoUrl;
 	$videoResult->thumbnailUrl = $thumbnailUrl;
+	$videoResult->approved = $video->approved;
 	$videoResult->rating = $averageRating;
 	$videoResult->uploader = $user->userId;
 	$videoResult->uploaderName = $user->name;
@@ -1093,6 +1094,7 @@ class GetVideoResult
 	public $description;
 	public $videoUrl;
 	public $thumbnailUrl;
+	public $approved;
 	public $rating;
 	public $uploader;
 	public $uploaderName;
