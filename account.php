@@ -16,7 +16,7 @@
 			</div>
 			
 			<div class="account-block">
-				<a href="#" class="button">Videos goedkeuren</a>
+				<a href="manage-approvals.php" class="button">Videos goedkeuren</a>
 			</div>
 			
 			<div class="account-block">

@@ -27,6 +27,11 @@
 			</div>
 		</div>
 		<div class="content-block video-bottom">
+			<?php 
+			if($video->approved == 0) {
+				echo "<div><a href='approve-video.php?id=" . $video->videoId . "' class='approve-video-button'>&#x2714; Video goedkeuren</a></div>";	
+			} ?>
+		
 			<div class="description">
 				<?php echo $video->description; ?>
 			</div>
