@@ -821,6 +821,21 @@ function GetTagsFromDatabase($index, $limit)
 
 
 
+function GetAdministrator($userId)
+{
+	$admin = GetAdminFromDatabase($userId);
+	if ($admin)
+	{
+		return $admin;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
+
 class User
 {
 	public $userId;
@@ -835,24 +850,41 @@ class User
 
 function GetUserById($userId)
 {
-	//Haal users op uit database
+	//Haal user op uit database
 	$result = Fetch("select * from user where userid = ?", array($userId), "i");
 	//Kijk of er geen gebruiker is gevonden
 	if ($result == 0)
 	{
 		return false;
 	}
-	//Pak user uit users array
-	$userRow = $result[0];
+	//Geef row terug als user
+	return  ConvertRowToUser($result[0]);
+}
+
+function GetAdminFromDatabase($userId)
+{
+	//Haal admin op uit database
+	$result = Fetch("select * from user where userid = ? and admin=?", array($userId, 1), "ii");
+	//Kijk of er geen gebruiker is gevonden
+	if ($result == 0 || !$result)
+	{
+		return false;
+	}
+	//Geef row terug als user
+	return ConvertRowToUser($result[0]);
+}
+
+function ConvertRowToUser($row)
+{
 	//Creëer nieuw user object
 	$user = new User();
 	//Wijs waardes toe aan user object
-	$user->userId = $userRow[0];
-	$user->userTypeId = $userRow[1];
-	$user->name = $userRow[2];
-	$user->email = $userRow[3];
-	$user->password = $userRow[4];
-	$user->admin = $userRow[5];
+	$user->userId = $row[0];
+	$user->userTypeId = $row[1];
+	$user->name = $row[2];
+	$user->email = $row[3];
+	$user->password = $row[4];
+	$user->admin = $row[5];
 	//Geef user object terug aan functie caller
 	return $user;
 }
