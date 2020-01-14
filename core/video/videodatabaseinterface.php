@@ -111,6 +111,29 @@ function GetNonApprovedVideosFromDatabase($index, $limit)
 	}
 }
 
+function GetVideosByUserFromDatabase($userId)
+{
+	$result = Fetch("select * from video where userid=?", array($userId), "i");
+	if ($result)
+	{
+		return ConvertRowsToVideos($result);
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function ConvertRowsToVideos($rows)
+{
+	$videos = array();
+	foreach ($rows as $row)
+	{
+		$videos[] = ConvertRowToVideo($row);
+	}
+	return $videos;
+}
+
 function ConvertRowToVideo($row)
 {
 	$video = new Video();

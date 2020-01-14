@@ -1073,6 +1073,21 @@ function GetVideosByTag($tagId, $limit)
 
 
 
+function GetVideosByUser($userId)
+{
+	$videos = GetVideosByUserFromDatabase($userId);
+	if ($videos)
+	{
+		return $videos;
+	}
+	else
+	{
+		return array();
+	}
+}
+
+
+
 function RemoveVideo($videoId, $userId)
 {
 	//Haal user op
@@ -1286,6 +1301,29 @@ function GetNonApprovedVideosFromDatabase($index, $limit)
 	{
 		return false;
 	}
+}
+
+function GetVideosByUserFromDatabase($userId)
+{
+	$result = Fetch("select * from video where userid=?", array($userId), "i");
+	if ($result)
+	{
+		return ConvertRowsToVideos($result);
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function ConvertRowsToVideos($rows)
+{
+	$videos = array();
+	foreach ($rows as $row)
+	{
+		$videos[] = ConvertRowToVideo($row);
+	}
+	return $videos;
 }
 
 function ConvertRowToVideo($row)
