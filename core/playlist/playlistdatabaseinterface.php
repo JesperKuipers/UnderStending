@@ -26,16 +26,7 @@ function GetPlaylistsFromDatabase($index, $limit)
 	}
 	else
 	{
-		$playlists = array();
-		foreach ($result as $row)
-		{
-			$playlist = new Playlist();
-			$playlist->playlistId = $row[0];
-			$playlist->userId = $row[1];
-			$playlist->name = $row[2];
-			$playlists[] = $playlist;
-		}
-		return $playlists;
+		return ConvertRowsToPlaylists($result);
 	}
 }
 
@@ -54,14 +45,42 @@ function GetPlaylistById($playlistId)
 		}
 		else
 		{
-			$row = $result[0];		
-			$playlist = new Playlist();
-			$playlist->playlistId = $row[0];
-			$playlist->userId = $row[1];
-			$playlist->name = $row[2];		
-			return $playlist;
+			//Converteer row naar playlist
+			return ConvertRowToPlaylist($result[0]);
 		}
 	}
+}
+
+function GetPlaylistsByUserFromDatabase($userId)
+{
+	$result = Fetch("select * from playlist where userid=?", array($userId), "i");
+	if ($result)
+	{
+		return ConvertRowsToPlaylists($result);		
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function ConvertRowsToPlaylists($rows)
+{
+	$playlists = array();
+	foreach ($rows as $row)
+	{
+		$playlists[] = ConvertRowToPlaylist($row);
+	}
+	return $playlists;
+}
+
+function ConvertRowToPlaylist($row)
+{
+	$playlist = new Playlist();
+	$playlist->playlistId = $row[0];
+	$playlist->userId = $row[1];
+	$playlist->name = $row[2];
+	return $playlist;
 }
 
 ?>
