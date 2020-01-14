@@ -12,6 +12,9 @@
 			
 			$tags = $_POST["tags"];
 			$tags = trim($tags, " ");
+			while (strpos($tags, ",,")) {
+				$tags = str_replace(",,", ",", $tags);
+			}	
 			$tagarray = explode(",", $tags);
 			
 			$videoID = createVideo($userid, $title, $desc, $video, $thumbnail);

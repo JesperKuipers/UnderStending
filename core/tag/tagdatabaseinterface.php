@@ -76,6 +76,7 @@ function RemoveTagFromDatabase($tagId)
 function GetTagsFromDatabase($index, $limit)
 {
 	$result = Fetch("select * from tag limit ?, ?", array($index, $limit), "ii");
+
 	if (!$result)
 	{
 		return false;
