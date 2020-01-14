@@ -1,23 +1,25 @@
 <?php include "includes/topinclude.php" ?>
+<?php $playlists = getPlaylists(0, 50); ?>
 
 	<div class="content">
 		<div class="blocks-container">
 			<h2>Mijn playlists</h2>
 			<div class="blocks">
-				<!-- PHP Get all playlists and loop through -->
-				<?php for($i=0; $i<8; $i++) { ?>
-				<!-- PHP Get playlist ID of current playlist -->
-				<a href="playlist.php?id=">
-					<div class="block">
-						<div class="block-naam playlist-naam">
-							<!-- PHP Get playlist name of current video -->
-							Playlist naam
-						</div>
-						<!-- PHP Get playlist thumbnail -->
-						<img src="imgs/video-placeholder.jpg" />
-					</div>
-				</a>
-				<?php } ?>
+				<?php foreach($playlists as $playlist) {
+					echo "<a href='playlist.php?id=" . $playlist->playlistId . "'>";
+						echo "<div class='block'>";
+							echo "<div class='block-naam tag-naam'>";
+								echo $playlist->name;
+							echo "</div>";
+							if(!$playlist->thumbnailUrl) {
+								echo "<img src='imgs/video-placeholder.jpg' />";
+								
+							} else {
+								echo "<img src='" . $playlist->thumbnailUrl . "' />";
+							}
+						echo "</div>";
+					echo "</a>";
+				} ?>
 			</div>
 		</div>
 	</div>

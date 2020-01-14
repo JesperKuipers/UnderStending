@@ -232,6 +232,21 @@ body {
 
 
 /* Video-bottom */
+.approve-video-button {
+	text-decoration: none;
+	color: #fff;
+	padding: 10px;
+	display: inline-block;
+	margin-bottom: 20px;
+	text-align: center;
+	background-color: #008000;
+	height: 20px;
+}
+
+.approve-video-button:hover {
+	background-color: #000;
+}
+
 .video-bottom {
 	margin-bottom: 75px;
 }
@@ -313,8 +328,8 @@ body {
 	padding: 0 40px;
 }
 
-.blocks {
-	
+.blocks-block {
+	display: inline-block;
 }
 
 .blocks a {
@@ -367,7 +382,7 @@ body {
 	padding: 10px;
 	display: inline-block;
 	width: auto;
-	margin-bottom: 15px;
+	margin-bottom: 5px;
 	font-size: 16px;
 	border: none;
 }
@@ -430,6 +445,7 @@ body {
 	padding: 10px;
 	display: inline-block;
 	margin-bottom: 5px;
+	text-align: center;
 }
 
 .block-add a {
@@ -441,14 +457,18 @@ body {
 	background-color: #e62328;
 	height: 20px;
     width: 20px;
-    text-align: center;
 }
 
 .block-title-edit {
 	background-color: #005aaa;
 	height: 20px;
     width: 20px;
-    text-align: center;
+}
+
+.block-title-approve {
+	background-color: #008000;
+	height: 20px;
+    width: 20px;
 }
 
 .block-title-video {
