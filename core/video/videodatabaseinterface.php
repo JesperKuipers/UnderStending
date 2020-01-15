@@ -111,17 +111,27 @@ function GetNonApprovedVideosFromDatabase($index, $limit)
 	}
 }
 
-function GetVideosByUserFromDatabase($userId)
+function GetNonApprovedVideosCountFromDatabase()
 {
-	$result = Fetch("select * from video where userid=?", array($userId), "i");
+	$result = Fetch("select count(*) from video where not(approved)");
 	if ($result)
 	{
-		return ConvertRowsToVideos($result);
+		return $result[0][0];
 	}
 	else
 	{
 		return false;
 	}
+}
+
+function GetVideosByUserFromDatabase($userId)
+{
+	$result = Fetch("select * from video where userid=?", array($userId), "i");
+	if ($result === false)
+	{
+		return false;
+	}	
+	return ConvertRowsToVideos($result);
 }
 
 function ConvertRowsToVideos($rows)
