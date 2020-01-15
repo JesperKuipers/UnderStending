@@ -55,11 +55,11 @@ function Search($query)
 		foreach($playlistsResult as $row)
 		{
 			$playlist = new Playlist();
-			$playlist->playlistID = $row[0];
+			$playlist->playlistId = $row[0];
 			$playlist->name = $row[1];
 			$playlist->thumbnailId = $row[2];
 			$playlist->thumbnailExtension = $row[3];
-			$results["playlists"][] = $tag;
+			$results["playlists"][] = $playlist;
 		}
 		return $results;
 	}

@@ -9,7 +9,6 @@
 		<div class="blocks">
 			<?php 
 			foreach($results as $result) {
-				//var_dump($result);
 				if(isset($result[0]->videoId)) {
 					foreach($result as $video) {
 						$videoID = $video->videoId;
@@ -44,8 +43,8 @@
 				}
 				else if(isset($result[0]->playlistId)) {
 					foreach($result as $playlist) {
-						$playlistID = $playlist->videoId;
-						$name = $playlist->title;
+						$playlistID = $playlist->playlistId;
+						$name = $playlist->name;
 						$thumbnail = $playlist->thumbnailId . "." . $playlist->thumbnailExtension;
 						
 						echo "<a href='playlist.php?v=" . $playlistID . "'>";
