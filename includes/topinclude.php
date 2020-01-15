@@ -14,6 +14,12 @@
 	}
 	session_start();
 	//print_r($_SESSION);
+        
+        if ($_GET['language'] = 'en' || $_SESSION['language'] = 'en') {
+            $_SESSION['language'] = 'en';
+        } elseif ($_GET['language'] = 'nl' || $_SESSION['language'] = 'nl' || !isset($_SESSION['language'])) {
+            $_SESSION['language'] = 'nl';
+        }
 ?>
 <!DOCTYPE HTML>
 <html lang="nl">
