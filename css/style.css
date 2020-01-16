@@ -230,6 +230,10 @@ body {
 	height: 675px;
 }
 
+#video-player video:focus {
+	outline: none;
+}
+
 
 /* Video-bottom */
 .approve-video-button {
@@ -385,6 +389,7 @@ body {
 	margin-bottom: 5px;
 	font-size: 16px;
 	border: none;
+	position: relative;
 }
 
 .confirm {
@@ -480,6 +485,19 @@ body {
 .block-manage-container a:hover {
 	background-color: #000;
 	color: #fff;
+}
+
+.approve-button-number {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    padding: 5px 5px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    text-align: center;
 }
 
 /* Tags */

@@ -18,7 +18,7 @@
 			<p><a href="account.php">&lt;&lt; Terug naar account</a></p>
 			<div class="block-manage-container">
 				<?php
-					$videos = GetVideos(500);
+					$videos = GetNonApprovedVideos(0,500);
 					if(!empty($videos)) {
 						foreach($videos as $video) {
 							echo "<div class='block-title'>
