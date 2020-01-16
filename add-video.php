@@ -11,11 +11,16 @@
 			$thumbnail = $_FILES["thumbnail"];
 			
 			$tags = $_POST["tags"];
-			$tags = trim($tags, " ");
+			
 			while (strpos($tags, ",,")) {
 				$tags = str_replace(",,", ",", $tags);
 			}	
 			$tagarray = explode(",", $tags);
+			
+			foreach($tagarray as $index => $tag) {
+				$tag = trim($tag, " ");
+				$tagarray[$index] = $tag;
+			}
 			
 			$videoID = createVideo($userid, $title, $desc, $video, $thumbnail);
 			CreateAndAddTagsToVideo($userid, $videoID, $tagarray);
