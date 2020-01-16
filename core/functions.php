@@ -969,21 +969,6 @@ function CreateVideo($userId, $title, $description, $video, $thumbnail)
 
 
 
-function GetNonApprovedVideos($index, $limit)
-{
-	$videos = GetNonApprovedVideosFromDatabase($index, $limit);
-	if ($videos)
-	{
-		return $videos;
-	}
-	else
-	{
-		return array();
-	}
-}
-
-
-
 function GetCurrentVideo($userId)
 {
 	$user = GetUserById($userId);
@@ -1003,6 +988,28 @@ function GetCurrentVideo($userId)
 	{
 		return false;
 	}
+}
+
+
+
+function GetNonApprovedVideos($index, $limit)
+{
+	$videos = GetNonApprovedVideosFromDatabase($index, $limit);
+	if ($videos)
+	{
+		return $videos;
+	}
+	else
+	{
+		return array();
+	}
+}
+
+
+
+function GetNonApprovedVideosCount()
+{
+	return GetNonApprovedVideosCountFromDatabase();
 }
 
 
@@ -1140,46 +1147,6 @@ function RemoveVideo($videoId, $userId)
 	RemoveThumbnailFromFileSystem($video->thumbnailId, $video->thumbnailExtension);
 	//Verwijder video
 	RemoveVideoFromDatabase($videoId);
-}
-
-
-
-function UpdateVideo($videoId, $userId, $title = null, $description = null, $thumbnail = null)
-{
-	//Haal user op
-	$user = GetUserById($userId);
-	//Haal video op
-	$video = GetVideoById($videoId);
-	//Kijk of de user rechten heeft om de video te updaten
-	if($user->admin || $video->uploader == $userId)
-	{
-		if ($title != null)
-		{
-			//Wijs nieuwe title toe aan video
-			$video->title = $title;
-		}
-		if ($description != null)
-		{
-			//Wijs nieuwe beschrijving toe aan video
-			$video->description = $description;
-		}
-		if ($thumbnail != null)
-		{
-			//Voeg aller eerst de nieuwe thumbnail toe
-			$response = AddThumbnailToFileSystem($thumbnail);
-			//Verwijder dan de oude van het file systeem
-			RemoveThumbnailFromFileSystem($video->thumbnailId, $video->thumbnailExtension);
-			//Wijs nieuwe thumbnail waardes toe aan video
-			$video->thumbnailId = $response->thumbnailUrlId;
-			$video->thumbnailExtension = $response->extension;
-		}
-		//Update de video in de database
-		UpdateVideoInDatabase($video);
-	}
-	else
-	{
-		return false;
-	}
 }
 
 
@@ -1335,17 +1302,27 @@ function GetNonApprovedVideosFromDatabase($index, $limit)
 	}
 }
 
-function GetVideosByUserFromDatabase($userId)
+function GetNonApprovedVideosCountFromDatabase()
 {
-	$result = Fetch("select * from video where userid=?", array($userId), "i");
+	$result = Fetch("select count(*) from video where not(approved)");
 	if ($result)
 	{
-		return ConvertRowsToVideos($result);
+		return $result[0][0];
 	}
 	else
 	{
 		return false;
 	}
+}
+
+function GetVideosByUserFromDatabase($userId)
+{
+	$result = Fetch("select * from video where userid=?", array($userId), "i");
+	if ($result === false)
+	{
+		return false;
+	}	
+	return ConvertRowsToVideos($result);
 }
 
 function ConvertRowsToVideos($rows)
