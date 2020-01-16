@@ -10,7 +10,7 @@ function AddCurrentlyWatchingToDatabase($currentlyWatching)
 		$currentlyWatching->timestamp
 	);
 	
-	return Execute($query, $parameters, "iii");
+	return Execute($query, $parameters, "iid");
 }
 
 function CurrentlyWatchingExists($videoId, $userId)
@@ -36,7 +36,7 @@ function UpdateCurrentlyWatchingInDatabase($currentlyWatching)
 		$currentlyWatching->videoId,
 		$currentlyWatching->userId
 	);
-	return Execute($query, $parameters, "iii");
+	return Execute($query, $parameters, "dii");
 }
 
 function GetCurrentlyWatchingsByUser($userId)
