@@ -5,6 +5,7 @@
 		<div class="blocks-container">
 			<h2>Mijn playlists</h2>
 			<div class="blocks">
+				
 				<?php foreach($playlists as $playlist) {
 					echo "<a href='playlist.php?id=" . $playlist->playlistId . "'>";
 						echo "<div class='block'>";
