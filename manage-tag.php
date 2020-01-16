@@ -19,7 +19,7 @@
 			<div class="block-manage-container">
 				<div class="block-add"><a href="add-tag.php">&#10010; Tag toevoegen </a></div>
 				<?php
-					$tags = GetTags(0, 923);
+					$tags = GetTags(0, 500);
 					if(!empty($tags)) {
 						foreach($tags as $tag) {
 							echo "<div class='tag-title'>

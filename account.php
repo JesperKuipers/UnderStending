@@ -2,7 +2,7 @@
 <?php 
 	$user = getAdministrator($_SESSION["userID"]);
 	$isAdmin = $user->admin;
-	$unapprovedAmount = 3;//getNonApprovedAmount();
+	$unapprovedAmount = GetNonApprovedVideosCount();
 ?>
 
 	<div class="content">

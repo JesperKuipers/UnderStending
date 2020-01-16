@@ -12,7 +12,7 @@
 
 	<div class="content">
 		<div class="content-block">
-			<h2>Weet u zeker dat u deze video wilt goedkeuren</h2>
+			<h2>Weet u zeker dat u deze video wilt goedkeuren?</h2>
 			<form method="post" action="manage-approvals.php" class="confirm-video">
 				<div class="block">
 					<div class="block-naam video-naam">

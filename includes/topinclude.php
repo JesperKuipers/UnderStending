@@ -12,7 +12,12 @@
 	if(!$conn) {
 		DIE("Could not connect: " . mysqli_error($conn));
 	}
+	
 	session_start();
+	$currFile = basename($_SERVER["SCRIPT_FILENAME"], '.php');
+	if(!isset($_SESSION["userID"]) && $currFile !== "login") {
+		header("Location: login.php");
+	}
 	//print_r($_SESSION);
         if(isset($_GET["language"])) {
 			if ($_GET['language'] == 'en') {
