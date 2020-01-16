@@ -7,12 +7,13 @@
 			$currentVideo = getCurrentVideo($_SESSION["userID"]);
 			$videoID = $currentVideo->videoId;
 			$video = getVideo($videoID);
+			var_dump($video);
 			echo "<div class='video-container'>";		
 				echo "<div id='video-placeholder'>";
 					echo "<img src='" . $video->thumbnailUrl . "' />";
 				echo "</div>";
 				echo "<div class='home-video-overlay'>";
-					echo "<a href='video.php?v='" . $video->videoId . ">";
+					echo "<a href='video.php?v=" . $video->videoId . "'>";
 						echo "<img src='imgs/start-icon.png'>";
 					echo "</a>";
 				echo "</div>";
