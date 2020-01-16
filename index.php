@@ -8,7 +8,6 @@
 			$videoID = $currentVideo->videoId;
 			$video = getVideo($videoID);
 			var_dump($video);
-
 			echo "<div class='video-container'>";		
 				echo "<div id='video-placeholder'>";
 					echo "<img src='" . $video->thumbnailUrl . "' />";
