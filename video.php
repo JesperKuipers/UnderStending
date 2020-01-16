@@ -44,13 +44,14 @@
 			</div>
 			
 			<span class="rating">
-				<?php for($i=1;$i<=5;$i++) {
+				<?php for($i=5;$i>=1;$i--) {
 					$checked = "";
-					if($i==5) { $checked = "checked"; }
-					echo "<input id='rating" . $i . "' type='radio' name='rating' value='" . $i . "' onclick='uploadRating(this.value, " . $videoID . ", " . $userID . ")' " . $checked  . "')>";
-					
+					if($i == $video->rating) { 
+						$checked = "checked"; 
+					}
+					echo "<input id='rating" . $i . "' type='radio' name='rating' value='" . $i . "' onclick='uploadRating(this.value, " . $videoID . ", " . $userID . ")' " . $checked  . ">";
 					echo "<label for='rating" . $i . "'>" . $i . "</label>";
-				}?>
+				} ?>
 			</span>
 			<div class="clear"></div>
 			<div id="output"></div>
