@@ -985,9 +985,18 @@ function GetCurrentVideo($userId)
 	$currentlyWatchings = GetCurrentlyWatchingsByUser($userId);
 	if (count($currentlyWatchings) > 0)
 	{
+		//Haal eerste currentlywatching op
 		$currentlyWatching = $currentlyWatchings[0];
+		//Haal videoid uit currentlywatching
 		$videoId = $currentlyWatching->videoId;
-		return GetVideo($videoId);
+		//Haal getVideoResult op
+		$getVideoResult = GetVideo($videoId);
+		//Creëer nieuw getCurrentVideoResult object en geef getVideoResult mee
+		$getCurrentVideoResult = new GetCurrentVideoResult($getVideoResult);
+		//Wijs timestamp toe aan getCurrentVideoResult
+		$getCurrentVideoResult->timestamp = $currentlyWatching->timestamp;
+		//Geef getcurrentVideoResult terug
+		return $getCurrentVideoResult;
 	}
 	else
 	{
@@ -1192,6 +1201,28 @@ function UpdateVideo($videoId, $userId, $title = null, $description = null, $thu
 	{
 		return false;
 	}
+}
+
+
+
+//Extend GetVideoResult voor variabelen binnen class
+class GetCurrentVideoResult extends GetVideoResult
+{
+	public function __construct($getVideoResult)
+	{
+		//Wijs waardes toe aan class o.b.v getvideoResult
+		$this->videoId = $getVideoResult->videoId;
+		$this->title = $getVideoResult->title;
+		$this->description = $getVideoResult->description;
+		$this->videoUrl = $getVideoResult->videoUrl;
+		$this->thumbnailUrl = $getVideoResult->thumbnailUrl;
+		$this->approved = $getVideoResult->approved;
+		$this->rating = $getVideoResult->rating;
+		$this->uploader = $getVideoResult->uploader;
+		$this->uploaderName = $getVideoResult->uploaderName;
+	}
+	
+	public $timestamp;
 }
 
 
