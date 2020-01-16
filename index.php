@@ -2,18 +2,21 @@
 <?php $tags = getTags(0, 50); ?>
 
 	<div class="content">
-		<div class="video-container">			
-			<div id="video-placeholder">
-				<!-- PHP Get video thumbnail -->
-				<img src="imgs/video-placeholder.jpg" />
-			</div>
-			<div class="home-video-overlay">
-				<!-- PHP Get video ID -->
-				<a href="video.php?v=">
-					<img src="imgs/start-icon.png">
-				</a>
-			</div>
-		</div>
+		<?php 
+		if(getCurrentVideo($_SESSION["userID"])) { 
+			$videoID = getCurrentVideo($_SESSION["userID"]);
+			$video = getVideo($videoID);
+			echo "<div class='video-container'>";		
+				echo "<div id='video-placeholder'>";
+					echo "<img src='" . $video->thumbnailUrl . "' />";
+				echo "</div>";
+				echo "<div class='home-video-overlay'>";
+					echo "<a href='video.php?v='" . $video->videoId . ">";
+						echo "<img src='imgs/start-icon.png'>";
+					echo "</a>";
+				echo "</div>";
+			echo "</div>";
+		} ?>
 		<div class="blocks-container">
 		<h2>Onze verschillende tags<?php if (isset($_SESSION['name'])) { echo " voor u, " . $_SESSION['name']; } ?></h2>
 			<div class="blocks">

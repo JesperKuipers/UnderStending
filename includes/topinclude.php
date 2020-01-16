@@ -19,17 +19,18 @@
 		header("Location: login.php");
 	}
 	//print_r($_SESSION);
-        if(isset($_GET["language"])) {
-			if ($_GET['language'] == 'en') {
-				$_SESSION['language'] = 'en';
-			}
-			if ($_GET['language'] == 'nl') {
-				$_SESSION['language'] = 'nl';
-			}
+	
+	if(isset($_GET["language"])) {
+		if ($_GET['language'] == 'en') {
+			$_SESSION['language'] = 'en';
 		}
-		if(!isset($_SESSION['language'])) {
+		else if ($_GET['language'] == 'nl') {
 			$_SESSION['language'] = 'nl';
 		}
+	}
+	else if(!isset($_SESSION['language'])) {
+		$_SESSION['language'] = 'nl';
+	}
        
 ?>
 <!DOCTYPE HTML>
