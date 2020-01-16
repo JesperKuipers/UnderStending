@@ -3,9 +3,6 @@
 	if(getVideoID()) {
 		$videoID = getVideoID();
 		$video = GetVideo($videoID);
-		$userID = $_SESSION["userID"];
-		$user = getAdministrator($_SESSION["userID"]);
-		$isAdmin = $user->admin;
 	} else {
 		header ('Location: index.php');
 	}

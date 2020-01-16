@@ -20,6 +20,16 @@
 	}
 	//print_r($_SESSION);
 	
+	if(isset($_SESSION["userID"])) {
+		$userID = $_SESSION["userID"];
+		$user = getAdministrator($userID);
+		if($user) {
+			$isAdmin = $user->admin;
+		} else {
+			$isAdmin = FALSE;
+		}
+	}	
+	
 	if(isset($_GET["language"])) {
 		if ($_GET['language'] == 'en') {
 			$_SESSION['language'] = 'en';

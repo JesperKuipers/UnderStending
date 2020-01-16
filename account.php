@@ -1,7 +1,5 @@
 <?php include "includes/topinclude.php" ?>
 <?php 
-	$user = getAdministrator($_SESSION["userID"]);
-	$isAdmin = $user->admin;
 	$unapprovedAmount = GetNonApprovedVideosCount();
 ?>
 

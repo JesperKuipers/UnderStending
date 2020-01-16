@@ -1,8 +1,6 @@
 <?php include "includes/topinclude.php" ?>
 
-<?php 
-	$userID = $_SESSION["userID"];
-	
+<?php 	
 	if(!empty($_POST["submit"])) {
 		if(isset($_POST["delete"])) {
 			$videoID = $_POST["videoid"];
@@ -31,7 +29,12 @@
 			<div class="block-manage-container">
 				<div class="block-add"><a href="add-video.php">&#10010; Video toevoegen </a></div>
 				<?php
-					$videos = GetVideos(500);
+					if($isAdmin) {
+						$videos = GetVideos(500);
+					} else {
+						$videos = GetVideosByUser($userID);
+					}
+					
 					if(!empty($videos)) {
 						foreach($videos as $video) {
 							echo "<div class='block-title'>

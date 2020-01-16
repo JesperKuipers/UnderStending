@@ -25,7 +25,12 @@
 			<div class="block-manage-container">
 				<div class="block-add"><a href="add-playlist.php">&#10010; Playlist toevoegen </a></div>
 				<?php
-					$playlists = GetPlaylists(0, 500);
+				if($isAdmin) {
+						$playlists = GetPlaylists(0, 500);
+					} else {
+						$playlists = GetPlaylistsByUser($userID);
+					}
+					
 					if(!empty($playlists)) {
 						foreach($playlists as $playlist) {
 							echo "<div class='playlist-title'>
