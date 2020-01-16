@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 07 jan 2020 om 13:52
--- Serverversie: 10.4.6-MariaDB
--- PHP-versie: 7.3.9
+-- Gegenereerd op: 16 jan 2020 om 15:37
+-- Serverversie: 10.4.8-MariaDB
+-- PHP-versie: 7.3.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `currentlywatching` (
   `videoID` int(8) NOT NULL,
   `userID` int(8) NOT NULL,
-  `timestamp` time DEFAULT NULL
+  `timestamp` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -95,6 +95,13 @@ CREATE TABLE `user` (
   `admin` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `user`
+--
+
+INSERT INTO `user` (`userID`, `userTypeID`, `name`, `email`, `password`, `admin`) VALUES
+(1, 1, 'admin', 'admin@admin.com', '$2y$10$LRZ8k.t8ROiYT4/oGydR7OEi42XYLDPw7mjhOHvIQyAyvPnQ9CfIe', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -105,6 +112,13 @@ CREATE TABLE `usertype` (
   `userTypeID` int(8) NOT NULL,
   `name` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `usertype`
+--
+
+INSERT INTO `usertype` (`userTypeID`, `name`) VALUES
+(1, 'admin');
 
 -- --------------------------------------------------------
 
