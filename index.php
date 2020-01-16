@@ -2,11 +2,9 @@
 <?php $tags = getTags(0, 50); ?>
 
 	<div class="content">
-		<?php 
-		if(getCurrentVideo($_SESSION["userID"])) { 
-			$currentVideo = getCurrentVideo($_SESSION["userID"]);
-			$videoID = $currentVideo->videoId;
-			$video = getVideo($videoID);
+		<?php
+		$video = getCurrentVideo($_SESSION["userID"]);
+		if($video) {
 			echo "<div class='video-container'>";		
 				echo "<div id='video-placeholder'>";
 					echo "<img src='" . $video->thumbnailUrl . "' />";
