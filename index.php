@@ -3,7 +3,7 @@
 
 	<div class="content">
 		<?php
-		$video = getCurrentVideo($_SESSION["userID"]);
+		$video = GetCurrentVideo($_SESSION["userID"]);
 		if($video) {
 			echo "<div class='video-container'>";		
 				echo "<div id='video-placeholder'>";
