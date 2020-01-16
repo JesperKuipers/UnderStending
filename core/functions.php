@@ -19,7 +19,7 @@ function AddCurrentlyWatchingToDatabase($currentlyWatching)
 		$currentlyWatching->timestamp
 	);
 	
-	return Execute($query, $parameters, "iii");
+	return Execute($query, $parameters, "iid");
 }
 
 function CurrentlyWatchingExists($videoId, $userId)
@@ -45,7 +45,7 @@ function UpdateCurrentlyWatchingInDatabase($currentlyWatching)
 		$currentlyWatching->videoId,
 		$currentlyWatching->userId
 	);
-	return Execute($query, $parameters, "iii");
+	return Execute($query, $parameters, "dii");
 }
 
 function GetCurrentlyWatchingsByUser($userId)
@@ -275,7 +275,12 @@ function GetPlaylists($index, $limit)
 	}
 	else
 	{
-		return $playlists;
+		$playlistsWithThumbnail = array();
+		foreach ($playlists as $playlist)
+		{
+			$playlistsWithThumbnail[] = GetPlaylist($playlist->playlistId);
+		}
+		return $playlistsWithThumbnail;
 	}
 }
 
@@ -589,11 +594,11 @@ function Search($query)
 		foreach($playlistsResult as $row)
 		{
 			$playlist = new Playlist();
-			$playlist->playlistID = $row[0];
+			$playlist->playlistId = $row[0];
 			$playlist->name = $row[1];
 			$playlist->thumbnailId = $row[2];
 			$playlist->thumbnailExtension = $row[3];
-			$results["playlists"][] = $tag;
+			$results["playlists"][] = $playlist;
 		}
 		return $results;
 	}
@@ -1147,6 +1152,46 @@ function RemoveVideo($videoId, $userId)
 	RemoveThumbnailFromFileSystem($video->thumbnailId, $video->thumbnailExtension);
 	//Verwijder video
 	RemoveVideoFromDatabase($videoId);
+}
+
+
+
+function UpdateVideo($videoId, $userId, $title = null, $description = null, $thumbnail = null)
+{
+	//Haal user op
+	$user = GetUserById($userId);
+	//Haal video op
+	$video = GetVideoById($videoId);
+	//Kijk of de user rechten heeft om de video te updaten
+	if($user->admin || $video->uploader == $userId)
+	{
+		if ($title != null)
+		{
+			//Wijs nieuwe title toe aan video
+			$video->title = $title;
+		}
+		if ($description != null)
+		{
+			//Wijs nieuwe beschrijving toe aan video
+			$video->description = $description;
+		}
+		if ($thumbnail != null)
+		{
+			//Voeg aller eerst de nieuwe thumbnail toe
+			$response = AddThumbnailToFileSystem($thumbnail);
+			//Verwijder dan de oude van het file systeem
+			RemoveThumbnailFromFileSystem($video->thumbnailId, $video->thumbnailExtension);
+			//Wijs nieuwe thumbnail waardes toe aan video
+			$video->thumbnailId = $response->thumbnailUrlId;
+			$video->thumbnailExtension = $response->extension;
+		}
+		//Update de video in de database
+		UpdateVideoInDatabase($video);
+	}
+	else
+	{
+		return false;
+	}
 }
 
 

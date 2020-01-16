@@ -9,7 +9,12 @@ function GetPlaylists($index, $limit)
 	}
 	else
 	{
-		return $playlists;
+		$playlistsWithThumbnail = array();
+		foreach ($playlists as $playlist)
+		{
+			$playlistsWithThumbnail[] = GetPlaylist($playlist->playlistId);
+		}
+		return $playlistsWithThumbnail;
 	}
 }
 
