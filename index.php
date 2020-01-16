@@ -10,7 +10,7 @@
 					echo "<img src='" . $currentVideo->thumbnailUrl . "' />";
 				echo "</div>";
 				echo "<div class='home-video-overlay'>";
-					echo "<a href='video.php?v=" . $currentVideo->videoId . "'>";
+					echo "<a href='video.php?v=" . $currentVideo->videoId . "&t=" . $currentVideo->timestamp . "'>";
 						echo "<img src='imgs/start-icon.png'>";
 					echo "</a>";
 				echo "</div>";
