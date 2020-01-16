@@ -4,7 +4,8 @@
 	<div class="content">
 		<?php 
 		if(getCurrentVideo($_SESSION["userID"])) { 
-			$videoID = getCurrentVideo($_SESSION["userID"]);
+			$currentVideo = getCurrentVideo($_SESSION["userID"]);
+			$videoID = $currentVideo->videoId;
 			$video = getVideo($videoID);
 			echo "<div class='video-container'>";		
 				echo "<div id='video-placeholder'>";
