@@ -31,4 +31,8 @@ function AddPlaylistVideoToDatabase($playlistVideo)
 	return Execute($query, $parameters, "ii");
 }
 
+function RemovePlaylistVideosByPlaylist($playlistID) {
+    Execute("delete from playlistvideo where playlistid = ?", array($playlistID), "i");
+}
+
 ?>

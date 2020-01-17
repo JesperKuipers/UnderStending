@@ -300,6 +300,11 @@ function GetPlaylistsByUser($userId)
 }
 
 
+function  RemovePlaylist($playlistID) {
+    RemovePlaylistVideosByPlaylist($playlistID);
+    RemovePlaylistFromDB($playlistID);
+}
+
 
 class GetPlaylistResult
 {
@@ -335,6 +340,10 @@ function AddPlaylistToDatabase($playlist)
 	$playlistId = Fetch("select max(playlistid) from playlist")[0][0];
 	//Geef playlistId terug
 	return $playlistId;
+}
+
+function RemovePlaylistFromDB($playlistID) {
+    Execute("delete from playlist where playlistid = ?", array($playlistID), "i");
 }
 
 function GetPlaylistsFromDatabase($index, $limit)
@@ -447,8 +456,7 @@ function GetPlaylistVideosByPlaylist($playlistId)
 
 
 
-class PlaylistVideo
-{
+class PlaylistVideo {
 	public $videoId;
 	public $playlistId;
 }
@@ -484,6 +492,10 @@ function AddPlaylistVideoToDatabase($playlistVideo)
 	);
 	
 	return Execute($query, $parameters, "ii");
+}
+
+function RemovePlaylistVideosByPlaylist($playlistID) {
+    Execute("delete from playlistvideo where playlistid = ?", array($playlistID), "i");
 }
 
 
