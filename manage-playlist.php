@@ -6,7 +6,7 @@
 	if(!empty($_POST["submit"])) {
 		if(isset($_POST["delete"])) {
 			$playlistID = $_POST["playlistid"];
-			RemovePlaylist($playlistID, $userID);
+			RemovePlaylist($playlistID);
 			$confirm = "Playlist verwijdert";
 		} 
 		elseif(isset($_POST["edit"])) {
