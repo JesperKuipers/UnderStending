@@ -52,7 +52,48 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	</head>
 	<body>
+            <?php if ($_SESSION['language'] == "en") {?>
 		<div class="container">
+			<div class="navbar">
+				<a href="index.php">
+					<img src="imgs/understending-logo.png" class="logo-image">
+				</a>
+				<div class="search-bar">
+					<form method="get" action="search.php">
+						<input type="text" name="q" placeholder="Search on UnderStending" class="search-bar-bar">
+						<input type="image" src="imgs/search-icon.png" border="0" alt="Submit" class="search-icon"/>
+					</form>
+				</div>
+				<div class="nav-menu">
+					<ul>
+						<li><a href="tags.php">Tags</a></li>
+						<li><a href="playlists.php">Playlists</a></li>
+						<!-- Show account link when logged in -->
+						<?php if(!isset($_SESSION["userID"]) || isset($_GET["logout"])) { ?>
+						<li><a href="login.php">Login</a></li>
+						<!-- Show login link when not logged in -->
+						<?php } else { ?>
+						<li><a href="account.php">Account</a></li>
+						<?php } ?>
+					</ul>
+				</div>
+				<div class="dropdown">
+					<img src="imgs/hamburger-icon.png" width="80" height="80">
+					<div class="dropdown-content">
+						<a href="tags.php">Tags</a>
+						<a href="playlists.php">Playlists</a>
+						<!-- Show login link when not logged in -->
+						<?php if(!isset($_SESSION["userID"]) || isset($_GET["logout"])) { ?>
+						<a href="login.php">Login</a>
+						<!-- Show account link when logged in -->
+						<?php } else { ?>
+						<a href="account.php">Account</a>
+						<?php } ?>
+					</div>
+				</div>
+			</div>
+            <?php } else { ?>
+                <div class="container">
 			<div class="navbar">
 				<a href="index.php">
 					<img src="imgs/understending-logo.png" class="logo-image">
@@ -91,3 +132,4 @@
 					</div>
 				</div>
 			</div>
+            <?php } ?>

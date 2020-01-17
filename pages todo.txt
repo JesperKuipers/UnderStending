@@ -1,0 +1,3 @@
+<?php if ($_SESSION['language'] == "en") {?>
+<?php } else { ?>
+<?php } ?>

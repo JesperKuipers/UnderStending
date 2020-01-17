@@ -13,8 +13,39 @@
 		header ('Location: index.php');
 	}
 ?>
-
+<?php if ($_SESSION['language'] == "en") {?>
 	<div class="content">
+		<div class="video-container">
+			<div id="video-placeholder">
+				<img src="imgs/thumbnails/<?php echo $featuredThumbnail; ?> "/>
+			</div>
+			<div id="video-overlay" class="video-overlay-tag">
+				<div id="video-overlay-text">
+					<h1><?php echo $tag->name; ?></h1>
+					<a href="video.php?v=<?php echo $featuredUrl; ?>" class="video-bekijken-button">Start Watching</a>
+				</div>
+			</div>
+		</div>
+		<div class="blocks-container">
+			<h2>The "<?php echo $tag->name; ?>" video's</h2>
+			<div class="blocks">
+				<?php foreach($tagVideos as $tagVideo) {
+					$videoUrl = $tagVideo->thumbnailId . "." . $tagVideo->thumbnailExtension;
+					
+					echo "<a href='video.php?id='" . $tagVideo->videoId . ">";
+						echo "<div class='block'>";
+							echo "<div class='block-naam video-naam'>";
+								echo $tagVideo->title;
+							echo "</div>";
+							echo "<img src='imgs/thumbnails/" . $videoUrl . "' />";
+						echo "</div>";
+					echo "</a>";
+				} ?>
+			</div>
+		</div>
+	</div>
+<?php } else { ?>
+        <div class="content">
 		<div class="video-container">
 			<div id="video-placeholder">
 				<img src="imgs/thumbnails/<?php echo $featuredThumbnail; ?> "/>
@@ -44,5 +75,6 @@
 			</div>
 		</div>
 	</div>
+<?php } ?>
 
 <?php include "includes/bottominclude.php" ?>

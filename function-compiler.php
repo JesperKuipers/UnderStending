@@ -51,4 +51,5 @@
 	$tags .= "?>";
 	//Put the new content with the php closing tags back into the target file
 	file_put_contents($targetFile, $tags);
-?>
+
+        ?>

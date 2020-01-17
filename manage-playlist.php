@@ -17,8 +17,35 @@
 		}
 	}
 ?>
-
+<?php if ($_SESSION['language'] == "en") {?>
 	<div class="content">
+		<div class="content-block">
+			<h2>Manage playlists</h2>
+			<p><a href="account.php">&lt;&lt; Back to account</a></p>
+			<div class="block-manage-container">
+				<div class="block-add"><a href="add-playlist.php">&#10010; Add Playlist</a></div>
+				<?php
+				if($isAdmin) {
+						$playlists = GetPlaylists(0, 500);
+					} else {
+						$playlists = GetPlaylistsByUser($userID);
+					}
+					
+					if(!empty($playlists)) {
+						foreach($playlists as $playlist) {
+							echo "<div class='playlist-title'>
+									<a href='delete-playlist.php?id=" . $playlist->playlistId . "' class='block-title-delete'>&#10006;</a> 
+									<a href='edit-playlist.php?id=" . $playlist->playlistId . "' class='block-title-edit'>&#9998;</a> 
+									<a href='playlist.php?id=" . $playlist->playlistId . "' class='block-title-video'>" . $playlist->name . "</a>
+								</div>";
+						}
+					}
+				?>
+			</div>
+		</div>
+	</div>
+<?php } else { ?>
+        <div class="content">
 		<div class="content-block">
 			<h2>Beheer playlists</h2>
 			<p><a href="account.php">&lt;&lt; Terug naar account</a></p>
@@ -44,5 +71,7 @@
 			</div>
 		</div>
 	</div>
+<?php } ?>
+
 
 <?php include "includes/bottominclude.php" ?>
