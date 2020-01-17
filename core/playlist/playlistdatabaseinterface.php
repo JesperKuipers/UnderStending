@@ -17,6 +17,10 @@ function AddPlaylistToDatabase($playlist)
 	return $playlistId;
 }
 
+function RemovePlaylistFromDB($playlistID) {
+    Execute("delete from playlist where playlistid = ?", array($playlistID), "i");
+}
+
 function GetPlaylistsFromDatabase($index, $limit)
 {
 	$result = Fetch("select * from playlist limit ?, ?", array($index, $limit), "ii");
