@@ -11,8 +11,8 @@
 			$videoID = $_POST["videoid"];
 			$title = $_POST["title"];
 			$description = $_POST["description"];
-			if(empty($_FILES["thumbnail"])) {
-				$thumbnail = NULL;
+			if(empty($_FILES["thumbnail"]["name"])) {
+				$thumbnail = null;
 			} else {
 				$thumbnail = $_FILES["thumbnail"];				
 			}
