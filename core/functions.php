@@ -1546,7 +1546,7 @@ function AddVideoTag($userId, $videoId, $tagId)
 	//Haal video op
 	$video = GetVideoById($videoId);
 	//Kijk of user recht heeft om videotags te creëren
-	if ($video->uploader != $userId || !$user->admin)
+	if ($video->uploader != $userId && !$user->admin)
 	{
 		return false;
 	}
