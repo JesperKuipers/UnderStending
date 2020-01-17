@@ -1,7 +1,6 @@
 <?php
 
-class PlaylistVideo
-{
+class PlaylistVideo {
 	public $videoId;
 	public $playlistId;
 }
