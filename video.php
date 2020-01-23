@@ -27,7 +27,12 @@
 				</div>
 			</div>
 			<div id="video-player">
-				<?php echo "<video onloadstart='setTimestamp(" . $timestamp . ")' onpause='saveTimestamp(" . $videoID . ", " . $userID . ");' id='video' controls><source src='" . $video->videoUrl . "' type='video/mp4'>Your browser does not support HTML5 video.</video>"; ?>
+				<?php echo "<video 	onloadstart='setTimestamp(" . $timestamp . ")' 
+									onpause='saveTimestamp(" . $videoID . ", " . $userID . ", 0)' 
+									onended='saveTimestamp(" . $videoID . ", " . $userID . ", 1)' id='video' controls>
+										<source src='" . $video->videoUrl . "' type='video/mp4'>
+										Your browser does not support HTML5 video.
+							</video>"; ?>
 			</div>
 		</div>
 		<div class="content-block video-bottom">

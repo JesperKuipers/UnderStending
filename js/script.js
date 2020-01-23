@@ -23,12 +23,12 @@ function round_to_precision(x, precision) {
     return y - (y % (precision === undefined ? 1 : +precision));
 }
 
-function saveTimestamp (videoID, userID) {
+function saveTimestamp (videoID, userID, finished) {
 	var vid = document.getElementById("video");
 	var curTime = round_to_precision(vid.currentTime, 0.01);
 	$.ajax({
 		url: './timestamp-execute.php',
-		data: {action: curTime, action1: videoID, action2: userID},
+		data: {action: curTime, action1: videoID, action2: userID, action3: finished},
 		type: 'post',
 		success: function(output) {
 			//alert(output);

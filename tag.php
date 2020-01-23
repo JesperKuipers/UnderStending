@@ -31,8 +31,7 @@
 			<div class="blocks">
 				<?php foreach($tagVideos as $tagVideo) {
 					$videoUrl = $tagVideo->thumbnailId . "." . $tagVideo->thumbnailExtension;
-					
-					echo "<a href='video.php?id='" . $tagVideo->videoId . ">";
+					echo "<a href='video.php?id=" . $tagVideo->videoId . "'>";
 						echo "<div class='block'>";
 							echo "<div class='block-naam video-naam'>";
 								echo $tagVideo->title;
@@ -63,7 +62,7 @@
 				<?php foreach($tagVideos as $tagVideo) {
 					$videoUrl = $tagVideo->thumbnailId . "." . $tagVideo->thumbnailExtension;
 					
-					echo "<a href='video.php?id='" . $tagVideo->videoId . ">";
+					echo "<a href='video.php?id=" . $tagVideo->videoId . "'>";
 						echo "<div class='block'>";
 							echo "<div class='block-naam video-naam'>";
 								echo $tagVideo->title;

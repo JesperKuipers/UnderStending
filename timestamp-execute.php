@@ -3,8 +3,9 @@
 		$timestamp = $_POST['action'];
 		$videoID = $_POST['action1'];
 		$userID = $_POST['action2'];
+		$finished = $_POST['action3'];
 		include_once("core/functions.php");
-		CreateOrUpdateCurrentlyWatching($videoID, $userID, $timestamp);
+		CreateOrUpdateCurrentlyWatching($videoID, $userID, $timestamp, $finished);
 		
 		//echo $timestamp . "<br>";
 		//echo $videoID . "<br>";
