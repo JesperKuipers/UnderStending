@@ -1,6 +1,6 @@
 <?php
 
-function CreateOrUpdateCurrentlyWatching($videoId, $userId, $timestamp)
+function CreateOrUpdateCurrentlyWatching($videoId, $userId, $timestamp, $finished)
 {
 	$user = GetUserById($userId);
 	if (!$user)
@@ -18,6 +18,7 @@ function CreateOrUpdateCurrentlyWatching($videoId, $userId, $timestamp)
 	$currentlyWatching->videoId = $videoId;
 	$currentlyWatching->userId = $userId;
 	$currentlyWatching->timestamp = $timestamp;
+	$currentlyWatching->finished = $finished;
 	
 	if (CurrentlyWatchingExists($videoId, $userId))
 	{

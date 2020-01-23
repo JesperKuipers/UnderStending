@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 16 jan 2020 om 15:37
+-- Gegenereerd op: 18 jan 2020 om 15:28
 -- Serverversie: 10.4.8-MariaDB
 -- PHP-versie: 7.3.11
 
@@ -31,7 +31,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `currentlywatching` (
   `videoID` int(8) NOT NULL,
   `userID` int(8) NOT NULL,
-  `timestamp` double DEFAULT NULL
+  `timestamp` double DEFAULT NULL,
+  `finished` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -100,7 +101,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userID`, `userTypeID`, `name`, `email`, `password`, `admin`) VALUES
-(1, 1, 'admin', 'admin@admin.com', '$2y$10$LRZ8k.t8ROiYT4/oGydR7OEi42XYLDPw7mjhOHvIQyAyvPnQ9CfIe', 0);
+(1, 1, 'admin', 'admin@admin.com', '$2y$10$LRZ8k.t8ROiYT4/oGydR7OEi42XYLDPw7mjhOHvIQyAyvPnQ9CfIe', 1);
 
 -- --------------------------------------------------------
 
