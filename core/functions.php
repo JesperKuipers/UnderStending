@@ -55,17 +55,24 @@ function GetCurrentlyWatchingsByUser($userId)
 {
 	$query = "select * from currentlywatching where userid=? and not(finished)";
 	$result = Fetch($query, array($userId), "i");
-	$currentlyWatchings = array();
-	foreach ($result as $row)
+	if ($result)
 	{
-		$currentlyWatching = new CurrentlyWatching();
-		$currentlyWatching->videoId = $row[0];
-		$currentlyWatching->userId = $row[1];
-		$currentlyWatching->timestamp = $row[2];
-		$currentlyWatching->finished = $row[3];
-		$currentlyWatchings[] = $currentlyWatching;
+		$currentlyWatchings = array();
+		foreach ($result as $row)
+		{
+			$currentlyWatching = new CurrentlyWatching();
+			$currentlyWatching->videoId = $row[0];
+			$currentlyWatching->userId = $row[1];
+			$currentlyWatching->timestamp = $row[2];
+			$currentlyWatching->finished = $row[3];
+			$currentlyWatchings[] = $currentlyWatching;
+		}
+		return $currentlyWatchings;
 	}
-	return $currentlyWatchings;
+	else
+	{
+		return array();
+	}
 }
 
 
@@ -311,6 +318,22 @@ function  RemovePlaylist($playlistID) {
 }
 
 
+function UpdatePlaylist($playlistId, $name)
+{
+	$playlist = GetPlaylistById($playlistId);
+	if ($playlist)
+	{
+		$playlist->name = $name;
+		UpdatePlaylistInDatabase($playlist);
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
+
 class GetPlaylistResult
 {
 	public $playlistId;
@@ -347,7 +370,8 @@ function AddPlaylistToDatabase($playlist)
 	return $playlistId;
 }
 
-function RemovePlaylistFromDB($playlistID) {
+function RemovePlaylistFromDB($playlistID)
+{
     Execute("delete from playlist where playlistid = ?", array($playlistID), "i");
 }
 
@@ -415,6 +439,19 @@ function ConvertRowToPlaylist($row)
 	$playlist->userId = $row[1];
 	$playlist->name = $row[2];
 	return $playlist;
+}
+
+function UpdatePlaylistInDatabase($playlist)
+{
+	//Uit te voeren query
+	$query = "update playlist set name=? where playlistid=?";
+	//Query parameters
+	$params = array(
+		$playlist->name,
+		$playlist->playlistId
+	);
+	//Update de playlist
+	return Execute($query, $params, "ss");
 }
 
 

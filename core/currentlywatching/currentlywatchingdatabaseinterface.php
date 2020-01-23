@@ -45,17 +45,24 @@ function GetCurrentlyWatchingsByUser($userId)
 {
 	$query = "select * from currentlywatching where userid=? and not(finished)";
 	$result = Fetch($query, array($userId), "i");
-	$currentlyWatchings = array();
-	foreach ($result as $row)
+	if ($result)
 	{
-		$currentlyWatching = new CurrentlyWatching();
-		$currentlyWatching->videoId = $row[0];
-		$currentlyWatching->userId = $row[1];
-		$currentlyWatching->timestamp = $row[2];
-		$currentlyWatching->finished = $row[3];
-		$currentlyWatchings[] = $currentlyWatching;
+		$currentlyWatchings = array();
+		foreach ($result as $row)
+		{
+			$currentlyWatching = new CurrentlyWatching();
+			$currentlyWatching->videoId = $row[0];
+			$currentlyWatching->userId = $row[1];
+			$currentlyWatching->timestamp = $row[2];
+			$currentlyWatching->finished = $row[3];
+			$currentlyWatchings[] = $currentlyWatching;
+		}
+		return $currentlyWatchings;
 	}
-	return $currentlyWatchings;
+	else
+	{
+		return array();
+	}
 }
 
 ?>

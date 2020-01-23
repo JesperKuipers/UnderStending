@@ -2,7 +2,7 @@
 <?php $tags = getTags(0, 50); ?>
 <?php if ($_SESSION['language'] == "en") {?>
 	<div class="content">
-		<?php 
+		<?php
 		$currentVideo = getCurrentVideo($_SESSION["userID"]);
 		if($currentVideo) {
 			echo "<div class='video-container'>";		

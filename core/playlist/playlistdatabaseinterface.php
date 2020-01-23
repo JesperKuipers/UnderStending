@@ -17,7 +17,8 @@ function AddPlaylistToDatabase($playlist)
 	return $playlistId;
 }
 
-function RemovePlaylistFromDB($playlistID) {
+function RemovePlaylistFromDB($playlistID)
+{
     Execute("delete from playlist where playlistid = ?", array($playlistID), "i");
 }
 
@@ -85,6 +86,19 @@ function ConvertRowToPlaylist($row)
 	$playlist->userId = $row[1];
 	$playlist->name = $row[2];
 	return $playlist;
+}
+
+function UpdatePlaylistInDatabase($playlist)
+{
+	//Uit te voeren query
+	$query = "update playlist set name=? where playlistid=?";
+	//Query parameters
+	$params = array(
+		$playlist->name,
+		$playlist->playlistId
+	);
+	//Update de playlist
+	return Execute($query, $params, "ss");
 }
 
 ?>
