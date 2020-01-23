@@ -38,8 +38,9 @@
 		<div class="content-block video-bottom">
 			<?php 
 			if($video->approved == 0 && $isAdmin) {
-				echo "<div><a href='approve-video.php?id=" . $video->videoId . "' class='approve-video-button'>&#x2714; Approve Video</a></div>";	
-			} ?>
+				echo "<div class='approve-video-container'><a href='approve-video.php?id=" . $video->videoId . "' class='approve-video-button'>&#x2714; Approve Video</a></div>";	
+			} 
+			?><div><a href='approve-video.php?id=" . $video->videoId . "' class='add-video-button'>Add video to playlist</a><div class="clear"></div></div>
 		
 			<div class="description">
 				<?php echo $video->description; ?>
@@ -93,7 +94,12 @@
 				</div>
 			</div>
 			<div id="video-player">
-				<?php echo "<video onloadstart='setTimestamp(" . $timestamp . ")' onpause='saveTimestamp(" . $videoID . ", " . $userID . ");' id='video' controls><source src='" . $video->videoUrl . "' type='video/mp4'>Your browser does not support HTML5 video.</video>"; ?>
+				<?php echo "<video 	onloadstart='setTimestamp(" . $timestamp . ")' 
+									onpause='saveTimestamp(" . $videoID . ", " . $userID . ", 0)' 
+									onended='saveTimestamp(" . $videoID . ", " . $userID . ", 1)' id='video' controls>
+										<source src='" . $video->videoUrl . "' type='video/mp4'>
+										Your browser does not support HTML5 video.
+							</video>"; ?>
 			</div>
 		</div>
 		<div class="content-block video-bottom">
