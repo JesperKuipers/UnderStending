@@ -1,36 +1,20 @@
 <?php include "includes/topinclude.php" ?>
 
-<?php 
-	$userID = $_SESSION["userID"];
-	
-	if(!empty($_POST["submit"])) {
-		if(isset($_POST["delete"])) {
-			$playlistID = $_POST["playlistid"];
-			RemovePlaylist($playlistID);
-			$confirm = "Playlist verwijdert";
-		} 
-		elseif(isset($_POST["edit"])) {
-			$playlistID = $_POST["playlistid"];
-			$name = $_POST["name"];
-			$confirm = "Video bijgewerkt";
-			UpdatePlaylist($playlistID, $name);
-		}
-	}
-?>
-
 	<div class="content">
 		<div class="content-block">
-			<?php if ($_SESSION['language'] == "en") {?>
-			<h2>Manage playlists</h2>
-			<p><a href="account.php">&lt;&lt; Back to account</a></p>
+			<?php if ($_SESSION['language'] == "en") { ?>
+			<h2>Add video to playlists</h2>
+			<p><a href="account.php">&lt;&lt; Back to video</a></p>
 			<div class="block-manage-container">
 				<div class="block-add"><a href="add-playlist.php">&#10010; Add Playlist</a></div>
 			<?php } else { ?>
 			<h2>Beheer playlists</h2>
-			<p><a href="account.php">&lt;&lt; Terug naar account</a></p>
+			<p><a href="account.php">&lt;&lt; Terug naar video</a></p>
 			<div class="block-manage-container">
 				<div class="block-add"><a href="add-playlist.php">&#10010; Playlist toevoegen </a></div>
 			<?php } ?>
+			
+			
 				<?php
 				if($isAdmin) {
 						$playlists = GetPlaylists(0, 500);

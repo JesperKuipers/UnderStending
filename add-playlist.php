@@ -10,48 +10,45 @@
 			createPlaylist($userid, $name);
 			header("location: manage-playlist.php");
 		} else {
-			$error = "Vul aub alle velden in.";
+			$errornl = "Vul aub alle velden in";
+			$erroren = "Please fill in all the fields";
 		}
 	}
 ?>
-<?php if ($_SESSION['language'] == "en") {?>
+
 	<div class="content">
 		<div class="content-block">
-			<h1>Add Playlist</h1>
-			<?php if(isset($error)) { ?>
-			<div class="form-error-block"><?php echo $error; ?></div>
+			<?php if ($_SESSION['language'] == "en") {?>
+				<h1>Add Playlist</h1>
+				<?php if(isset($erroren)) { ?>
+				<div class="form-error-block"><?php echo $erroren; ?></div>
+				<?php } ?>
+			<?php } else { ?>
+				<h1>Playlist toevoegen</h1>
+				<?php if(isset($errornl)) { ?>
+				<div class="form-error-block"><?php echo $errornl; ?></div>
+				<?php } ?>
 			<?php } ?>
+			
 			<form method="post" action="add-playlist.php" enctype="multipart/form-data">
 				<div class="form-block">
 					<div class="form-block-field">
+						<?php if ($_SESSION['language'] == "en") {?>
 						<input type="text" name="name" placeholder="Name" />
-					</div>
-				</div>
-				<div class="form-block">
-					<input type="submit" value="Add playlist" class="button" name="submit">
-				</div>
-			</form>
-		</div>
-	</div>
-<?php } else { ?>
-        <div class="content">
-		<div class="content-block">
-			<h1>Playlist toevoegen</h1>
-			<?php if(isset($error)) { ?>
-			<div class="form-error-block"><?php echo $error; ?></div>
-			<?php } ?>
-			<form method="post" action="add-playlist.php" enctype="multipart/form-data">
-				<div class="form-block">
-					<div class="form-block-field">
+						<?php } else { ?>
 						<input type="text" name="name" placeholder="Naam" />
+						<?php } ?>
 					</div>
 				</div>
 				<div class="form-block">
+					<?php if ($_SESSION['language'] == "en") {?>
+					<input type="submit" value="Add playlist" class="button" name="submit">
+					<?php } else { ?>
 					<input type="submit" value="Playlist toevoegen" class="button" name="submit">
+					<?php } ?>
 				</div>
 			</form>
 		</div>
 	</div>
-<?php } ?>
 
 <?php include "includes/bottominclude.php" ?>
