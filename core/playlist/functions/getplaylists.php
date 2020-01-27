@@ -5,7 +5,7 @@ function GetPlaylists($index, $limit)
 	$playlists = GetPlaylistsFromDatabase($index, $limit);
 	if (!$playlists)
 	{
-		return false;
+		return array();
 	}
 	else
 	{
