@@ -37,9 +37,9 @@
 						<input type="file" name="thumbnail">
 					</div>
 				</div>
-				<input type="submit" class="button confirm" name="submit" value="Video bewerken">
 				<input type="hidden" name="videoid" value="<?php if(isset($_GET["id"])) { echo $_GET["id"]; } ?>">
 				<input type="hidden" name="edit" value="true">
+				<input type="submit" class="button confirm" name="submit" value="Video bewerken">				
 				<a href="manage-video.php">Annuleren</a>
 			</form>
 		</div>

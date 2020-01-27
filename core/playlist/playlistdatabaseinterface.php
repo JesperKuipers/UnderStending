@@ -64,4 +64,9 @@ function GetPlaylistById($playlistId)
 	}
 }
 
+function UpdatePlaylist($Playlist)
+{
+	return Execute("UPDATE playlist SET name = ? WHERE playlistid = ?", array($Playlist->name, $Playlist->playlistId), 'si');
+}
+
 ?>
