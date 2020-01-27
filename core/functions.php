@@ -1212,6 +1212,21 @@ function GetVideosByUser($userId)
 
 
 
+function NotifyApprovedVideo()
+{
+	$name = "Understending";
+    $email = "understending@hotmail.com";
+    $message = "Hello world!";
+    $from = 'From: understending@hotmail.com';
+    $to = 'understending@hotmail.com';
+    $subject = 'onderwerp';
+    $body = "From: $name\n E-Mail: $email\n Message:\n $message";
+	
+    return mail($to, $subject, $body, $from);
+}
+
+
+
 function RemoveVideo($videoId, $userId)
 {
 	//Haal user op
