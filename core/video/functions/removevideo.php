@@ -14,7 +14,7 @@ function RemoveVideo($videoId, $userId)
 	//Verwijder tabel relaties
 	RemoveRatingsByVideo($videoId);
 	RemovePlaylistVideos($videoId);
-	RemoveVideoTags($videoId);
+	RemoveVideoTagsByVideoId($videoId);
 	//Verwijder video inhoud van het file systeem
 	RemoveVideoFromFileSystem($video->urlId);
 	RemoveThumbnailFromFileSystem($video->thumbnailId, $video->thumbnailExtension);
