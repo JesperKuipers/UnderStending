@@ -29,10 +29,25 @@
 				</div>
 				<div class="footer-block">
 				<?php
+					if(isset($_GET["id"])) {
+						$id = $_GET["id"];
+					}
+					elseif(isset($_GET["v"])) {
+						$id = $_GET["v"];
+					}
+					
 					if ($_SESSION['language'] == 'en') {
-						echo "<a href='?language=nl' style='color:white;'>Zet taal naar Nederlands</a>";
+						if(isset($id)) {
+							echo "<a href='?language=nl&id=" . $id . "' style='color:white;'>Zet taal naar Nederlands</a>";
+						} else {
+							echo "<a href='?language=nl' style='color:white;'>Zet taal naar Nederlands</a>";
+						}
 					} else {
-						echo "<a href='?language=en' style='color:white;'>Set language to English</a>";
+						if(isset($id)) {
+							echo "<a href='?language=en&id=" . $id . "' style='color:white;'>Set language to English</a>";
+						} else {
+							echo "<a href='?language=en' style='color:white;'>Set language to English</a>";
+						}
 					}
 					
 				?>

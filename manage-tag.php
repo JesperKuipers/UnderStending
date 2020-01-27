@@ -7,16 +7,23 @@
 		if(isset($_POST["delete"])) {
 			$tagID = $_POST["tagid"];
 			RemoveTag($userID, $tagID);
-			$confirm = "Tag verwijdert";
+			$confirmnl = "Tag verwijdert";
+			$confirmen = "Tag deleted";
 		} 
 	}
 ?>
-<?php if ($_SESSION['language'] == "en") {?>
+
 	<div class="content">
 		<div class="content-block">
-			<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirm . '</div>'; } ?>
-			<h2>Manage tags</h2>
-			<p><a href="account.php">&lt;&lt; Back to account</a></p>
+			<?php if ($_SESSION['language'] == "en") {?>
+				<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirmen . '</div>'; } ?>
+				<h2>Manage tags</h2>
+				<p><a href="account.php">&lt;&lt; Back to account</a></p>
+			<?php } else { ?>
+				<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirmnl . '</div>'; } ?>
+				<h2>Manage tags</h2>
+				<p><a href="account.php">&lt;&lt; Terug naar account</a></p>
+			<?php } ?>
 			<div class="block-manage-container">
 				<div class="block-add"><a href="add-tag.php">&#10010; Add Tag</a></div>
 				<?php
@@ -33,28 +40,5 @@
 			</div>
 		</div>
 	</div>
-<?php } else { ?>
-        <div class="content">
-		<div class="content-block">
-			<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirm . '</div>'; } ?>
-			<h2>Manage tags</h2>
-			<p><a href="account.php">&lt;&lt; Terug naar account</a></p>
-			<div class="block-manage-container">
-				<div class="block-add"><a href="add-tag.php">&#10010; Tag toevoegen </a></div>
-				<?php
-					$tags = GetTags(0, 500);
-					if(!empty($tags)) {
-						foreach($tags as $tag) {
-							echo "<div class='tag-title'>
-									<a href='delete-tag.php?id=" . $tag->tagId . "' class='block-title-delete'>&#10006;</a> 
-									<a href='tag.php?id=" . $tag->tagId . "' class='block-title-video'>" . $tag->name . "</a>
-								</div>";
-						}
-					}
-				?>
-			</div>
-		</div>
-	</div>
-<?php } ?>
 
 <?php include "includes/bottominclude.php" ?>
