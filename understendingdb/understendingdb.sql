@@ -135,7 +135,6 @@ CREATE TABLE `video` (
   `description` text DEFAULT NULL,
   `URL` varchar(36) DEFAULT NULL,
   `approved` tinyint(1) DEFAULT NULL,
-  `approvenotified` tinyint(1) DEFAULT NULL,
   `thumbnail` varchar(36) NOT NULL,
   `thumbnailExtension` varchar(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
