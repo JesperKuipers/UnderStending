@@ -12,6 +12,13 @@
 	} else {
 		$timestamp = 0;
 	}
+	
+	if(isset($_POST["video-playlist"])) {
+		$selectedPlaylists = $_POST["playlistID"];
+		foreach($selectedPlaylists as $playlist) {
+			CreatePlaylistVideo($playlist, $videoID);
+		}
+	}
 ?>
 
 	<div class="content">
