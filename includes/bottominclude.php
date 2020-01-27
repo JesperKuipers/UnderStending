@@ -8,14 +8,26 @@
 				
 				</div>
 				<div class="footer-block">
-				<?php
-					if ($_SESSION['language'] == 'en') {
-						echo "<a href='?language=nl' style='color:white;'>Zet taal naar Nederlands</a>";
-					} else {
-						echo "<a href='?language=en' style='color:white;'>Set language to English</a>";
-					}
-					
-				?>
+                                    <p>
+                                        <?php
+                                                if ($_SESSION['language'] == 'en') {
+                                                        echo "<a href='?language=nl' style='color:white;'>Zet taal naar Nederlands</a>";
+                                                } else {
+                                                        echo "<a href='?language=en' style='color:white;'>Set language to English</a>";
+                                                }
+
+                                        ?>
+                                    </p>
+                                    <p>
+                                        <?php
+                                                if ($_SESSION['style'] == 'dark') {
+                                                        echo "<a href='?style=light' style='color:white;'>Light mode</a>";
+                                                } else {
+                                                        echo "<a href='?style=dark' style='color:white;'>Dark mode</a>";
+                                                }
+
+                                        ?>
+                                    </p>
 				</div>
 			</div>
 		</div>
@@ -28,14 +40,26 @@
 				
 				</div>
 				<div class="footer-block">
-				<?php
-					if ($_SESSION['language'] == 'en') {
-						echo "<a href='?language=nl' style='color:white;'>Zet taal naar Nederlands</a>";
-					} else {
-						echo "<a href='?language=en' style='color:white;'>Set language to English</a>";
-					}
-					
-				?>
+                                    <p>
+                                        <?php
+                                                if ($_SESSION['language'] == 'en') {
+                                                        echo "<a href='?language=nl' style='color:white;'>Zet taal naar Nederlands</a>";
+                                                } else {
+                                                        echo "<a href='?language=en' style='color:white;'>Set language to English</a>";
+                                                }
+
+                                        ?>
+                                    </p>
+                                    <p>
+                                        <?php
+                                                if ($_SESSION['style'] == 'dark') {
+                                                        echo "<a href='?style=light' style='color:white;'>Light mode</a>";
+                                                } else {
+                                                        echo "<a href='?style=dark' style='color:white;'>Dark mode</a>";
+                                                }
+
+                                        ?>
+                                    </p>
 				</div>
 			</div>
 		</div>
