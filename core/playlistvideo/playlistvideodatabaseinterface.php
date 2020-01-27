@@ -19,4 +19,26 @@ function GetPlaylistVideosByPlaylistId($playlistId)
 	return $playlistVideos;
 }
 
+function AddPlaylistVideoToDatabase($playlistVideo)
+{
+	$query = "insert into playlistvideo values (?, ?)";
+	
+	$parameters = array(
+		$playlistVideo->videoId,
+		$playlistVideo->playlistId
+	);
+	
+	return Execute($query, $parameters, "ii");
+}
+
+function RemovePlaylistVideosByPlaylist($playlistID)
+{
+    Execute("delete from playlistvideo where playlistid = ?", array($playlistID), "i");
+}
+
+function RemovePlaylistVideo($playlistId, $videoId)
+{
+	Execute("delete from playlistvideo where playlistid=? and videoid=?", array($playlistId, $videoId), "ii");
+}
+
 ?>

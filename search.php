@@ -1,19 +1,19 @@
-
-<!-- Display Top of the website -->
-<?php
-include('includes/topinclude.php');
-?>
+<?php include('includes/topinclude.php'); ?>
 
 <?php
 	$query = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_SPECIAL_CHARS);
 	$results = Search($query);
 ?>
+
 	<div class="blocks-container">
+		<?php if ($_SESSION['language'] == "en") {?>
+		<h2>Results for "<?php echo $query; ?>"</h2>
+		<?php } else { ?>
 		<h2>Resultaten voor "<?php echo $query; ?>"</h2>
+		<?php } ?>
 		<div class="blocks">
 			<?php 
 			foreach($results as $result) {
-				//var_dump($result);
 				if(isset($result[0]->videoId)) {
 					foreach($result as $video) {
 						$videoID = $video->videoId;
@@ -48,8 +48,8 @@ include('includes/topinclude.php');
 				}
 				else if(isset($result[0]->playlistId)) {
 					foreach($result as $playlist) {
-						$playlistID = $playlist->videoId;
-						$name = $playlist->title;
+						$playlistID = $playlist->playlistId;
+						$name = $playlist->name;
 						$thumbnail = $playlist->thumbnailId . "." . $playlist->thumbnailExtension;
 						
 						echo "<a href='playlist.php?v=" . $playlistID . "'>";
@@ -67,6 +67,4 @@ include('includes/topinclude.php');
 		</div>
 	</div>
 
-<?php
-include('includes/bottominclude.php');
-?>
+<?php include('includes/bottominclude.php'); ?>

@@ -2,15 +2,16 @@
 
 function AddCurrentlyWatchingToDatabase($currentlyWatching)
 {
-	$query = "insert into currentlywatching values (?, ?, ?)";
+	$query = "insert into currentlywatching values (?, ?, ?, ?)";
 	
 	$parameters = array(
 		$currentlyWatching->videoId,
 		$currentlyWatching->userId,
-		$currentlyWatching->timestamp
+		$currentlyWatching->timestamp,
+		$currentlyWatching->finished
 	);
 	
-	return Execute($query, $parameters, "iii");
+	return Execute($query, $parameters, "iidi");
 }
 
 function CurrentlyWatchingExists($videoId, $userId)
@@ -30,29 +31,38 @@ function CurrentlyWatchingExists($videoId, $userId)
 
 function UpdateCurrentlyWatchingInDatabase($currentlyWatching)
 {
-	$query = "update currentlywatching set timestamp=? where videoid=? and userid=?";
+	$query = "update currentlywatching set timestamp=?, finished=? where videoid=? and userid=?";
 	$parameters = array(
 		$currentlyWatching->timestamp,
+		$currentlyWatching->finished,
 		$currentlyWatching->videoId,
 		$currentlyWatching->userId
 	);
-	return Execute($query, $parameters, "iii");
+	return Execute($query, $parameters, "diii");
 }
 
 function GetCurrentlyWatchingsByUser($userId)
 {
-	$query = "select * from currentlywatching where userid=?";
+	$query = "select * from currentlywatching where userid=? and not(finished)";
 	$result = Fetch($query, array($userId), "i");
-	$currentlyWatchings = array();
-	foreach ($result as $row)
+	if ($result)
 	{
-		$currentlyWatching = new CurrentlyWatching();
-		$currentlyWatching->videoId = $row[0];
-		$currentlyWatching->userId = $row[1];
-		$currentlyWatching->timestamp = $row[2];
-		$currentlyWatchings[] = $currentlyWatching;
+		$currentlyWatchings = array();
+		foreach ($result as $row)
+		{
+			$currentlyWatching = new CurrentlyWatching();
+			$currentlyWatching->videoId = $row[0];
+			$currentlyWatching->userId = $row[1];
+			$currentlyWatching->timestamp = $row[2];
+			$currentlyWatching->finished = $row[3];
+			$currentlyWatchings[] = $currentlyWatching;
+		}
+		return $currentlyWatchings;
 	}
-	return $currentlyWatchings;
+	else
+	{
+		return array();
+	}
 }
 
 ?>

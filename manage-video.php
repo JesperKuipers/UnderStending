@@ -1,37 +1,51 @@
 <?php include "includes/topinclude.php" ?>
 
-<?php 
-	$userID = $_SESSION["userID"];
-	
+<?php 	
 	if(!empty($_POST["submit"])) {
 		if(isset($_POST["delete"])) {
 			$videoID = $_POST["videoid"];
 			RemoveVideo($videoID, $userID);
-			$confirm = "Video verwijdert";
+			$confirmnl = "Video verwijdert";
+			$confirmen = "Video deleted";
 		} 
 		elseif(isset($_POST["edit"])) {
 			$videoID = $_POST["videoid"];
 			$title = $_POST["title"];
 			$description = $_POST["description"];
-			if(empty($_FILES["thumbnail"])) {
-				$thumbnail = NULL;
+			if(empty($_FILES["thumbnail"]["name"])) {
+				$thumbnail = null;
 			} else {
 				$thumbnail = $_FILES["thumbnail"];				
 			}
 			UpdateVideo($videoID, $userID, $title, $description, $thumbnail);
-			$confirm = "Video bijgewerkt";
+			$confirmnl = "Video bijgewerkt";
+			$confirmen = "Video updated";
 		}
 	}
 ?>
+
 	<div class="content">
 		<div class="content-block">
-			<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirm . '</div>'; } ?>
-			<h2>Manage videos</h2>
-			<p><a href="account.php">&lt;&lt; Terug naar account</a></p>
-			<div class="block-manage-container">
-				<div class="block-add"><a href="add-video.php">&#10010; Video toevoegen </a></div>
+			<?php if ($_SESSION['language'] == "en") {?>
+			<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirmen . '</div>'; } ?>
+				<h2>Manage videos</h2>
+				<p><a href="account.php">&lt;&lt; Back to account</a></p>
+				<div class="block-manage-container">
+					<div class="block-add"><a href="add-video.php">&#10010; Add Video</a></div>
+			<?php } else { ?>
+			<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirmnl . '</div>'; } ?>
+			<h2>Beheer videos</h2>
+				<p><a href="account.php">&lt;&lt; Terug naar account</a></p>
+				<div class="block-manage-container">
+					<div class="block-add"><a href="add-video.php">&#10010; Video toevoegen </a></div>
+			<?php } ?>
 				<?php
-					$videos = GetVideos(500);
+					if($isAdmin) {
+						$videos = GetVideos(500);
+					} else {
+						$videos = GetVideosByUser($userID);
+					}
+					
 					if(!empty($videos)) {
 						foreach($videos as $video) {
 							echo "<div class='block-title'>

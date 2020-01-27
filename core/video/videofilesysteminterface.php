@@ -6,6 +6,11 @@ function AddVideoToFileSystem($video)
 	$videoPath = getcwd() . "/videos/";
 	//Genereer nieuwe guid voor video
 	$videoFileSystemId = GenerateGuid();
+	//Geef false terug wanneer video geen mp4 is
+	if ($video["type"] != "video/mp4")
+	{
+		return false;
+	}
 	//Verplaats video van tijdelijk naar permanente opslag
 	if (move_uploaded_file($video["tmp_name"], $videoPath . $videoFileSystemId . ".mp4"))
 	{

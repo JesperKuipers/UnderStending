@@ -7,6 +7,7 @@ class GetVideoResult
 	public $description;
 	public $videoUrl;
 	public $thumbnailUrl;
+	public $approved;
 	public $rating;
 	public $uploader;
 	public $uploaderName;

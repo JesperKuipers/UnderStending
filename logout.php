@@ -5,4 +5,5 @@
 	header ('Location: index.php?logout=true');
 ?>
 
+
 <?php include "includes/bottominclude.php" ?>

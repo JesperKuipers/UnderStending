@@ -15,15 +15,15 @@ function GetPlaylist($playlistId)
 		$getPlaylistResult->playlistId = $playlist->playlistId;
 		$getPlaylistResult->userId = $playlist->userId;
 		$getPlaylistResult->name = $playlist->name;
-		//Wijs thumbnailurl toe wanneer videotags aanwezig zijn
+		//Wijs thumbnailurl toe wanneer playlistvideos aanwezig zijn
 		if (empty($playlistVideos))
 		{
 			$getPlaylistResult->thumbnailUrl = false;
 		}
 		else
 		{
-			$video = GetVideoById($playlistVideos[0]->videoId);
-			$getPlaylistResult->thumbnailUrl = $video->ThumbnailUrl();
+			$video = GetVideo($playlistVideos[0]->videoId);
+			$getPlaylistResult->thumbnailUrl = $video->thumbnailUrl;
 		}
 		//Geef getplaylistresult object terug
 		return $getPlaylistResult;

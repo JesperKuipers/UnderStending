@@ -29,7 +29,7 @@ function CreateVideo($userId, $title, $description, $video, $thumbnail)
 	$video->thumbnailId = $response->thumbnailUrlId;	
 	$video->thumbnailExtension = $response->extension;
 	//Voeg het object toe aan de database
-	AddVideoToDatabase($video);
+	return AddVideoToDatabase($video);
 }
 
 ?>

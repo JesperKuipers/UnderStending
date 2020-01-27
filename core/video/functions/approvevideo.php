@@ -10,7 +10,7 @@ function ApproveVideo($userId, $videoId)
 	
 	$video = GetVideoById($videoId);
 	$video->approved = true;
-	$video->releaseDate = time();
+	$video->releaseDate = date("yy-m-d");
 	
 	UpdateVideoInDatabase($video);
 }

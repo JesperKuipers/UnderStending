@@ -7,19 +7,27 @@
 		if(isset($_POST["delete"])) {
 			$tagID = $_POST["tagid"];
 			RemoveTag($userID, $tagID);
-			$confirm = "Tag verwijdert";
+			$confirmnl = "Tag verwijdert";
+			$confirmen = "Tag deleted";
 		} 
 	}
 ?>
+
 	<div class="content">
 		<div class="content-block">
-			<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirm . '</div>'; } ?>
-			<h2>Manage tags</h2>
-			<p><a href="account.php">&lt;&lt; Terug naar account</a></p>
+			<?php if ($_SESSION['language'] == "en") {?>
+				<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirmen . '</div>'; } ?>
+				<h2>Manage tags</h2>
+				<p><a href="account.php">&lt;&lt; Back to account</a></p>
+			<?php } else { ?>
+				<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirmnl . '</div>'; } ?>
+				<h2>Manage tags</h2>
+				<p><a href="account.php">&lt;&lt; Terug naar account</a></p>
+			<?php } ?>
 			<div class="block-manage-container">
-				<div class="block-add"><a href="add-tag.php">&#10010; Tag toevoegen </a></div>
+				<div class="block-add"><a href="add-tag.php">&#10010; Add Tag</a></div>
 				<?php
-					$tags = GetTags(0, 923);
+					$tags = GetTags(0, 500);
 					if(!empty($tags)) {
 						foreach($tags as $tag) {
 							echo "<div class='tag-title'>

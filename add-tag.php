@@ -14,8 +14,27 @@
 		}
 	}
 ?>
-
+<?php if ($_SESSION['language'] == "en") {?>
 	<div class="content">
+		<div class="content-block">
+			<h1>Add tag</h1>
+			<?php if(isset($error)) { ?>
+			<div class="form-error-block"><?php echo $error; ?></div>
+			<?php } ?>
+			<form method="post" action="add-tag.php" enctype="multipart/form-data">
+				<div class="form-block">
+					<div class="form-block-field">
+						<input type="text" name="name" placeholder="Name" />
+					</div>
+				</div>
+				<div class="form-block">
+					<input type="submit" value="Add tag" class="button" name="submit">
+				</div>
+			</form>
+		</div>
+	</div>
+<?php } else { ?>
+        <div class="content">
 		<div class="content-block">
 			<h1>Tag toevoegen</h1>
 			<?php if(isset($error)) { ?>
@@ -33,7 +52,7 @@
 			</form>
 		</div>
 	</div>
-
+<?php } ?>
 <?php
 	
 ?>
