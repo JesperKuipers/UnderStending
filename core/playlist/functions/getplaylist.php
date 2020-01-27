@@ -23,7 +23,7 @@ function GetPlaylist($playlistId)
 		else
 		{
 			$video = GetVideo($playlistVideos[0]->videoId);
-			$getPlaylistResult->thumbnailUrl = $video->ThumbnailUrl;
+			$getPlaylistResult->thumbnailUrl = $video->thumbnailUrl;
 		}
 		//Geef getplaylistresult object terug
 		return $getPlaylistResult;
