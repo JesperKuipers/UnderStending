@@ -70,6 +70,7 @@
 			<h2>Relevant videos</h2>
 			<?php } else { ?>
 			<h2>Relevante video's</h2>
+			<?php } ?>
 			<div class="blocks">
 				<!-- PHP Get all videos and loop through -->
 				<?php for($i=0; $i<8; $i++) { ?>
