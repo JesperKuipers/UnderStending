@@ -41,13 +41,30 @@
 	else if(!isset($_SESSION['language'])) {
 		$_SESSION['language'] = 'nl';
 	}
+        
+        if(isset($_GET["style"])) {
+		if ($_GET['style'] == 'dark') {
+			$_SESSION['style'] = 'dark';
+		}
+		else if ($_GET['style'] == 'light') {
+			$_SESSION['style'] = 'light';
+		}
+	}
+	else if(!isset($_SESSION['style'])) {
+		$_SESSION['style'] = 'light';
+	}
        
 ?>
 <!DOCTYPE HTML>
 <html lang="nl">
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="css/style.css">
+                <?php if ($_SESSION['style'] == "dark") {?>
+                    <link rel="stylesheet" type="text/css" href="css/styleDark.css">
+                <?php } else { ?>
+                    <link rel="stylesheet" type="text/css" href="css/style.css">
+                <?php } ?>
+
 		<script src="js/script.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	</head>
