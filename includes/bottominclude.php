@@ -27,16 +27,22 @@
 							echo "<a href='?language=en' style='color:white;'>Set language to English</a>";
 						}
 					}
-					
 					echo "</p>";
+					
 					echo "<p>";
-					
 					if ($_SESSION['style'] == 'dark') {
-						echo "<a href='?style=light' style='color:white;'>Light mode</a>";
+						if(isset($id)) {
+							echo "<a href='?style=light&id=" . $id . "' style='color:white;'>Light mode</a>";
+						} else {
+							echo "<a href='?style=light' style='color:white;'>Light mode</a>";
+						}
 					} else {
-						echo "<a href='?style=dark' style='color:white;'>Dark mode</a>";
+						if(isset($id)) {
+							echo "<a href='?style=dark&id=" . $id . "' style='color:white;'>Dark mode</a>";
+						} else {
+							echo "<a href='?style=dark' style='color:white;'>Dark mode</a>";
+						}
 					}
-					
 					echo "</p>";
 					
 				?>
