@@ -8,9 +8,10 @@
 --------------------------------------------------------
 
 [Verzenden van de mail instellen]
-[php.ini]
-Ga naar [mail function]
-vervang alles onder de [mail function] naar:
+
+1. Ga naar xampp/php/php.ini op het filesysteem
+2. Ga naar [mail function]
+3. vervang alles onder de [mail function] naar:
 
 SMTP=smtp.live.com
 smtp_port=587
@@ -18,11 +19,10 @@ sendmail_from = understending@hotmail.com
 sendmail_path = "\"C:\xampp\sendmail\sendmail.exe\" -t"
 mail.add_x_header=Off
 
---------------------------------------------------------
 
-[sendmail.ini]
-Ga naar [sendmail.ini]
-Vervang alles in [sendmail.ini] naar:
+4. Ga naar xampp/sendmail/sendmail.ini
+5. Ga naar [sendmail]
+6. Vervang alles onder de [sendmail] naar:
 
 smtp_server=smtp.live.com
 smtp_port=587
@@ -31,3 +31,9 @@ error_logfile=error.log
 debug_logfile=debug.log
 auth_username=understending@hotmail.com
 auth_password=cdc09726-8153-4892-9898-584283785c27
+
+<!--
+Wanneer er geen folder in xampp zit genaamd sendmail
+zal xampp opnieuw geinstalleerd moeten worden en daarbij moet
+fake sendmail aangevinkt worden bij de installatie opties.
+-->
