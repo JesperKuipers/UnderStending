@@ -73,7 +73,7 @@ function UpdateVideoInDatabase($video)
 		$video->videoId
 	);
 	
-	Execute($query, $params, "sssissi");
+	return Execute($query, $params, "sssissi");
 }
 
 function GetVideosFromDatabase($limit)
