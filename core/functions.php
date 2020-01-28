@@ -201,6 +201,21 @@ function GenerateGuid()
 //Als er een dubbele sleutel is gecreerd wordt er een nieuwe gegenereerd.
 
 
+
+function ImplodeItemByCount($glue, $item, $count)
+{
+	//array van items
+	$items = [];
+	//lus door count
+	for ($i = 0; $i < $count; $i++)
+	{
+		$items[] = $item;
+	}
+	//maak string van items d.m.v glue
+	return implode($glue, $items);
+}
+
+
 function getVideoID() {
 	if(isset($_GET["v"])) {
 		$videoID = filter_input(INPUT_GET, 'v', FILTER_VALIDATE_INT);
@@ -240,7 +255,14 @@ function CreatePlaylist($userId, $name)
 	return $playlistId;
 }
 
+ 
 
+function EditPlaylist($EditPlaylistId, $Name)
+{
+	$Playlist = GetPlaylistById($EditPlaylistId);
+	$Playlist->name = $Name;
+	UpdatePlaylist($Playlist);
+}
 
 function GetPlaylist($playlistId)
 {
@@ -318,22 +340,6 @@ function  RemovePlaylist($playlistID) {
 }
 
 
-function UpdatePlaylist($playlistId, $name)
-{
-	$playlist = GetPlaylistById($playlistId);
-	if ($playlist)
-	{
-		$playlist->name = $name;
-		UpdatePlaylistInDatabase($playlist);
-	}
-	else
-	{
-		return false;
-	}
-}
-
-
-
 class GetPlaylistResult
 {
 	public $playlistId;
@@ -370,11 +376,6 @@ function AddPlaylistToDatabase($playlist)
 	return $playlistId;
 }
 
-function RemovePlaylistFromDB($playlistID)
-{
-    Execute("delete from playlist where playlistid = ?", array($playlistID), "i");
-}
-
 function GetPlaylistsFromDatabase($index, $limit)
 {
 	$result = Fetch("select * from playlist limit ?, ?", array($index, $limit), "ii");
@@ -384,7 +385,16 @@ function GetPlaylistsFromDatabase($index, $limit)
 	}
 	else
 	{
-		return ConvertRowsToPlaylists($result);
+		$playlists = array();
+		foreach ($result as $row)
+		{
+			$playlist = new Playlist();
+			$playlist->playlistId = $row[0];
+			$playlist->userId = $row[1];
+			$playlist->name = $row[2];
+			$playlists[] = $playlist;
+		}
+		return $playlists;
 	}
 }
 
@@ -403,55 +413,19 @@ function GetPlaylistById($playlistId)
 		}
 		else
 		{
-			//Converteer row naar playlist
-			return ConvertRowToPlaylist($result[0]);
+			$row = $result[0];		
+			$playlist = new Playlist();
+			$playlist->playlistId = $row[0];
+			$playlist->userId = $row[1];
+			$playlist->name = $row[2];		
+			return $playlist;
 		}
 	}
 }
 
-function GetPlaylistsByUserFromDatabase($userId)
+function UpdatePlaylist($Playlist)
 {
-	$result = Fetch("select * from playlist where userid=?", array($userId), "i");
-	if ($result)
-	{
-		return ConvertRowsToPlaylists($result);		
-	}
-	else
-	{
-		return false;
-	}
-}
-
-function ConvertRowsToPlaylists($rows)
-{
-	$playlists = array();
-	foreach ($rows as $row)
-	{
-		$playlists[] = ConvertRowToPlaylist($row);
-	}
-	return $playlists;
-}
-
-function ConvertRowToPlaylist($row)
-{
-	$playlist = new Playlist();
-	$playlist->playlistId = $row[0];
-	$playlist->userId = $row[1];
-	$playlist->name = $row[2];
-	return $playlist;
-}
-
-function UpdatePlaylistInDatabase($playlist)
-{
-	//Uit te voeren query
-	$query = "update playlist set name=? where playlistid=?";
-	//Query parameters
-	$params = array(
-		$playlist->name,
-		$playlist->playlistId
-	);
-	//Update de playlist
-	return Execute($query, $params, "ss");
+	return Execute("UPDATE playlist SET name = ? WHERE playlistid = ?", array($Playlist->name, $Playlist->playlistId), 'si');
 }
 
 
@@ -995,14 +969,19 @@ function CreateAndAddTagsToVideo($userId, $videoId, $names)
 			$tagId = GetTagIdByName($name);
 		}
 		$tagIds[] = $tagId;
-	}
-	
+	}	
 	//Loop door alle tagIds heen
 	foreach ($tagIds as $tagId)
 	{
-		//Voeg videotags o.b.v van de gecreërde tag
-		AddVideoTag($userId, $videoId, $tagId);
+		//Kijk of videotag nog niet bestaat
+		if (!VideoTagExists($videoId, $tagId))
+		{
+			//Voeg videotags o.b.v van de tag id
+			AddVideoTag($userId, $videoId, $tagId);
+		}
 	}
+	//Geef tagIds terug
+	return $tagIds;
 }
 
 
@@ -1212,10 +1191,9 @@ function GetVideosByUser($userId)
 
 
 
-function NotifyApprovedVideo()
-{
-	$name = "Understending";
-    $email = "understending@hotmail.com";
+function NotifyApprovedVideo($videoId)
+{	
+	$email = "understending@hotmail.com";
     $message = "Hello world!";
     $from = 'From: understending@hotmail.com';
     $to = 'understending@hotmail.com';
@@ -1637,8 +1615,6 @@ function AddVideoTag($userId, $videoId, $tagId)
 	{
 		return false;
 	}
-	//Haal tag op
-	$tag = GetTagById($tagId);
 	//Voeg videotag toe
 	return AddVideoTagToDatabase($videoId, $tagId);
 }
@@ -1675,22 +1651,14 @@ function RemoveVideoTag($userId, $videoId, $tagId)
 
 
 
-function UpdateTagsFromVideo($videoId, $tagIds)
+function UpdateTagsFromVideo($userId, $videoId, $names)
 {
-	//Verwijder alle koppelingen tussen tags en videos die zich niet in de tag array bevinden
-	RemoveVideoTagsFromDatabase($videoId, $tagIds);
-	//creëer een lijst voor toe te voegen videotags
-	$videoTags = array();
-	//lus door tagIds heen en maak er een videotag van
-	foreach ($tagIds as $tagId)
-	{
-		$videoTag = new VideoTag();
-		$videoTag->videoId = $videoId;
-		$videoTag->tagId = $tagId;
-		$videoTags[] = $videoTag;
-	}
-	//Voeg alle koppeling tussen tags en videos toe die zich in de tag array bevinden maar nog niet in de database
-	AddVideoTagsToDatabase($videoTags);
+	//Voeg nog niet bestaande tags toe en geef tagIds terug
+	$tagIds = CreateAndAddTagsToVideo($userId, $videoId, $names);
+	//Verwijder alle koppelingen tussen tags en videos die zich niet in de tagIds bevinden
+	RemoveVideoTagsByVideoAndTagIds($videoId, $tagIds);
+	//Geef tagIds terug
+	return $tagIds;
 }
 
 
@@ -1759,36 +1727,45 @@ function RemoveVideoTagFromDatabase($videoId, $tagId)
 	return Execute("delete from videotag where videoid=? and tagid=?", array($videoId, $tagId), "ii");
 }
 
-function RemoveVideoTagsFromDatabase($videoId, $tagIds)
+function VideoTagExists($videoId, $tagId)
 {
-	if (empty($tagIds))
-	{
-		return;
-	}
-	//query om alle videotags te verwijderen die zich niet in de tagids bevinden
-	$query = "delete from videotag where videoid=? and tagid not in (?)";
-	$tagsAsString = "'" . implode("', '", $tagIds) . "'";
-	return Execute($query, array($videoId, $tagsAsString), "is");
+	//query om te kijken of er al een videotag bestaat met de videoid en tagid
+	$query = "select count(*) from videotag where videoid=? and tagid=?";
+	//Haal resultaat op
+	$result = Fetch($query, array($videoId, $tagId), "ii");
+	//Kijk of videotags bestaan met meegegeven waardes
+	$exists = $result[0][0] > 0;
+	//Geef conditie terug
+	return $exists;
 }
 
-function AddVideoTagsToDatabase($videoTags)
+function RemoveVideoTagsByVideoAndTagIds($videoId, $tagIds)
 {
-	//Lus door de tags heen
-	foreach ($videoTags as $videoTag)
+	//Verwijder alle videotags van 
+	if (empty($tagIds))
 	{
-		//query om te kijken of er al een videotag bestaat met de videoid en tagid
-		$existsQuery = "select count(*) from videotag where videoid=? and tagid=?";
-		//Haal resultaat op
-		$tagCount = Fetch($existsQuery, array($videoTag->videoId, $videoTag->tagId), "ii")[0][0];
-		//Kijk of de tag al bestaat met videoid en tagid
-		if ($tagCount == 0)
-		{
-			//query om de videotag in te voegen
-			$insertQuery = "insert into videotag values (?, ?)";
-			//voer insert uit
-			Execute($insertQuery, array($videoTag->videoId, $videoTag->tagId), "ii");
-		}
+		return RemoveVideoTagsByVideo($videoId);
 	}
+	//Haal vraagtekens op voor tagids
+	$questMarksForTagIds = ImplodeItemByCount(", ", "?", count($tagIds));
+	//query om alle videotags te verwijderen die zich niet in de tagids bevinden
+	$query = "delete from videotag where videoid=? and tagid not in (".$questMarksForTagIds.")";
+	//Creëer paramater array met videoId
+	$params = array($videoId);
+	//Lus door tagids heen en voeg ze toe aan parameters
+	foreach ($tagIds as $tagId)
+	{
+		$params[] = $tagId;
+	}
+	//Haal int types op voor array (sinds alle array items van het type integer zijn kan dit)
+	$paramTypes = ImplodeItemByCount("", "i", count($params));
+	//Voer de query uit
+	return Execute($query, $params, $paramTypes);
+}
+
+function RemoveVideoTagsByVideo($videoId)
+{
+	return Execute("delete from videotag where videoid=?", array($videoId), "i");
 }
 
 ?>

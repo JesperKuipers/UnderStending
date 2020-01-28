@@ -56,36 +56,45 @@ function RemoveVideoTagFromDatabase($videoId, $tagId)
 	return Execute("delete from videotag where videoid=? and tagid=?", array($videoId, $tagId), "ii");
 }
 
-function RemoveVideoTagsFromDatabase($videoId, $tagIds)
+function VideoTagExists($videoId, $tagId)
 {
-	if (empty($tagIds))
-	{
-		return;
-	}
-	//query om alle videotags te verwijderen die zich niet in de tagids bevinden
-	$query = "delete from videotag where videoid=? and tagid not in (?)";
-	$tagsAsString = "'" . implode("', '", $tagIds) . "'";
-	return Execute($query, array($videoId, $tagsAsString), "is");
+	//query om te kijken of er al een videotag bestaat met de videoid en tagid
+	$query = "select count(*) from videotag where videoid=? and tagid=?";
+	//Haal resultaat op
+	$result = Fetch($query, array($videoId, $tagId), "ii");
+	//Kijk of videotags bestaan met meegegeven waardes
+	$exists = $result[0][0] > 0;
+	//Geef conditie terug
+	return $exists;
 }
 
-function AddVideoTagsToDatabase($videoTags)
+function RemoveVideoTagsByVideoAndTagIds($videoId, $tagIds)
 {
-	//Lus door de tags heen
-	foreach ($videoTags as $videoTag)
+	//Verwijder alle videotags van 
+	if (empty($tagIds))
 	{
-		//query om te kijken of er al een videotag bestaat met de videoid en tagid
-		$existsQuery = "select count(*) from videotag where videoid=? and tagid=?";
-		//Haal resultaat op
-		$tagCount = Fetch($existsQuery, array($videoTag->videoId, $videoTag->tagId), "ii")[0][0];
-		//Kijk of de tag al bestaat met videoid en tagid
-		if ($tagCount == 0)
-		{
-			//query om de videotag in te voegen
-			$insertQuery = "insert into videotag values (?, ?)";
-			//voer insert uit
-			Execute($insertQuery, array($videoTag->videoId, $videoTag->tagId), "ii");
-		}
+		return RemoveVideoTagsByVideo($videoId);
 	}
+	//Haal vraagtekens op voor tagids
+	$questMarksForTagIds = ImplodeItemByCount(", ", "?", count($tagIds));
+	//query om alle videotags te verwijderen die zich niet in de tagids bevinden
+	$query = "delete from videotag where videoid=? and tagid not in (".$questMarksForTagIds.")";
+	//Creëer paramater array met videoId
+	$params = array($videoId);
+	//Lus door tagids heen en voeg ze toe aan parameters
+	foreach ($tagIds as $tagId)
+	{
+		$params[] = $tagId;
+	}
+	//Haal int types op voor array (sinds alle array items van het type integer zijn kan dit)
+	$paramTypes = ImplodeItemByCount("", "i", count($params));
+	//Voer de query uit
+	return Execute($query, $params, $paramTypes);
+}
+
+function RemoveVideoTagsByVideo($videoId)
+{
+	return Execute("delete from videotag where videoid=?", array($videoId), "i");
 }
 
 ?>

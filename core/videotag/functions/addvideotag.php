@@ -11,8 +11,6 @@ function AddVideoTag($userId, $videoId, $tagId)
 	{
 		return false;
 	}
-	//Haal tag op
-	$tag = GetTagById($tagId);
 	//Voeg videotag toe
 	return AddVideoTagToDatabase($videoId, $tagId);
 }
