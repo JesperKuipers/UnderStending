@@ -205,7 +205,7 @@ ALTER TABLE `usertype`
 --
 ALTER TABLE `video`
   ADD PRIMARY KEY (`videoID`),
-  ADD KEY `userID` (`uploader`);
+  ADD KEY `uploader` (`uploader`);
 
 --
 -- Indexen voor tabel `videotag`
@@ -256,7 +256,8 @@ ALTER TABLE `video`
 -- Beperkingen voor tabel `currentlywatching`
 --
 ALTER TABLE `currentlywatching`
-  ADD CONSTRAINT `currentlywatching_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`);
+  ADD CONSTRAINT `currentlywatching_ibfk_1` FOREIGN KEY (`videoID`) REFERENCES `video` (`videoID`),
+  ADD CONSTRAINT `currentlywatching_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`);
 
 --
 -- Beperkingen voor tabel `playlist`
