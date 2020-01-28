@@ -50,12 +50,7 @@ function GetCurrentlyWatchingsByUser($userId)
 		$currentlyWatchings = array();
 		foreach ($result as $row)
 		{
-			$currentlyWatching = new CurrentlyWatching();
-			$currentlyWatching->videoId = $row[0];
-			$currentlyWatching->userId = $row[1];
-			$currentlyWatching->timestamp = $row[2];
-			$currentlyWatching->finished = $row[3];
-			$currentlyWatchings[] = $currentlyWatching;
+			$currentlyWatchings[] = ConvertToCurrentlyWatching($row);
 		}
 		return $currentlyWatchings;
 	}
@@ -63,6 +58,36 @@ function GetCurrentlyWatchingsByUser($userId)
 	{
 		return array();
 	}
+}
+
+function GetCurrentlyWatchingFromDatabase($userId, $videoId)
+{
+	$result = Fetch("select * from currentlywatching where userid=? and videoid=?", array($userId, $videoId), "ii");
+	if ($result)
+	{		
+		if (count($result) > 0)
+		{
+			return ConvertToCurrentlyWatching($result[0]);
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function ConvertToCurrentlyWatching($row)
+{
+	$currentlyWatching = new CurrentlyWatching();
+	$currentlyWatching->videoId = $row[0];
+	$currentlyWatching->userId = $row[1];
+	$currentlyWatching->timestamp = $row[2];
+	$currentlyWatching->finished = $row[3];
+	return $currentlyWatching;
 }
 
 ?>
