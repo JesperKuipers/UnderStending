@@ -17,11 +17,11 @@
 		<div class="content-block">
 			<?php if ($_SESSION['language'] == "en") {?>
 				<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirmen . '</div>'; } ?>
-				<h2>Manage videos</h2>
+				<h2>Manage approvals</h2>
 				<p><a href="account.php">&lt;&lt; Back to account</a></p>
 			<?php } else { ?>
 				<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirmnl . '</div>'; } ?>
-				<h2>Beheer videos</h2>
+				<h2>Beheer goedkeuringen</h2>
 				<p><a href="account.php">&lt;&lt; Terug naar account</a></p>
 			<?php } ?>
 			<div class="block-manage-container">
