@@ -6,8 +6,11 @@
 		$tagFeatured = GetVideosByTag($tagID, 1);
 		$tagVideos = GetVideosByTag($tagID, 50);
 		
-		$featuredThumbnail = $tagFeatured[0]->thumbnailId . "." . $tagFeatured[0]->thumbnailExtension;
-		$featuredUrl = $tagFeatured[0]->videoId;
+		if (!empty($tagFeatured))
+		{
+			$featuredThumbnail = $tagFeatured[0]->thumbnailId . "." . $tagFeatured[0]->thumbnailExtension;
+			$featuredUrl = $tagFeatured[0]->videoId;
+		}
 	}
 	else {
 		header ('Location: index.php');
