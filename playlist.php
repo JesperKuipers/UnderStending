@@ -20,9 +20,9 @@
 					<h1><?php echo $playlist->name; ?></h1>
 					<?php if(!empty($playlistVideos)) {
 						if ($_SESSION['language'] == "en") {
-							echo "<a href='video.php?v='" . $playlistVideos[0]->videoId . "' class='video-bekijken-button'>Start watching</a>";
+							echo "<a href='video.php?v=" . $playlistVideos[0]->videoId . "' class='video-bekijken-button'>Start watching</a>";
 						} else { 
-							echo "<a href='video.php?v='" . $playlistVideos[0]->videoId . "' class='video-bekijken-button'>Beginnen met kijken</a>";
+							echo "<a href='video.php?v=" . $playlistVideos[0]->videoId . "' class='video-bekijken-button'>Beginnen met kijken</a>";
 						}
 					} ?>
 					
