@@ -20,21 +20,23 @@
 ?>
 
 	<div class="content">
-		<div class="video-container">
-			<div id="video-placeholder">
-				<img src="imgs/thumbnails/<?php echo $featuredThumbnail; ?> "/>
-			</div>
-			<div id="video-overlay" class="video-overlay-tag">
-				<div id="video-overlay-text">
-					<h1><?php echo $tag->name; ?></h1>
-					<?php if ($_SESSION['language'] == "en") {?>
-					<a href="video.php?v=<?php echo $featuredUrl; ?>" class="video-bekijken-button">Start Watching</a>
-					<?php } else { ?>
-					<a href="video.php?v=<?php echo $featuredUrl; ?>" class="video-bekijken-button">Beginnen met kijken</a>
-					<?php } ?>
+		<?php if ($featuredThumbnail && $featuredUrl) { ?>
+			<div class="video-container">
+				<div id="video-placeholder">
+					<img src="imgs/thumbnails/<?php echo $featuredThumbnail; ?> "/>
+				</div>
+				<div id="video-overlay" class="video-overlay-tag">
+					<div id="video-overlay-text">
+						<h1><?php echo $tag->name; ?></h1>
+						<?php if ($_SESSION['language'] == "en") {?>
+						<a href="video.php?v=<?php echo $featuredUrl; ?>" class="video-bekijken-button">Start Watching</a>
+						<?php } else { ?>
+						<a href="video.php?v=<?php echo $featuredUrl; ?>" class="video-bekijken-button">Beginnen met kijken</a>
+						<?php } ?>
+					</div>
 				</div>
 			</div>
-		</div>
+		<?php } ?>
 		<div class="blocks-container">
 			<?php if ($_SESSION['language'] == "en") {?>
 			<h2>The "<?php echo $tag->name; ?>" video's</h2>
