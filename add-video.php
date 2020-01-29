@@ -57,13 +57,13 @@
 			<div class="form-block">
 				<div class="form-block-field">
 					<label>Video</label><br>
-					<input type="file" name="Video" >
+					<input type="file" name="video" >
 				</div>
 			</div>
 			<div class="form-block">
 				<div class="form-block-field">
 					<label>Thumbnail</label><br>
-					<input type="file" name="Thumbnail">
+					<input type="file" name="thumbnail">
 				</div>
 			</div>
 			<div class="form-block">
@@ -98,7 +98,7 @@
 			<div class="form-block">
 				<div class="form-block-field">
 					<label>Video</label><br>
-					<input type="file" name="video" >
+					<input type="file" name="video">
 				</div>
 			</div>
 			<div class="form-block">
