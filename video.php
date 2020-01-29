@@ -1,23 +1,35 @@
 <?php include "includes/topinclude.php" ?>
-<?php 
-	if(getVideoID()) {
-		$videoID = getVideoID();
+<?php	
+	$videoID = getVideoID();
+	if($videoID)
+	{
 		$video = GetVideo($videoID);
-	} else {
+	}
+	else
+	{
 		header ('Location: index.php');
 	}
 	
 	$timestamp = 0;
 	$currentlyWatching = GetCurrentlyWatching($userID, $videoID);
-	if ($currentlyWatching) {
+	if ($currentlyWatching)
+	{
 		$timestamp = $currentlyWatching->timestamp;
 	}
 	
-	if(isset($_POST["video-playlist"])) {
-		$selectedPlaylists = $_POST["playlistID"];
-		foreach($selectedPlaylists as $playlist) {
-			CreatePlaylistVideo($playlist, $videoID);
-		}
+	if(isset($_POST["video-playlist"]))
+	{
+		if (isset($_POST["playlistID"]))
+		{
+			$selectedPlaylists = $_POST["playlistID"];
+			if (!empty($selectedPlaylists))
+			{
+				foreach($selectedPlaylists as $playlist)
+				{
+					CreatePlaylistVideo($playlist, $videoID);
+				}
+			}
+		}		
 	}
 ?>
 
@@ -48,10 +60,14 @@
 		</div>
 		<div class="content-block video-bottom">
 			<?php 
-			if($video->approved == 0 && $isAdmin) {
+			if ($video->approved == 0 && $isAdmin)
+			{
 				echo "<div class='approve-video-container'><a href='approve-video.php?id=" . $video->videoId . "' class='approve-video-button'>&#x2714; Approve Video</a></div>";	
-			} 
-			echo "<div><a href='add-video-playlist.php?id=" . $video->videoId . "' class='add-video-button'>Add video to playlist</a><div class='clear'></div></div>";
+			}
+			if ($video->uploader == $userID)
+			{
+				echo "<div><a href='add-video-playlist.php?id=" . $video->videoId . "' class='add-video-button'>Add video to playlist</a><div class='clear'></div></div>";
+			}
 			?>
 		
 			<div class="description">
