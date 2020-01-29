@@ -1184,28 +1184,35 @@ function GetVideo($videoId)
 {
 	//Haal video op
 	$video = GetVideoById($videoId);
-	//Haal gebruiker op
-	$user = GetUserById($video->uploader);
-	//Haal alle beoordelingen van de video
-	$ratings = GetRatingsByVideoId($video->videoId);
-	//Bereken de gemiddelde score van de beoordelingen
-	$averageRating = GetAverageRating($ratings);
-	//Haal de thumbnail en de video url op
-	$thumbnailUrl = GetThumbnailUrl($video->thumbnailId, $video->thumbnailExtension);
-	$videoUrl = GetVideoUrl($video->urlId);		
-	//Creëer een nieuw object met alle benodigde attributen voor het laten zien van de video
-	$videoResult = new GetVideoResult();
-	$videoResult->videoId = $video->videoId;
-	$videoResult->title = $video->title;
-	$videoResult->description = $video->description;
-	$videoResult->videoUrl = $videoUrl;
-	$videoResult->thumbnailUrl = $thumbnailUrl;
-	$videoResult->approved = $video->approved;
-	$videoResult->rating = $averageRating;
-	$videoResult->uploader = $user->userId;
-	$videoResult->uploaderName = $user->name;
-	//Geef het gecreëerde object terug
-	return $videoResult;
+	if ($video)
+	{
+		//Haal gebruiker op
+		$user = GetUserById($video->uploader);
+		//Haal alle beoordelingen van de video
+		$ratings = GetRatingsByVideoId($video->videoId);
+		//Bereken de gemiddelde score van de beoordelingen
+		$averageRating = GetAverageRating($ratings);
+		//Haal de thumbnail en de video url op
+		$thumbnailUrl = GetThumbnailUrl($video->thumbnailId, $video->thumbnailExtension);
+		$videoUrl = GetVideoUrl($video->urlId);		
+		//Creëer een nieuw object met alle benodigde attributen voor het laten zien van de video
+		$videoResult = new GetVideoResult();
+		$videoResult->videoId = $video->videoId;
+		$videoResult->title = $video->title;
+		$videoResult->description = $video->description;
+		$videoResult->videoUrl = $videoUrl;
+		$videoResult->thumbnailUrl = $thumbnailUrl;
+		$videoResult->approved = $video->approved;
+		$videoResult->rating = $averageRating;
+		$videoResult->uploader = $user->userId;
+		$videoResult->uploaderName = $user->name;
+		//Geef het gecreëerde object terug
+		return $videoResult;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 function GetAverageRating($ratings)
@@ -1495,30 +1502,44 @@ function GetVideoById($videoId)
 {
 	//Haal videos op uit database
 	$result = Fetch("select * from video where videoid = ?", array($videoId), "i");
-	//Pak user uit users array
-	$row = $result[0];
-	//Geef video object terug aan functie caller
-	return ConvertRowToVideo($row);
+	if ($result)
+	{
+		//Pak user uit users array
+		$row = $result[0];
+		//Geef video object terug aan functie caller
+		return ConvertRowToVideo($row);
+	}
+	else
+	{
+		return false;
+	}
 }
 
 function GetRatingsByVideoId($videoId)
 {
 	//Haal ratings op uit database
 	$result = Fetch("select * from rating where videoid = ?", array($videoId), "i");
-	//Lus door de rows
-	$ratings = array();
-	foreach ($result as $row)
+	if ($result)
 	{
-		//Creëer een nieuw rating object
-		$rating = new Rating();
-		$rating->videoId = $row[0];
-		$rating->userId = $row[1];
-		$rating->rating = $row[2];
-		//Voeg de rating toe aan alle ratings
-		$ratings[] = $rating;
+		//Lus door de rows
+		$ratings = array();
+		foreach ($result as $row)
+		{
+			//Creëer een nieuw rating object
+			$rating = new Rating();
+			$rating->videoId = $row[0];
+			$rating->userId = $row[1];
+			$rating->rating = $row[2];
+			//Voeg de rating toe aan alle ratings
+			$ratings[] = $rating;
+		}
+		//Geef alle ratings terug
+		return $ratings;
 	}
-	//Geef alle ratings terug
-	return $ratings;
+	else
+	{
+		return false;
+	}
 }
 
 function RemoveVideoFromDatabase($videoId)

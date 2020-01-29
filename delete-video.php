@@ -4,6 +4,9 @@
 	if(isset($_GET["id"])) {
 		$videoID = $_GET["id"];
 		$video = GetVideo($videoID);
+		if (!$video) {
+			header('location: account.php');
+		}
 	}
 	else {
 		header ('location: account.php');

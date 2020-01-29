@@ -28,30 +28,44 @@ function GetVideoById($videoId)
 {
 	//Haal videos op uit database
 	$result = Fetch("select * from video where videoid = ?", array($videoId), "i");
-	//Pak user uit users array
-	$row = $result[0];
-	//Geef video object terug aan functie caller
-	return ConvertRowToVideo($row);
+	if ($result)
+	{
+		//Pak user uit users array
+		$row = $result[0];
+		//Geef video object terug aan functie caller
+		return ConvertRowToVideo($row);
+	}
+	else
+	{
+		return false;
+	}
 }
 
 function GetRatingsByVideoId($videoId)
 {
 	//Haal ratings op uit database
 	$result = Fetch("select * from rating where videoid = ?", array($videoId), "i");
-	//Lus door de rows
-	$ratings = array();
-	foreach ($result as $row)
+	if ($result)
 	{
-		//Creëer een nieuw rating object
-		$rating = new Rating();
-		$rating->videoId = $row[0];
-		$rating->userId = $row[1];
-		$rating->rating = $row[2];
-		//Voeg de rating toe aan alle ratings
-		$ratings[] = $rating;
+		//Lus door de rows
+		$ratings = array();
+		foreach ($result as $row)
+		{
+			//Creëer een nieuw rating object
+			$rating = new Rating();
+			$rating->videoId = $row[0];
+			$rating->userId = $row[1];
+			$rating->rating = $row[2];
+			//Voeg de rating toe aan alle ratings
+			$ratings[] = $rating;
+		}
+		//Geef alle ratings terug
+		return $ratings;
 	}
-	//Geef alle ratings terug
-	return $ratings;
+	else
+	{
+		return false;
+	}
 }
 
 function RemoveVideoFromDatabase($videoId)
