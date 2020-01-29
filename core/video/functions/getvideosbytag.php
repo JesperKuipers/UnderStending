@@ -9,8 +9,13 @@ function GetVideosByTag($tagId, $limit)
 	//Lus door gevonden videotags heen
 	foreach ($videotags as $videotag)
 	{
-		//Verwijs de videos aan de array
-		$videos[] = GetVideoById($videotag->videoId);
+		$video = GetVideoById($videotag->videoId);
+		//Kijk of de video geen false teruggeeft en of de video is goedgekeurd
+		if ($video && $video->approved)
+		{
+			//Verwijs de videos aan de array
+			$videos[] = $video;
+		}		
 	}
 	//Geef array terug
 	return $videos;
