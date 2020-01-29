@@ -18,7 +18,7 @@
 		} ?>
 		<div class="blocks-container">
 		<?php if ($_SESSION['language'] == "en") {?>
-		<h2>Our Different tags <?php if (isset($_SESSION['name'])) { echo " for you, " . $_SESSION['name']; } ?></h2>
+		<h2>Our different tags <?php if (isset($_SESSION['name'])) { echo " for you, " . $_SESSION['name']; } ?></h2>
 		<?php } else { ?>
 		<h2>Onze verschillende tags<?php if (isset($_SESSION['name'])) { echo " voor u, " . $_SESSION['name']; } ?></h2>
 		<?php } ?>
@@ -41,7 +41,7 @@
 					}
 				} else {
 					if ($_SESSION['language'] == "en") {
-						echo "<p>There are nog tags yet</p>";
+						echo "<p>There are no tags yet</p>";
 					} else {
 						echo "<p>Er zijn nog geen tags</p>";
 					}
