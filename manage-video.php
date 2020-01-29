@@ -2,14 +2,13 @@
 
 <?php 	
 	if(!empty($_POST["submit"])) {
+		$videoID = $_POST["videoid"];
 		if(isset($_POST["delete"])) {
-			$videoID = $_POST["videoid"];
 			RemoveVideo($videoID, $userID);
 			$confirmnl = "Video verwijdert";
 			$confirmen = "Video deleted";
 		} 
 		elseif(isset($_POST["edit"])) {
-			$videoID = $_POST["videoid"];
 			if(!empty($_POST["title"]) && !empty($_POST["description"]) && !empty($_POST["tags"])) {
 				$title = $_POST["title"];
 				$description = $_POST["description"];
@@ -72,6 +71,12 @@
 									<a href='edit-video.php?id=" . $video->videoId . "' class='block-title-edit'>&#9998;</a> 
 									<a href='video.php?v=" . $video->videoId . "' class='block-title-video'>" . $video->title . "</a>
 								</div>";
+						}
+					} else {
+						if ($_SESSION['language'] == "en") {
+							echo "<p>There are no videos</p>";
+						} else {
+							echo "<p>Er zijn geen video's</p>";
 						}
 					}
 				?>

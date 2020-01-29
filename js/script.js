@@ -1,3 +1,4 @@
+// Hide the overlay when the start watching button is clicked and show the video after
 function showVideo () {
 	//Hide the overlay 
 	document.getElementById("video-overlay").style.display = "none";
@@ -7,6 +8,7 @@ function showVideo () {
 	document.getElementById("video-player").style.display = "block";
 }
 
+// Save the rating when the stars are clicked
 function uploadRating (rating, videoID, userID) {
 	$.ajax({
 		url: './rating-execute.php',
@@ -18,11 +20,13 @@ function uploadRating (rating, videoID, userID) {
 	})
 }
 
+// Rounding function
 function round_to_precision(x, precision) {
     var y = +x + (precision === undefined ? 0.5 : precision/2);
     return y - (y % (precision === undefined ? 1 : +precision));
 }
 
+// Save the timestamp in the database when the video is paused or finished
 function saveTimestamp (videoID, userID, finished) {
 	var vid = document.getElementById("video");
 	var curTime = round_to_precision(vid.currentTime, 0.01);
@@ -36,7 +40,13 @@ function saveTimestamp (videoID, userID, finished) {
 	})
 }
 
+// Load the timestamp into the video element
 function setTimestamp(timestamp) { 
 	var vid = document.getElementById("video");	
 	vid.currentTime = timestamp;
 } 
+
+// Form resubmission fix
+if (window.history.replaceState) {
+	window.history.replaceState(null, null, window.location.href);
+}

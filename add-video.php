@@ -1,9 +1,9 @@
 <?php include "includes/topinclude.php" ?>
 
 <?php
-	if (!empty($_POST["submit"]))
-	{
-		if(!empty($_POST["title"]) && !empty($_POST["description"]) && !empty($_FILES["video"]) && !empty($_FILES["thumbnail"])) {
+	if (!empty($_POST["submit"])) {
+		
+		if(!empty($_POST["title"]) && !empty($_POST["description"]) && !empty($_POST["tags"]) && ($_FILES["video"]["size"] > 0) && ($_FILES["thumbnail"]["size"] > 0)) {
 			$userid = $_SESSION["userID"];
 			$title = $_POST["title"];
 			$desc = $_POST["description"];
@@ -25,7 +25,9 @@
 			
 			$videoID = createVideo($userid, $title, $desc, $video, $thumbnail);
 			CreateAndAddTagsToVideo($userid, $videoID, $tagarray);
-			header("location: manage-video.php");
+			var_dump($thumbnail);
+			var_dump($video);
+			//header("location: manage-video.php");
 		} else {
 			$error = "Vul aub alle velden in.";
 		}

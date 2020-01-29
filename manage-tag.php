@@ -35,6 +35,12 @@
 									<a href='tag.php?id=" . $tag->tagId . "' class='block-title-video'>" . $tag->name . "</a>
 								</div>";
 						}
+					} else {
+						if ($_SESSION['language'] == "en") {
+							echo "<p>There are no tags</p>";
+						} else {
+							echo "<p>Er zijn geen tags</p>";
+						}
 					}
 				?>
 			</div>
