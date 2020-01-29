@@ -11,8 +11,8 @@ function GetVideosByPlaylist($playlistId)
 	{
 		//haal video op op basis van playlistvideo
 		$video = GetVideo($playlistVideo->videoId);
-		//Kijk of de video geen false teruggeeft
-		if ($video)
+		//Kijk of de video geen false teruggeeft en of de video is goedgekeurd
+		if ($video && $video->approved)
 		{
 			//voeg video toe aan video's array
 			$videos[] = $video;

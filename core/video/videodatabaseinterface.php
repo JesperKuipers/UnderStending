@@ -92,7 +92,7 @@ function UpdateVideoInDatabase($video)
 
 function GetVideosFromDatabase($limit)
 {
-	$result = Fetch("SELECT * FROM video LIMIT ?", array($limit), "i");
+	$result = Fetch("select * from video where approved limit ?", array($limit), "i");
 	if (!$result)
 	{
 		return false;

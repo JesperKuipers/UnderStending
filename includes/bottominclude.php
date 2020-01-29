@@ -16,15 +16,15 @@
 					echo "<p>";
 					if ($_SESSION['language'] == 'en') {
 						if(isset($id)) {
-							echo "<a href='?language=nl&id=" . $id . "' style='color:white;'>Zet taal naar Nederlands</a>";
+							echo "<a href='?language=nl&id=" . $id . "' style='color:white;'>Set language to Dutch</a>";
 						} else {
-							echo "<a href='?language=nl' style='color:white;'>Zet taal naar Nederlands</a>";
+							echo "<a href='?language=nl' style='color:white;'>Set language to Dutch</a>";
 						}
 					} else {
 						if(isset($id)) {
-							echo "<a href='?language=en&id=" . $id . "' style='color:white;'>Set language to English</a>";
+							echo "<a href='?language=en&id=" . $id . "' style='color:white;'>Zet taal naar Engels</a>";
 						} else {
-							echo "<a href='?language=en' style='color:white;'>Set language to English</a>";
+							echo "<a href='?language=en' style='color:white;'>Zet taal naar Engels</a>";
 						}
 					}
 					echo "</p>";

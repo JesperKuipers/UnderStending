@@ -1062,32 +1062,41 @@ function ApproveVideo($userId, $videoId)
 
 function CreateAndAddTagsToVideo($userId, $videoId, $names)
 {
-	$tagIds = array();
-	//Loop door alle te creëren tags heen
-	foreach ($names as $name)
+	$video = GetVideoById($videoId);
+	//Kijk of video bestaat
+	if ($video)
 	{
-		//Creër tags
-		$tagId = CreateTag($userId, $name);
-		//Tag bestaat al?
-		if (!$tagId)
+		$tagIds = array();
+		//Loop door alle te creëren tags heen
+		foreach ($names as $name)
 		{
-			//Haal tag op o.b.v naam
-			$tagId = GetTagIdByName($name);
-		}
-		$tagIds[] = $tagId;
-	}	
-	//Loop door alle tagIds heen
-	foreach ($tagIds as $tagId)
-	{
-		//Kijk of videotag nog niet bestaat
-		if (!VideoTagExists($videoId, $tagId))
+			//Creër tags
+			$tagId = CreateTag($userId, $name);
+			//Tag bestaat al?
+			if (!$tagId)
+			{
+				//Haal tag op o.b.v naam
+				$tagId = GetTagIdByName($name);
+			}
+			$tagIds[] = $tagId;
+		}	
+		//Loop door alle tagIds heen
+		foreach ($tagIds as $tagId)
 		{
-			//Voeg videotags o.b.v van de tag id
-			AddVideoTag($userId, $videoId, $tagId);
+			//Kijk of videotag nog niet bestaat
+			if (!VideoTagExists($videoId, $tagId))
+			{
+				//Voeg videotags o.b.v van de tag id
+				AddVideoTag($userId, $videoId, $tagId);
+			}
 		}
+		//Geef tagIds terug
+		return $tagIds;
 	}
-	//Geef tagIds terug
-	return $tagIds;
+	else
+	{
+		return false;
+	}
 }
 
 
@@ -1258,8 +1267,8 @@ function GetVideosByPlaylist($playlistId)
 	{
 		//haal video op op basis van playlistvideo
 		$video = GetVideo($playlistVideo->videoId);
-		//Kijk of de video geen false teruggeeft
-		if ($video)
+		//Kijk of de video geen false teruggeeft en of de video is goedgekeurd
+		if ($video && $video->approved)
 		{
 			//voeg video toe aan video's array
 			$videos[] = $video;
@@ -1280,8 +1289,13 @@ function GetVideosByTag($tagId, $limit)
 	//Lus door gevonden videotags heen
 	foreach ($videotags as $videotag)
 	{
-		//Verwijs de videos aan de array
-		$videos[] = GetVideoById($videotag->videoId);
+		$video = GetVideoById($videotag->videoId);
+		//Kijk of de video geen false teruggeeft en of de video is goedgekeurd
+		if ($video && $video->approved)
+		{
+			//Verwijs de videos aan de array
+			$videos[] = $video;
+		}		
 	}
 	//Geef array terug
 	return $videos;
@@ -1566,7 +1580,7 @@ function UpdateVideoInDatabase($video)
 
 function GetVideosFromDatabase($limit)
 {
-	$result = Fetch("SELECT * FROM video LIMIT ?", array($limit), "i");
+	$result = Fetch("select * from video where approved limit ?", array($limit), "i");
 	if (!$result)
 	{
 		return false;
