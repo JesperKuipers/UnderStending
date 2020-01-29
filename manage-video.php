@@ -10,31 +10,35 @@
 		} 
 		elseif(isset($_POST["edit"])) {
 			$videoID = $_POST["videoid"];
-			$title = $_POST["title"];
-			$description = $_POST["description"];
-			if(empty($_FILES["thumbnail"]["name"])) {
-				$thumbnail = null;
+			if(!empty($_POST["title"]) && !empty($_POST["description"]) && !empty($_POST["tags"])) {
+				$title = $_POST["title"];
+				$description = $_POST["description"];
+				if(empty($_FILES["thumbnail"]["name"])) {
+					$thumbnail = null;
+				} else {
+					$thumbnail = $_FILES["thumbnail"];				
+				}
+				
+				$tags = $_POST["tags"];
+				$tags = trim($tags, ",");
+				
+				while (strpos($tags, ",,")) {
+					$tags = str_replace(",,", ",", $tags);
+				}	
+				$tagarray = explode(",", $tags);
+				
+				foreach($tagarray as $index => $tag) {
+					$tag = trim($tag, " ");
+					$tagarray[$index] = $tag;
+				}
+				
+				UpdateVideo($videoID, $userID, $title, $description, $thumbnail);
+				CreateAndAddTagsToVideo($userID, $videoID, $tagarray);
+				$confirmnl = "Video bijgewerkt";
+				$confirmen = "Video updated";
 			} else {
-				$thumbnail = $_FILES["thumbnail"];				
+				header("location: edit-video.php?id=$videoID");
 			}
-			
-			$tags = $_POST["tags"];
-			$tags = trim($tags, ",");
-			
-			while (strpos($tags, ",,")) {
-				$tags = str_replace(",,", ",", $tags);
-			}	
-			$tagarray = explode(",", $tags);
-			
-			foreach($tagarray as $index => $tag) {
-				$tag = trim($tag, " ");
-				$tagarray[$index] = $tag;
-			}
-			
-			UpdateVideo($videoID, $userID, $title, $description, $thumbnail);
-			CreateAndAddTagsToVideo($userID, $videoID, $tagarray);
-			$confirmnl = "Video bijgewerkt";
-			$confirmen = "Video updated";
 		}
 	}
 ?>

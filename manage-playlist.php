@@ -12,10 +12,14 @@
 		} 
 		elseif(isset($_POST["edit"])) {
 			$playlistID = $_POST["playlistid"];
-			$name = $_POST["name"];
-			$confirmnl = "Playlist bijgewerkt";
-			$confirmen = "Playlist updated";
-			UpdatePlaylist($playlistID, $name);
+			if(!empty($_POST["name"])) {
+				$name = $_POST["name"];
+				$confirmnl = "Playlist bijgewerkt";
+				$confirmen = "Playlist updated";
+				UpdatePlaylist($playlistID, $name);
+			} else {
+				header("location: edit-playlist.php?id=$playlistID");
+			}
 		}
 	}
 ?>
