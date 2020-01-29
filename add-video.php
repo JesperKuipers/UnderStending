@@ -100,7 +100,7 @@
 			<div class="form-block">
 				<div class="form-block-field">
 					<label>Video</label><br>
-					<input type="file" name="video" >
+					<input type="file" name="video">
 				</div>
 			</div>
 			<div class="form-block">
