@@ -8,14 +8,9 @@
 	}
 	
 	$timestamp = 0;
-	if(isset($_GET["t"])) {
-		$timestamp = $_GET["t"];
-	}
-	else {
-		$currentlyWatching = GetCurrentlyWatching($userID, $videoID);
-		if ($currentlyWatching) {
-			$timestamp = $currentlyWatching->timestamp;
-		}
+	$currentlyWatching = GetCurrentlyWatching($userID, $videoID);
+	if ($currentlyWatching) {
+		$timestamp = $currentlyWatching->timestamp;
 	}
 	
 	if(isset($_POST["video-playlist"])) {
