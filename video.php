@@ -1,31 +1,23 @@
 <?php include "includes/topinclude.php" ?>
 <?php	
 	$videoID = getVideoID();
-	if($videoID)
-	{
+	if($videoID) {
 		$video = GetVideo($videoID);
-	}
-	else
-	{
+	} else {
 		header ('Location: index.php');
 	}
 	
 	$timestamp = 0;
 	$currentlyWatching = GetCurrentlyWatching($userID, $videoID);
-	if ($currentlyWatching)
-	{
+	if ($currentlyWatching) {
 		$timestamp = $currentlyWatching->timestamp;
 	}
 	
-	if(isset($_POST["video-playlist"]))
-	{
-		if (isset($_POST["playlistID"]))
-		{
+	if(isset($_POST["video-playlist"])) {
+		if (isset($_POST["playlistID"])) {
 			$selectedPlaylists = $_POST["playlistID"];
-			if (!empty($selectedPlaylists))
-			{
-				foreach($selectedPlaylists as $playlist)
-				{
+			if (!empty($selectedPlaylists)) {
+				foreach($selectedPlaylists as $playlist) {
 					CreatePlaylistVideo($playlist, $videoID);
 				}
 			}

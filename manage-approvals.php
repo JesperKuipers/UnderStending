@@ -34,6 +34,12 @@
 									<a href='video.php?v=" . $video->videoId . "' class='block-title-video'>" . $video->title . "</a>
 								</div>";
 						}
+					} else {
+						if ($_SESSION['language'] == "en") {
+							echo "<p>There are no videos to be approved</p>";
+						} else {
+							echo "<p>Er zijn geen video's die goedgekeurd moeten worden</p>";
+						}
 					}
 				?>
 			</div>

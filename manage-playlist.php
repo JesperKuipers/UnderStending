@@ -54,6 +54,12 @@
 									<a href='playlist.php?id=" . $playlist->playlistId . "' class='block-title-video'>" . $playlist->name . "</a>
 								</div>";
 						}
+					} else {
+						if ($_SESSION['language'] == "en") {
+							echo "<p>There are no playlists</p>";
+						} else {
+							echo "<p>Er zijn geen playlists</p>";
+						}
 					}
 				?>
 			</div>
