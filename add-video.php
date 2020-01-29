@@ -11,6 +11,7 @@
 			$thumbnail = $_FILES["thumbnail"];
 			
 			$tags = $_POST["tags"];
+			$tags = trim($tags, ",");
 			
 			while (strpos($tags, ",,")) {
 				$tags = str_replace(",,", ",", $tags);
