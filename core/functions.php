@@ -233,21 +233,6 @@ function GenerateGuid()
 //Als er een dubbele sleutel is gecreerd wordt er een nieuwe gegenereerd.
 
 
-
-function ImplodeItemByCount($glue, $item, $count)
-{
-	//array van items
-	$items = [];
-	//lus door count
-	for ($i = 0; $i < $count; $i++)
-	{
-		$items[] = $item;
-	}
-	//maak string van items d.m.v glue
-	return implode($glue, $items);
-}
-
-
 function getVideoID() {
 	if(isset($_GET["v"])) {
 		$videoID = filter_input(INPUT_GET, 'v', FILTER_VALIDATE_INT);
@@ -266,6 +251,21 @@ function getVideoID() {
 		}
 	}
 }
+
+
+function ImplodeItemByCount($glue, $item, $count)
+{
+	//array van items
+	$items = [];
+	//lus door count
+	for ($i = 0; $i < $count; $i++)
+	{
+		$items[] = $item;
+	}
+	//maak string van items d.m.v glue
+	return implode($glue, $items);
+}
+
 
 
 function CreatePlaylist($userId, $name)
