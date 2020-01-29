@@ -6,6 +6,8 @@
 		$tagFeatured = GetVideosByTag($tagID, 1);
 		$tagVideos = GetVideosByTag($tagID, 50);
 		
+		$featuredThumbnail = false;
+		$featuredUrl = false;
 		if (!empty($tagFeatured))
 		{
 			$featuredThumbnail = $tagFeatured[0]->thumbnailId . "." . $tagFeatured[0]->thumbnailExtension;
@@ -40,17 +42,27 @@
 			<h2>De "<?php echo $tag->name; ?>" video's</h2>
 			<?php } ?>
 			<div class="blocks">
-				<?php foreach($tagVideos as $tagVideo) {
-					$videoUrl = $tagVideo->thumbnailId . "." . $tagVideo->thumbnailExtension;
-					echo "<a href='video.php?id=" . $tagVideo->videoId . "'>";
-						echo "<div class='block'>";
-							echo "<div class='block-naam video-naam'>";
-								echo $tagVideo->title;
+				<?php
+				if (empty($tagVideos)) {
+					if ($_SESSION['language'] == "en") {
+						echo "This tag doesn't contain any video's yet.";
+					} else {
+						echo "Deze tag bevat nog geen video's";
+					}
+				} else {
+					foreach($tagVideos as $tagVideo) {
+						$videoUrl = $tagVideo->thumbnailId . "." . $tagVideo->thumbnailExtension;
+						echo "<a href='video.php?id=" . $tagVideo->videoId . "'>";
+							echo "<div class='block'>";
+								echo "<div class='block-naam video-naam'>";
+									echo $tagVideo->title;
+								echo "</div>";
+								echo "<img src='imgs/thumbnails/" . $videoUrl . "' />";
 							echo "</div>";
-							echo "<img src='imgs/thumbnails/" . $videoUrl . "' />";
-						echo "</div>";
-					echo "</a>";
-				} ?>
+						echo "</a>";
+					}
+				}
+				?>
 			</div>
 		</div>
 	</div>
