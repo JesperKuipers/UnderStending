@@ -82,6 +82,11 @@ function GetPlaylistsByUserFromDatabase($userId)
 	}
 }
 
+function RemovePlaylistFromDatabase($playlistId)
+{
+	return Execute("delete from playlist where playlistid=?", array($playlistId), "i");
+}
+
 function ConvertRowToPlaylist($row)
 {
 	$playlist = new Playlist();

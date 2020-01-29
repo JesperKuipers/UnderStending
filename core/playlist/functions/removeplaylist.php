@@ -1,5 +1,9 @@
 <?php
-function  RemovePlaylist($playlistID) {
-    RemovePlaylistVideosByPlaylist($playlistID);
-    RemovePlaylistFromDB($playlistID);
+
+function RemovePlaylist($playlistId)
+{
+    RemovePlaylistVideosByPlaylist($playlistId);
+    RemovePlaylistFromDatabase($playlistId);
 }
+
+?>
