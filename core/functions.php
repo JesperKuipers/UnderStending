@@ -366,10 +366,13 @@ function GetPlaylistsByUser($userId)
 }
 
 
-function  RemovePlaylist($playlistID) {
-    RemovePlaylistVideosByPlaylist($playlistID);
-    RemovePlaylistFromDB($playlistID);
+
+function RemovePlaylist($playlistId)
+{
+    RemovePlaylistVideosByPlaylist($playlistId);
+    RemovePlaylistFromDatabase($playlistId);
 }
+
 
 
 class GetPlaylistResult
@@ -471,6 +474,11 @@ function GetPlaylistsByUserFromDatabase($userId)
 	{
 		return false;
 	}
+}
+
+function RemovePlaylistFromDatabase($playlistId)
+{
+	return Execute("delete from playlist where playlistid=?", array($playlistId), "i");
 }
 
 function ConvertRowToPlaylist($row)
@@ -1322,6 +1330,8 @@ function RemoveVideo($videoId, $userId)
 	RemoveThumbnailFromFileSystem($video->thumbnailId, $video->thumbnailExtension);
 	//Verwijder video
 	RemoveVideoFromDatabase($videoId);
+	//Verwijder alle tags zonder koppeling
+	CleanTags();
 }
 
 

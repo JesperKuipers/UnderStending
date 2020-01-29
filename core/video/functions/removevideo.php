@@ -20,6 +20,8 @@ function RemoveVideo($videoId, $userId)
 	RemoveThumbnailFromFileSystem($video->thumbnailId, $video->thumbnailExtension);
 	//Verwijder video
 	RemoveVideoFromDatabase($videoId);
+	//Verwijder alle tags zonder koppeling
+	CleanTags();
 }
 
 ?>
