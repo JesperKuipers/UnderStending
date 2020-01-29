@@ -12,7 +12,7 @@
 		<h2>Resultaten voor "<?php echo $query; ?>"</h2>
 		<?php } ?>
 		<div class="blocks">
-			<?php if(!empty($results)) {
+			<?php if(!empty($results) && !empty($query)) {
 				foreach($results as $result) {
 					if(isset($result[0]->videoId)) {
 						foreach($result as $video) {
