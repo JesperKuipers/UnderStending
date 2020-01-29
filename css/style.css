@@ -609,6 +609,7 @@ body {
 	transform: rotate(45deg);
 }
 
+
 /* =-=-=-=-=-=-=-= */
 /* =-= Footer  =-= */
 /* =-=-=-=-=-=-=-= */
@@ -853,7 +854,7 @@ body {
 	.blocks a,
 	.block img {
 		width: 100%;
-		height: auto;
+		height: 100%;
 	}
 	
 	.home-video-overlay,
@@ -894,13 +895,13 @@ body {
 	}
 	
 	.content-block {
-		width: 100%;
-		padding: 0 20px;
+		width: 95%;
+		padding: 2.5%;
 	}
 	
 	.form-block-field input,
 	.form-block-field .textarea {
-		
+		width: 95%;
 	}
 	
 	.footer {
@@ -909,5 +910,6 @@ body {
 	
 	.footer-block {
 		width: 100%;
+		display: block;
 	}
 }

@@ -29,11 +29,7 @@ function GetPlaylistsFromDatabase($index, $limit)
 		$playlists = array();
 		foreach ($result as $row)
 		{
-			$playlist = new Playlist();
-			$playlist->playlistId = $row[0];
-			$playlist->userId = $row[1];
-			$playlist->name = $row[2];
-			$playlists[] = $playlist;
+			$playlists[] = ConvertRowToPlaylist($row);
 		}
 		return $playlists;
 	}
@@ -54,12 +50,7 @@ function GetPlaylistById($playlistId)
 		}
 		else
 		{
-			$row = $result[0];		
-			$playlist = new Playlist();
-			$playlist->playlistId = $row[0];
-			$playlist->userId = $row[1];
-			$playlist->name = $row[2];		
-			return $playlist;
+			return ConvertRowToPlaylist($result[0]);
 		}
 	}
 }
@@ -67,6 +58,42 @@ function GetPlaylistById($playlistId)
 function UpdatePlaylist($Playlist)
 {
 	return Execute("UPDATE playlist SET name = ? WHERE playlistid = ?", array($Playlist->name, $Playlist->playlistId), 'si');
+}
+
+function GetPlaylistsByUserFromDatabase($userId)
+{
+	//Haal playlist rows op
+	$result = Fetch("select * from playlist where userid=?", array($userId), "i");
+	if ($result)
+	{
+		//creëer playlist array
+		$playlists = array();
+		foreach ($result as $row)
+		{
+			//voeg playlist object toe aan array
+			$playlists[] = ConvertRowToPlaylist($row);
+		}
+		//geef playlist array terug
+		return $playlists;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function RemovePlaylistFromDatabase($playlistId)
+{
+	return Execute("delete from playlist where playlistid=?", array($playlistId), "i");
+}
+
+function ConvertRowToPlaylist($row)
+{
+	$playlist = new Playlist();
+	$playlist->playlistId = $row[0];
+	$playlist->userId = $row[1];
+	$playlist->name = $row[2];		
+	return $playlist;
 }
 
 ?>

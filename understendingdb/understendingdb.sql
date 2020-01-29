@@ -129,7 +129,7 @@ INSERT INTO `usertype` (`userTypeID`, `name`) VALUES
 
 CREATE TABLE `video` (
   `videoID` int(11) NOT NULL,
-  `userID` int(11) NOT NULL,
+  `uploader` int(11) NOT NULL,
   `title` varchar(50) DEFAULT NULL,
   `releaseDate` date DEFAULT NULL,
   `description` text DEFAULT NULL,
@@ -205,7 +205,7 @@ ALTER TABLE `usertype`
 --
 ALTER TABLE `video`
   ADD PRIMARY KEY (`videoID`),
-  ADD KEY `userID` (`userID`);
+  ADD KEY `uploader` (`uploader`);
 
 --
 -- Indexen voor tabel `videotag`
@@ -256,7 +256,8 @@ ALTER TABLE `video`
 -- Beperkingen voor tabel `currentlywatching`
 --
 ALTER TABLE `currentlywatching`
-  ADD CONSTRAINT `currentlywatching_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`);
+  ADD CONSTRAINT `currentlywatching_ibfk_1` FOREIGN KEY (`videoID`) REFERENCES `video` (`videoID`),
+  ADD CONSTRAINT `currentlywatching_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`);
 
 --
 -- Beperkingen voor tabel `playlist`
@@ -288,7 +289,7 @@ ALTER TABLE `user`
 -- Beperkingen voor tabel `video`
 --
 ALTER TABLE `video`
-  ADD CONSTRAINT `video_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`);
+  ADD CONSTRAINT `video_ibfk_1` FOREIGN KEY (`uploader`) REFERENCES `user` (`userID`);
 
 --
 -- Beperkingen voor tabel `videotag`

@@ -10,7 +10,7 @@ function GetUserById($userId)
 		return false;
 	}
 	//Geef row terug als user
-	return  ConvertRowToUser($result[0]);
+	return ConvertRowToUser($result[0]);
 }
 
 function GetAdminFromDatabase($userId)

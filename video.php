@@ -7,10 +7,15 @@
 		header ('Location: index.php');
 	}
 	
+	$timestamp = 0;
 	if(isset($_GET["t"])) {
 		$timestamp = $_GET["t"];
-	} else {
-		$timestamp = 0;
+	}
+	else {
+		$currentlyWatching = GetCurrentlyWatching($userID, $videoID);
+		if ($currentlyWatching) {
+			$timestamp = $currentlyWatching->timestamp;
+		}
 	}
 	
 	if(isset($_POST["video-playlist"])) {
@@ -70,30 +75,6 @@
 			</span>
 			<div class="clear"></div>
 			<div id="output"></div>
-		</div>
-		
-		<div class="blocks-container">
-			<?php if ($_SESSION['language'] == "en") { ?>
-			<h2>Relevant videos</h2>
-			<?php } else { ?>
-			<h2>Relevante video's</h2>
-			<?php } ?>
-			<div class="blocks">
-				<!-- PHP Get all videos and loop through -->
-				<?php for($i=0; $i<8; $i++) { ?>
-				<!-- PHP Get video ID of current video -->
-				<a href="video.php?id=">
-					<div class="block">
-						<div class="block-naam video-naam">
-							<!-- PHP Get video name of current video -->
-							Video name
-						</div>
-						<!-- PHP Get video thumbnail -->
-						<img src="imgs/video-placeholder.jpg" />
-					</div>
-				</a>
-				<?php } ?>
-			</div>
 		</div>
 	</div>
 

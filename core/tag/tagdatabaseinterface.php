@@ -95,4 +95,9 @@ function GetTagsFromDatabase($index, $limit)
 	}
 }
 
+function CleanTags()
+{
+	return Execute("delete from tag where tagid not in (select tagid from videotag)");
+}
+
 ?>

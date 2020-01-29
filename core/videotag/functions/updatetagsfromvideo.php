@@ -1,21 +1,15 @@
 <?php
 
-function UpdateTagsFromVideo($videoId, $tagIds)
+function UpdateTagsFromVideo($userId, $videoId, $names)
 {
-	//Verwijder alle koppelingen tussen tags en videos die zich niet in de tag array bevinden
-	RemoveVideoTagsFromDatabase($videoId, $tagIds);
-	//creëer een lijst voor toe te voegen videotags
-	$videoTags = array();
-	//lus door tagIds heen en maak er een videotag van
-	foreach ($tagIds as $tagId)
-	{
-		$videoTag = new VideoTag();
-		$videoTag->videoId = $videoId;
-		$videoTag->tagId = $tagId;
-		$videoTags[] = $videoTag;
-	}
-	//Voeg alle koppeling tussen tags en videos toe die zich in de tag array bevinden maar nog niet in de database
-	AddVideoTagsToDatabase($videoTags);
+	//Voeg nog niet bestaande tags toe en geef tagIds terug
+	$tagIds = CreateAndAddTagsToVideo($userId, $videoId, $names);
+	//Verwijder alle koppelingen tussen tags en videos die zich niet in de tagIds bevinden
+	RemoveVideoTagsByVideoAndTagIds($videoId, $tagIds);
+	//Verwijder alle tags zonder koppeling met een video
+	CleanTags();
+	//Geef tagIds terug
+	return $tagIds;
 }
 
 ?>

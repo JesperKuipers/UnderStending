@@ -7,12 +7,14 @@
 		if(isset($_POST["delete"])) {
 			$playlistID = $_POST["playlistid"];
 			RemovePlaylist($playlistID);
-			$confirm = "Playlist verwijdert";
+			$confirmnl = "Playlist verwijdert";
+			$confirmen = "Playlist deleted";
 		} 
 		elseif(isset($_POST["edit"])) {
 			$playlistID = $_POST["playlistid"];
 			$name = $_POST["name"];
-			$confirm = "Video bijgewerkt";
+			$confirmnl = "Playlist bijgewerkt";
+			$confirmen = "Playlist updated";
 			UpdatePlaylist($playlistID, $name);
 		}
 	}
@@ -21,15 +23,17 @@
 	<div class="content">
 		<div class="content-block">
 			<?php if ($_SESSION['language'] == "en") {?>
-			<h2>Manage playlists</h2>
-			<p><a href="account.php">&lt;&lt; Back to account</a></p>
-			<div class="block-manage-container">
-				<div class="block-add"><a href="add-playlist.php">&#10010; Add Playlist</a></div>
+				<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirmen . '</div>'; } ?>
+				<h2>Manage playlists</h2>
+				<p><a href="account.php">&lt;&lt; Back to account</a></p>
+				<div class="block-manage-container">
+					<div class="block-add"><a href="add-playlist.php">&#10010; Add Playlist</a></div>
 			<?php } else { ?>
-			<h2>Beheer playlists</h2>
-			<p><a href="account.php">&lt;&lt; Terug naar account</a></p>
-			<div class="block-manage-container">
-				<div class="block-add"><a href="add-playlist.php">&#10010; Playlist toevoegen </a></div>
+				<?php if(isset($confirm)) { echo '<div class="form-confirm-block">' . $confirmnl . '</div>'; } ?>
+				<h2>Beheer playlists</h2>
+				<p><a href="account.php">&lt;&lt; Terug naar account</a></p>
+				<div class="block-manage-container">
+					<div class="block-add"><a href="add-playlist.php">&#10010; Playlist toevoegen </a></div>
 			<?php } ?>
 				<?php
 				if($isAdmin) {
