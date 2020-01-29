@@ -25,9 +25,7 @@
 			
 			$videoID = createVideo($userid, $title, $desc, $video, $thumbnail);
 			CreateAndAddTagsToVideo($userid, $videoID, $tagarray);
-			var_dump($thumbnail);
-			var_dump($video);
-			//header("location: manage-video.php");
+			header("location: manage-video.php");
 		} else {
 			$error = "Vul aub alle velden in.";
 		}
