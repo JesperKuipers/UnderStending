@@ -1501,7 +1501,7 @@ function AddVideoToDatabase($video)
 function GetVideoById($videoId)
 {
 	//Haal videos op uit database
-	$result = Fetch("select * from video where videoid = ?", array($videoId), "i");
+	$result = Fetch("select * from video where videoid=?", array($videoId), "i");
 	if ($result)
 	{
 		//Pak user uit users array
@@ -1615,7 +1615,7 @@ function GetNonApprovedVideosCountFromDatabase()
 
 function GetVideosByUserFromDatabase($userId)
 {
-	$result = Fetch("select * from video where userid=?", array($userId), "i");
+	$result = Fetch("select * from video where uploader=?", array($userId), "i");
 	if ($result === false)
 	{
 		return false;
