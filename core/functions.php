@@ -287,14 +287,7 @@ function CreatePlaylist($userId, $name)
 	return $playlistId;
 }
 
- 
 
-function EditPlaylist($EditPlaylistId, $Name)
-{
-	$Playlist = GetPlaylistById($EditPlaylistId);
-	$Playlist->name = $Name;
-	UpdatePlaylist($Playlist);
-}
 
 function GetNonAddedPlaylists($userId, $videoId)
 {
@@ -380,7 +373,14 @@ function RemovePlaylist($playlistId)
     RemovePlaylistFromDatabase($playlistId);
 }
 
+ 
 
+function UpdatePlaylist($playlistId, $name)
+{
+	$playlist = GetPlaylistById($playlistId);
+	$playlist->name = $name;
+	UpdatePlaylistInDatabase($playlist);
+}
 
 class GetPlaylistResult
 {
@@ -452,9 +452,9 @@ function GetPlaylistById($playlistId)
 	}
 }
 
-function UpdatePlaylist($Playlist)
+function UpdatePlaylistInDatabase($playlist)
 {
-	return Execute("UPDATE playlist SET name = ? WHERE playlistid = ?", array($Playlist->name, $Playlist->playlistId), 'si');
+	return Execute("update playlist set name=? where playlistid=?", array($playlist->name, $playlist->playlistId), "si");
 }
 
 function GetPlaylistsByUserFromDatabase($userId)

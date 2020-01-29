@@ -51,9 +51,9 @@ function GetPlaylistById($playlistId)
 	}
 }
 
-function UpdatePlaylist($Playlist)
+function UpdatePlaylistInDatabase($playlist)
 {
-	return Execute("UPDATE playlist SET name = ? WHERE playlistid = ?", array($Playlist->name, $Playlist->playlistId), 'si');
+	return Execute("update playlist set name=? where playlistid=?", array($playlist->name, $playlist->playlistId), "si");
 }
 
 function GetPlaylistsByUserFromDatabase($userId)
