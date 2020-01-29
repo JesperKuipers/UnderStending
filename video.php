@@ -56,10 +56,7 @@
 			{
 				echo "<div class='approve-video-container'><a href='approve-video.php?id=" . $video->videoId . "' class='approve-video-button'>&#x2714; Approve Video</a></div>";	
 			}
-			if ($video->uploader == $userID)
-			{
-				echo "<div><a href='add-video-playlist.php?id=" . $video->videoId . "' class='add-video-button'>Add video to playlist</a><div class='clear'></div></div>";
-			}
+			echo "<div><a href='add-video-playlist.php?id=" . $video->videoId . "' class='add-video-button'>Add video to playlist</a><div class='clear'></div></div>";
 			?>
 		
 			<div class="description">
