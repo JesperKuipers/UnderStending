@@ -80,6 +80,11 @@ function GetCurrentlyWatchingFromDatabase($userId, $videoId)
 	}
 }
 
+function RemoveCurrentlyWatchingsByVideoId($videoId)
+{
+	return Execute("delete from currentlywatching where videoid=?", array($videoId), "i");
+}
+
 function ConvertToCurrentlyWatching($row)
 {
 	$currentlyWatching = new CurrentlyWatching();

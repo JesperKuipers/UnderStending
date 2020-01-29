@@ -15,6 +15,7 @@ function RemoveVideo($videoId, $userId)
 	RemoveRatingsByVideo($videoId);
 	RemovePlaylistVideos($videoId);
 	RemoveVideoTagsByVideoId($videoId);
+	RemoveCurrentlyWatchingsByVideoId($videoId);
 	//Verwijder video inhoud van het file systeem
 	RemoveVideoFromFileSystem($video->urlId);
 	RemoveThumbnailFromFileSystem($video->thumbnailId, $video->thumbnailExtension);
