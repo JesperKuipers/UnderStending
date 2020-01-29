@@ -296,6 +296,13 @@ function EditPlaylist($EditPlaylistId, $Name)
 	UpdatePlaylist($Playlist);
 }
 
+function GetNonAddedPlaylists($userId, $videoId)
+{
+	return GetNonAddedPlaylistsFromDatabase($userId, $videoId);
+}
+
+
+
 function GetPlaylist($playlistId)
 {
 	//Haal playlist op
@@ -414,18 +421,14 @@ function AddPlaylistToDatabase($playlist)
 function GetPlaylistsFromDatabase($index, $limit)
 {
 	$result = Fetch("select * from playlist limit ?, ?", array($index, $limit), "ii");
-	if (!$result)
+	if ($result)
 	{
-		return false;
+		//geef playlist array terug
+		return ConvertResultToPlaylists($result);
 	}
 	else
 	{
-		$playlists = array();
-		foreach ($result as $row)
-		{
-			$playlists[] = ConvertRowToPlaylist($row);
-		}
-		return $playlists;
+		return false;
 	}
 }
 
@@ -460,15 +463,8 @@ function GetPlaylistsByUserFromDatabase($userId)
 	$result = Fetch("select * from playlist where userid=?", array($userId), "i");
 	if ($result)
 	{
-		//creëer playlist array
-		$playlists = array();
-		foreach ($result as $row)
-		{
-			//voeg playlist object toe aan array
-			$playlists[] = ConvertRowToPlaylist($row);
-		}
 		//geef playlist array terug
-		return $playlists;
+		return ConvertResultToPlaylists($result);
 	}
 	else
 	{
@@ -479,6 +475,33 @@ function GetPlaylistsByUserFromDatabase($userId)
 function RemovePlaylistFromDatabase($playlistId)
 {
 	return Execute("delete from playlist where playlistid=?", array($playlistId), "i");
+}
+
+function GetNonAddedPlaylistsFromDatabase($userId, $videoId)
+{
+	$query = "select * from playlist where userid=? and playlistid not in (select playlistid from playlistvideo where videoid=?)";
+	$result = Fetch($query, array($userId, $videoId), "ii");
+	if ($result)
+	{
+		//geef playlist array terug
+		return ConvertResultToPlaylists($result);
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function ConvertResultToPlaylists($result)
+{
+	$playlists = array();
+	foreach ($result as $row)
+	{
+		//voeg playlist object toe aan array
+		$playlists[] = ConvertRowToPlaylist($row);
+	}
+	//geef playlist array terug
+	return $playlists;
 }
 
 function ConvertRowToPlaylist($row)

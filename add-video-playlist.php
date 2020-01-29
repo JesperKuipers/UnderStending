@@ -23,7 +23,7 @@
 				<div class="block-manage-container">
 			<?php }
 
-				$playlists = GetPlaylistsByUser($userID);
+				$playlists = GetNonAddedPlaylists($userID, $videoID);
 				
 				echo "<form action='video.php?id=" . $videoID . "' method='post'>";
 					if(!empty($playlists)) {
