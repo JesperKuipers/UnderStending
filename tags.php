@@ -32,7 +32,7 @@
 					} else {
 						echo "<p>Er zijn nog geen tags</p>";
 					}
-				}?>
+				} ?>
 			</div>
 		</div>
 	</div>
