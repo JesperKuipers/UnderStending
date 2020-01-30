@@ -58,7 +58,23 @@
 			}
 			echo "<div><a href='add-video-playlist.php?id=" . $video->videoId . "' class='add-video-button'>Add video to playlist</a><div class='clear'></div></div>";
 			?>
-		
+			
+			<div class="video-tags">
+				<?php 
+					$tags = getTagsByVideo($videoID);
+					
+					echo "<div class='tag-blocks'>";
+					echo "Tags: ";
+					foreach($tags as $tag) {
+						
+						echo "<a href='tag.php?id=" . $tag->tagId . "' class='block-title-video'>" . $tag->name . "</a>";
+					}
+					echo "</div>";
+				?>
+			</div>
+			
+			<hr>
+			
 			<div class="description">
 				<?php echo $video->description; ?>
 			</div>
