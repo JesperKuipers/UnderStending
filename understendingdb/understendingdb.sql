@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 18 jan 2020 om 15:28
--- Serverversie: 10.4.8-MariaDB
--- PHP-versie: 7.3.11
+-- Gegenereerd op: 30 jan 2020 om 15:23
+-- Serverversie: 10.4.11-MariaDB
+-- PHP-versie: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -47,6 +47,14 @@ CREATE TABLE `playlist` (
   `name` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `playlist`
+--
+
+INSERT INTO `playlist` (`playlistID`, `userID`, `name`) VALUES
+(1, 1, 'PHP'),
+(2, 1, 'Databases');
+
 -- --------------------------------------------------------
 
 --
@@ -57,6 +65,16 @@ CREATE TABLE `playlistvideo` (
   `videoID` int(8) NOT NULL,
   `playlistID` int(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `playlistvideo`
+--
+
+INSERT INTO `playlistvideo` (`videoID`, `playlistID`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 2);
 
 -- --------------------------------------------------------
 
@@ -81,6 +99,19 @@ CREATE TABLE `tag` (
   `name` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `tag`
+--
+
+INSERT INTO `tag` (`tagID`, `name`) VALUES
+(1, 'PHP'),
+(2, 'leerzaam'),
+(3, 'functie'),
+(4, 'xampp'),
+(5, 'server'),
+(6, 'databases'),
+(7, 'normaliseren');
+
 -- --------------------------------------------------------
 
 --
@@ -101,7 +132,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userID`, `userTypeID`, `name`, `email`, `password`, `admin`) VALUES
-(1, 1, 'admin', 'admin@admin.com', '$2y$10$LRZ8k.t8ROiYT4/oGydR7OEi42XYLDPw7mjhOHvIQyAyvPnQ9CfIe', 1);
+(1, 1, 'admin', 'admin@admin.com', '$2y$10$LRZ8k.t8ROiYT4/oGydR7OEi42XYLDPw7mjhOHvIQyAyvPnQ9CfIe', 1),
+(2, 1, 'Lars', 'lars.kuizenga@student.nhlstenden.com', '$2y$10$tk5PJlmTabJ7PyGzOm68tuRC1niWbuu74nTs7fuDPY0duaTV0NVri', 0);
 
 -- --------------------------------------------------------
 
@@ -119,7 +151,7 @@ CREATE TABLE `usertype` (
 --
 
 INSERT INTO `usertype` (`userTypeID`, `name`) VALUES
-(1, 'admin');
+(1, 'user');
 
 -- --------------------------------------------------------
 
@@ -139,6 +171,16 @@ CREATE TABLE `video` (
   `thumbnailExtension` varchar(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `video`
+--
+
+INSERT INTO `video` (`videoID`, `uploader`, `title`, `releaseDate`, `description`, `URL`, `approved`, `thumbnail`, `thumbnailExtension`) VALUES
+(1, 1, 'Introduction to PHP', '2020-01-30', 'Een introductie van het PHP vak. In deze video wordt een korte uitleg gegeven van wat PHP precies inhoud en waar je het voor kunt gebruiken.', '263245F6-F411-D286-48B8-C36EAD4C1E16', 1, '24E8BC56-6466-0C0F-9AD7-EDC9B50890FA', 'png'),
+(2, 1, 'PHP - PHPinfo', '2020-01-30', 'Een demonstratie van hoe de phpinfo functie werkt en wat het teruggeeft.', '4E053687-E754-8CD4-10B1-D815C2FB4F7F', 1, 'FE4B9ADE-8464-E72C-54BD-94CAA76BA291', 'png'),
+(3, 1, 'PHP installing XAMPP', '2020-01-30', 'Een uitleg van hoe XAMPP te installeren om de PHP code die je gebruikt uit te voeren op je eigen laptop.', 'FC06C3C5-4A33-17E1-E99D-32143408151A', 1, '5CEDBDA9-791D-99A4-0261-9DBF01A5CB9C', 'png'),
+(4, 1, 'Databases normaliseren', '2020-01-30', 'In deze les wordt de basis uitgelegd van hoe je bijvoorbeeld een factuur met normaliseren.', '646D8899-6C56-F9A1-16C0-0095292011DF', 1, '0F6C50B1-4B95-7BDD-43B1-49D542E2ACCF', 'png');
+
 -- --------------------------------------------------------
 
 --
@@ -151,6 +193,22 @@ CREATE TABLE `videotag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Gegevens worden geëxporteerd voor tabel `videotag`
+--
+
+INSERT INTO `videotag` (`videoID`, `tagID`) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 3),
+(3, 1),
+(3, 4),
+(3, 5),
+(4, 6),
+(4, 7),
+(4, 2);
+
+--
 -- Indexen voor geëxporteerde tabellen
 --
 
@@ -158,7 +216,8 @@ CREATE TABLE `videotag` (
 -- Indexen voor tabel `currentlywatching`
 --
 ALTER TABLE `currentlywatching`
-  ADD KEY `userID` (`userID`);
+  ADD KEY `userID` (`userID`),
+  ADD KEY `currentlywatching_ibfk_1` (`videoID`);
 
 --
 -- Indexen voor tabel `playlist`
@@ -222,31 +281,31 @@ ALTER TABLE `videotag`
 -- AUTO_INCREMENT voor een tabel `playlist`
 --
 ALTER TABLE `playlist`
-  MODIFY `playlistID` int(8) NOT NULL AUTO_INCREMENT;
+  MODIFY `playlistID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT voor een tabel `tag`
 --
 ALTER TABLE `tag`
-  MODIFY `tagID` int(8) NOT NULL AUTO_INCREMENT;
+  MODIFY `tagID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT voor een tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(8) NOT NULL AUTO_INCREMENT;
+  MODIFY `userID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT voor een tabel `usertype`
 --
 ALTER TABLE `usertype`
-  MODIFY `userTypeID` int(8) NOT NULL AUTO_INCREMENT;
+  MODIFY `userTypeID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT voor een tabel `video`
 --
 ALTER TABLE `video`
-  MODIFY `videoID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `videoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Beperkingen voor geëxporteerde tabellen

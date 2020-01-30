@@ -1,3 +1,14 @@
+[Inlog bestaande accounts]
+Voor het admin account:
+Email: admin@admin.com / Pass: admin
+
+Voor het gebruiker account:
+lars.kuizenga@student.nhlstenden.com / Pass: lars
+
+Er bestaat ook een register.php om nieuwe test accounts aan te maken,
+aangezien deze functionaliteit normaalgesproken buiten het project valt.
+
+
 [UnderStending]
 
 1. Zet alle files in de root directory van je webserver;
