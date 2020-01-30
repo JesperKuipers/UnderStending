@@ -19,6 +19,7 @@
 				}
 				
 				$tags = $_POST["tags"];
+				$tags = trim($tags, " ");
 				$tags = trim($tags, ",");
 				
 				while (strpos($tags, ",,")) {
