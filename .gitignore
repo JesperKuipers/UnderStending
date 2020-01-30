@@ -6,3 +6,15 @@ test.css
 image
 
 core/functions.php
+
+# exclude alles in videos
+videos/*
+
+# exception to the rule
+!videos/.gitkeep 
+
+# exclude alles in imgs/thumbnails
+imgs/thumbnails/*
+
+# exception to the rule
+!imgs/thumbnails/.gitkeep 
