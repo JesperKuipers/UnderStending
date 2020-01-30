@@ -7,7 +7,7 @@ function RemoveVideo($videoId, $userId)
 	//Haal video op
 	$video = GetVideoById($videoId);
 	//Kijk of user een admin is of userid gelijk is aan de uploader
-	if (!$user->admin || $video->uploader != $userId)
+	if (!$user->admin && $video->uploader != $userId)
 	{
 		return false;
 	}
