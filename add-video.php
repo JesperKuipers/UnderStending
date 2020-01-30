@@ -68,7 +68,8 @@
 				</div>
 			</div>
 			<div class="form-block">
-				<input type="submit" value="Upload Video" class="button" name="submit">
+				<input type="submit" value="Upload Video" class="button confirm" name="submit">
+				<a href="manage-playlist.php">Cancel</a>
 			</div>
 		</form>
 	</div>
@@ -109,7 +110,8 @@
 				</div>
 			</div>
 			<div class="form-block">
-				<input type="submit" value="Video uploaden" class="button" name="submit">
+				<input type="submit" value="Video uploaden" class="button confirm" name="submit">
+				<a href="manage-playlist.php">Annuleren</a>
 			</div>
 		</form>
 	</div>

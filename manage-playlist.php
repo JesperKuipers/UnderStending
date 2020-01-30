@@ -21,6 +21,17 @@
 				header("location: edit-playlist.php?id=$playlistID");
 			}
 		}
+		elseif(isset($_POST["video-playlist"])) {
+			if (isset($_POST["playlistID"])) {
+				$selectedPlaylists = $_POST["playlistID"];
+				$videoID = $_GET["id"];
+				if (!empty($selectedPlaylists)) {
+					foreach($selectedPlaylists as $playlist) {
+						CreatePlaylistVideo($playlist, $videoID);
+					}
+				}
+			}		
+		}
 	}
 ?>
 

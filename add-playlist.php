@@ -42,11 +42,14 @@
 				</div>
 				<div class="form-block">
 					<?php if ($_SESSION['language'] == "en") {?>
-					<input type="submit" value="Add playlist" class="button" name="submit">
+					<input type="submit" value="Add playlist" class="button confirm" name="submit">
+					<a href="manage-playlist.php">Cancel</a>
 					<?php } else { ?>
-					<input type="submit" value="Playlist toevoegen" class="button" name="submit">
+					<input type="submit" value="Playlist toevoegen" class="button confirm" name="submit">
+					<a href="manage-playlist.php">Annuleren</a>
 					<?php } ?>
 				</div>
+				
 			</form>
 		</div>
 	</div>

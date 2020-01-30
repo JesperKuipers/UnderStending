@@ -28,7 +28,8 @@
 					</div>
 				</div>
 				<div class="form-block">
-					<input type="submit" value="Add tag" class="button" name="submit">
+					<input type="submit" value="Add tag" class="button confirm" name="submit">
+					<a href="manage-tag.php">Cancel</a>
 				</div>
 			</form>
 		</div>
@@ -47,7 +48,8 @@
 					</div>
 				</div>
 				<div class="form-block">
-					<input type="submit" value="Tag toevoegen" class="button" name="submit">
+					<input type="submit" value="Tag toevoegen" class="button confirm" name="submit">
+					<a href="manage-tag.php">Annuleren</a>
 				</div>
 			</form>
 		</div>

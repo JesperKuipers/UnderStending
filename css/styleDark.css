@@ -95,6 +95,7 @@ a {
 	height: 38px;
     width: 530px;
 	position: relative;
+	
 }
 
 .search-bar-bar {
@@ -104,6 +105,8 @@ a {
     width: 470px;
     font-size: 18px;
     padding: 10px 0px 10px 20px;
+	background-color: #333;
+	color: #fff;
 }
 
 .search-bar-bar:focus,
@@ -475,6 +478,8 @@ a {
 	padding: 8px 12px;
 	margin-bottom: 20px;
 	width: 500px;
+	background-color: #333;
+	color: #fff;
 }
 
 .form-block-field .textarea {
