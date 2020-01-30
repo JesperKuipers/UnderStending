@@ -33,7 +33,7 @@
 				}
 				
 				UpdateVideo($videoID, $userID, $title, $description, $thumbnail);
-				CreateAndAddTagsToVideo($userID, $videoID, $tagarray);
+				UpdateTagsFromVideo($userID, $videoID, $tagarray);
 				$confirmnl = "Video bijgewerkt";
 				$confirmen = "Video updated";
 			} else {
